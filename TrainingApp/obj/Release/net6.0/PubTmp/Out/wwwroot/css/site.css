@@ -17,27 +17,6 @@ html {
     color: #FF0000;
 }
 
-.m20 {
-    margin: 20px;
-}
-.mt10 {
-    margin-top: 10px;
-}
-.mt20 {
-    margin-top: 20px;
-}
-.mt30 {
-    margin-top: 30px;
-}
-
-.p10 {
-    padding: 10px;
-}
-.p20 {
-    padding: 20px;
-}
-
-
 .modal-header {
     margin: auto;
     border: 0;
@@ -48,6 +27,9 @@ html {
     right:20px;
 }
 
+.inline {
+    display: inline;
+}
 
 .daterangepicker td.active, .daterangepicker td.active:hover {
     background-color: #5932EA;
@@ -60,3 +42,97 @@ html {
 .daterangepicker td.end-date {
     border-radius: 0px 20px 20px 0px;
 }
+
+.hide-menu {
+    margin-left: 15px;
+}
+
+.filterTags {
+    border: 1px solid #5932EA;
+    border-radius: 10px;
+    height: 35px;
+}
+
+    .filterTags:hover {
+        background: #5932EA;
+    }
+
+    .filterTags:hover > .filterTagsInput,
+    .filterTags:hover > button,
+    .filterTags:hover .dropdown-toggle {
+        color: white;
+    }
+
+    .fiterTags .dropdown-menu:hover {
+        background: white;
+    }
+
+    .filterTags .dropdown-toggle::after {
+        display: none;
+    }
+
+    .filterTags .filterTagsInput {
+        padding: 5px 0px 5px 10px;
+        border: 0;
+        background: transparent;
+    }
+
+    .filterTags button {
+        background: transparent;
+        border: 0;
+        padding-right:15px;
+    }
+
+    .filterTags .dropdown-toggle {
+        padding-top: 4px;
+        color: black;
+    }
+
+    .filterTags.filterSelectTags:hover {
+        background: #5932EA;
+        color: white;
+    }
+
+
+div.custom-control-right {
+    padding-right: 2px;
+    padding-left: 0;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+    div.custom-control-right .custom-control-label::after {
+        right: -8.5rem;
+        left: auto;
+    }
+
+    div.custom-control-right .custom-control-label::before {
+        right: -9.35rem;
+        left: auto;
+    }
+
+.filterDropDown {
+    position: absolute;
+    background: white;
+    width: 300px;
+    z-index: 500;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    padding: 15px 25px;
+    color: black;
+}
+
+    .filterDropDown .title {
+        font-weight:700;
+    }
+
+    .filterDropDown .subtitle {
+        text-transform:uppercase;
+        font-size:10px;
+        margin-bottom:5px;
+        color:gray;
+    }
+
+    .filterDropDown .custom-switch {
+        margin-bottom: 5px;
+    }
+
