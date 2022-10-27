@@ -1,0 +1,72 @@
+﻿html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+.red {
+    color: #FF0000;
+}
+
+
+.modal-header {
+    margin: auto;
+    border: 0;
+}
+
+.close {
+    position:absolute;
+    right:20px;
+}
+
+
+.daterangepicker td.active, .daterangepicker td.active:hover {
+    background-color: #5932EA;
+}
+
+.daterangepicker td.start-date {
+    border-radius: 20px 0 0 20px;
+}
+
+.daterangepicker td.end-date {
+    border-radius: 0px 20px 20px 0px;
+}
+
+.hide-menu {
+    margin-left: 15px;
+}
+
+.filterTags {
+    border: 1px solid #5932EA;
+    border-radius: 10px;
+}
+
+    .filterTags:hover, .filterTags:hover * {
+        background: #5932EA;
+        color: white;
+    }
+
+    .filterTags .dropdown-toggle::after {
+        display: none;
+    }
+
+    .filterTags .filterTagsInput {
+        padding: 5px 0px 5px 10px;
+        border: 0;
+        background: transparent;
+    }
+
+    .filterTags button {
+        background: transparent;
+        border: 0;
+        padding-right:15px;
+    }

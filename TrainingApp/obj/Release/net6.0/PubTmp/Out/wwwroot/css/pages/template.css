@@ -1,0 +1,12 @@
+﻿#templateDateRange {
+    min-width: 270px;
+    border: 1px solid #5932EA;
+    border-radius: 10px;
+    padding: 5px 10px;
+}
+
+    #templateDateRange:hover, #templateDateRange:focus {
+        background: #5932EA;
+        color: white;
+    }
+

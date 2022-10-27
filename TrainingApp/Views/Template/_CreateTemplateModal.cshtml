@@ -1,0 +1,88 @@
+﻿
+<div class="modal" id="createTemplateModal" tabindex="-1" role="dialog" aria-labelledby="createTemplateLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createTemplateLabel">Create Template</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        onclick="modalClose('createTemplateModal')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label for="templateName" class="col-sm-4 col-form-label">
+                        Name <span class="red">*</span>
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="templateName">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="gradingSchema" class="col-sm-4 col-form-label">
+                        Grading Schema <span class="red">*</span>
+                    </label>
+                    <div class="col-sm-8">
+                        <select class="form-control" id="gradingSchema">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="templateDescription" class="col-sm-4 col-form-label">
+                        Description
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="templateDescription">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="scriptNumber" class="col-sm-4 col-form-label">
+                        Script Number
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="scriptNumber">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="attemptAllow" class="col-sm-4 col-form-label">
+                        Attemps Allowed <br />per Task <span class="red">*</span>
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control mt10" id="attemptAllow">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="taskMandatory" class="col-sm-4 col-form-label">
+                        All Task <br />Mandatory?
+                    </label>
+                    <div class="col-sm-8">
+                        <div class="mt20">
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="Yes" checked>
+                                <label class="form-check-label" for="exampleRadios1">
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="No">
+                                <label class="form-check-label" for="exampleRadios2">
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Create</button>
+                <button type="button" class="btn btn-light" onclick="modalClose('createTemplateModal')">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop hide" style="display:none"></div>
