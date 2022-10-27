@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "5Omyko+JrxtQOzjZX6PNe6Emdo6EsX85ppo/yU7ELEc=",
+  "Hash": "gIq3l83N0scm/Wl1W2zzE+87CXCEnWFRIlEABjX7VS4=",
   "Source": "TrainingApp",
   "BasePath": "_content/TrainingApp",
   "Mode": "Default",
@@ -3944,23 +3944,6 @@
       "OriginalItemSpec": "wwwroot/css/site.css"
     },
     {
-      "Identity": "/Users/hansollee/Projects/TrainingApp/TrainingApp/wwwroot/css/space.css",
-      "SourceId": "TrainingApp",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/hansollee/Projects/TrainingApp/TrainingApp/wwwroot/",
-      "BasePath": "_content/TrainingApp",
-      "RelativePath": "css/space.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/css/space.css"
-    },
-    {
       "Identity": "/Users/hansollee/Projects/TrainingApp/TrainingApp/wwwroot/css/style.css",
       "SourceId": "TrainingApp",
       "SourceType": "Discovered",
@@ -3993,6 +3976,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/css/style.min.css"
+    },
+    {
+      "Identity": "/Users/hansollee/Projects/TrainingApp/TrainingApp/wwwroot/css/utils.css",
+      "SourceId": "TrainingApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/hansollee/Projects/TrainingApp/TrainingApp/wwwroot/",
+      "BasePath": "_content/TrainingApp",
+      "RelativePath": "css/utils.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/css/utils.css"
     },
     {
       "Identity": "/Users/hansollee/Projects/TrainingApp/TrainingApp/wwwroot/favicon.ico",
