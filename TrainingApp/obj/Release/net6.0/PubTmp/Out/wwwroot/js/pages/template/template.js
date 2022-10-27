@@ -16,6 +16,10 @@ $("#createTemplateModalBtn").click(function () {
     showModal("createTemplateModal");
 });
 
+$("#addFilterToggleBtn").click(function () {
+    $(".filterDropDown").toggleClass("show hide");
+});
+
 $('input[name="templateDateRange"]').on('apply.daterangepicker', function (ev, picker) {
     $(this).val('Created Date: ' + picker.startDate.format('MM.DD.YYYY') + ' ~ ' + picker.endDate.format('MM.DD.YYYY'));
     this.style.width = ((this.value.length + 1) * 7) + 'px';
