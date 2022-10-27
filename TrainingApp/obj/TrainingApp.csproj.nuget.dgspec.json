@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/hansollee/Projects/training-app/TrainingApp/TrainingApp.csproj": {}
+    "/Users/hansollee/Projects/TrainingApp/TrainingApp/TrainingApp.csproj": {}
   },
   "projects": {
-    "/Users/hansollee/Projects/training-app/TrainingApp/TrainingApp.csproj": {
+    "/Users/hansollee/Projects/TrainingApp/TrainingApp/TrainingApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/hansollee/Projects/training-app/TrainingApp/TrainingApp.csproj",
+        "projectUniqueName": "/Users/hansollee/Projects/TrainingApp/TrainingApp/TrainingApp.csproj",
         "projectName": "TrainingApp",
-        "projectPath": "/Users/hansollee/Projects/training-app/TrainingApp/TrainingApp.csproj",
+        "projectPath": "/Users/hansollee/Projects/TrainingApp/TrainingApp/TrainingApp.csproj",
         "packagesPath": "/Users/hansollee/.nuget/packages/",
-        "outputPath": "/Users/hansollee/Projects/training-app/TrainingApp/obj/",
+        "outputPath": "/Users/hansollee/Projects/TrainingApp/TrainingApp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/hansollee/.nuget/NuGet/NuGet.Config"
