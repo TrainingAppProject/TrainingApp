@@ -26,41 +26,7 @@
         </button>
     </div>
 
-    <div class="bg-white m20 p20 filterDiv">
-        <div class="row">
-            <div class="col-md-12 col-lg-12 col-sm-12">
-                <button class="btn btn-link">
-                    <i class=" fas fa-filter"></i>
-                    Add Filters
-                </button>
-                <div class="mt20 d-flex">
-                    <div class="filterTags">
-                        <input class="filterTagsInput" id="templateDateRange" type="text"
-                               name="templateDateRange" value="Created Date: 01.01.2018 - 01.15.2018" />
-                        <button><i class="far fa-times-circle buttonicon"></i></button>
-                    </div>
-                    <div class="ml10">
-                        <div class="filterTags d-flex">
-                            <div class="dropdown">
-                                <div class="btn dropdown-toggle"
-                                        type="button" id="dropdownMenuButton"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true"
-                                        aria-expanded="false">
-                                    State: Active
-                                </div>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Active</a>
-                                    <a class="dropdown-item" href="#">Deleted</a>
-                                </div>
-                            </div>
-                            <button><i class="far fa-times-circle buttonicon"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @await Html.PartialAsync("_TemplateFilter")
 
     <div class="bg-white m20 p20">
         <div class="row">
@@ -79,62 +45,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td class="txt-oflo">Elite admin</td>
-                                    <td>SALE</td>
-                                    <td class="txt-oflo">April 18, 2021</td>
-                                    <td><span class="text-success">$24</span></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td class="txt-oflo">Real Homes WP Theme</td>
-                                    <td>EXTENDED</td>
-                                    <td class="txt-oflo">April 19, 2021</td>
-                                    <td><span class="text-info">$1250</span></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td class="txt-oflo">Ample Admin</td>
-                                    <td>EXTENDED</td>
-                                    <td class="txt-oflo">April 19, 2021</td>
-                                    <td><span class="text-info">$1250</span></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td class="txt-oflo">Medical Pro WP Theme</td>
-                                    <td>TAX</td>
-                                    <td class="txt-oflo">April 20, 2021</td>
-                                    <td><span class="text-danger">-$24</span></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td class="txt-oflo">Hosting press html</td>
-                                    <td>SALE</td>
-                                    <td class="txt-oflo">April 21, 2021</td>
-                                    <td><span class="text-success">$24</span></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td class="txt-oflo">Digital Agency PSD</td>
-                                    <td>SALE</td>
-                                    <td class="txt-oflo">April 23, 2021</td>
-                                    <td><span class="text-danger">-$14</span></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>7</td>
-                                    <td class="txt-oflo">Helping Hands WP Theme</td>
-                                    <td>MEMBER</td>
-                                    <td class="txt-oflo">April 22, 2021</td>
-                                    <td><span class="text-success">$64</span></td>
-                                    <td></td>
-                                </tr>
+                                @{
+                                    for (int i = 0; i < 10; i++)
+                                    {
+                                        <tr>
+                                            <td>Template 1</td>
+                                            <td class="txt-oflo">12.10.2022</td>
+                                            <td>Hansol Lee</td>
+                                            <td class="txt-oflo">Yes</td>
+                                            <td>Grade(1-5)</td>
+                                            <td>
+                                                <button class="btn text-primary"><i class="fas fa-search"></i></button>
+                                                <button class="btn text-warning"><i class="fas fa-pencil-alt"></i></button>
+                                                <button class="btn text-danger"><i class="far fa-trash-alt"></i></button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
                             </tbody>
                         </table>
                     </div>

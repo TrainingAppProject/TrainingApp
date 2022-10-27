@@ -3439,10 +3439,11 @@ input[type="button"].btn-block {
   width: 1rem;
   height: 1.15625rem;
   opacity: 0; }
-  .custom-control-input:checked ~ .custom-control-label::before {
-    color: #fff;
-    border-color: #2962FF;
-    background-color: #2962FF; }
+    .custom-control-input:checked ~ .custom-control-label::before {
+        color: #fff;
+        border-color: #5932EA;
+        background-color: #5932EA;
+    }
   .custom-control-input:focus ~ .custom-control-label::before {
     -webkit-box-shadow: transparent;
     box-shadow: transparent; }
@@ -10034,15 +10035,25 @@ html body .waves-notransition {
 
 .btn-primary, .btn-default, .btn-warning, .btn-outline-primary:hover, .btn-outline-warning:hover {
   color: #fff; }
-  .btn-primary:hover, .btn-default:hover, .btn-warning:hover, .btn-outline-primary:hover:hover, .btn-outline-warning:hover:hover {
+  .btn-primary:hover, .btn-warning:hover, .btn-outline-primary:hover:hover, .btn-outline-warning:hover:hover {
     color: #fff; }
 
 .btn-default {
-  background-color: #2962FF; }
+    background-color: white;
+    color: black;
+    border: 1px solid;
+    box-shadow:none;
+}
+
+.btn-default:hover {
+    background-color: #f9f9f9;
+    box-shadow:none;
+}
 
 .btn-facebook {
-  color: #fff;
-  background-color: #3b5998; }
+    color: #fff;
+    background-color: #3b5998;
+}
   .btn-facebook:hover {
     color: #fff; }
 
