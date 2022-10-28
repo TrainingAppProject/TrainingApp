@@ -12,6 +12,8 @@
     <None Remove="Views\Template\" />
     <None Remove="Views\Assessment\" />
     <None Remove="Views\AssessmentMonitor\" />
+    <None Remove="Views\Account\" />
+    <None Remove="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
@@ -34,6 +36,9 @@
     <Folder Include="wwwroot\css\pages\" />
     <Folder Include="wwwroot\js\pages\assessment\" />
     <Folder Include="wwwroot\js\pages\assessmentMonitor\" />
+    <Folder Include="Views\Account\" />
+    <Folder Include="Views\User\" />
+    <Folder Include="wwwroot\image\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\js\pages\template\" />
@@ -41,5 +46,6 @@
     <Content Remove="wwwroot\css\pages\" />
     <Content Remove="wwwroot\js\pages\assessment\" />
     <Content Remove="wwwroot\js\pages\assessmentMonitor\" />
+    <Content Remove="wwwroot\image\" />
   </ItemGroup>
 </Project>

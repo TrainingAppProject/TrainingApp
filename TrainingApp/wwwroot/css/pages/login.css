@@ -1,0 +1,39 @@
+﻿
+#loginContentDiv {
+    padding: 7rem;
+}
+
+    #loginContentDiv .greeding {
+        margin-bottom:0px;
+    }
+
+    #loginContentDiv .title {
+        font-size:2em;
+        font-weight:700;
+    }
+
+.forgotPasswordLink {
+    float:right;
+}
+
+#loginButton {
+    background-color: #5932EA;
+    border-color: #5932EA;
+    padding: 12px 20px;
+    margin-top:20px;
+}
+
+
+@media (min-width: 768px) {
+    .gradient-form {
+        height: 100vh !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
+}
+
