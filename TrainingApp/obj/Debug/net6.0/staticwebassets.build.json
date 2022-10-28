@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "gIq3l83N0scm/Wl1W2zzE+87CXCEnWFRIlEABjX7VS4=",
+  "Hash": "ggsomI7HAJ+Im8EmgOMSxjhA1R3GTrLUTajMuGZfFws=",
   "Source": "TrainingApp",
   "BasePath": "_content/TrainingApp",
   "Mode": "Default",
@@ -3910,6 +3910,23 @@
       "OriginalItemSpec": "wwwroot/css/pages/assessmentMonitor.css"
     },
     {
+      "Identity": "/Users/hansollee/Projects/TrainingApp/TrainingApp/wwwroot/css/pages/login.css",
+      "SourceId": "TrainingApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/hansollee/Projects/TrainingApp/TrainingApp/wwwroot/",
+      "BasePath": "_content/TrainingApp",
+      "RelativePath": "css/pages/login.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/css/pages/login.css"
+    },
+    {
       "Identity": "/Users/hansollee/Projects/TrainingApp/TrainingApp/wwwroot/css/pages/template.css",
       "SourceId": "TrainingApp",
       "SourceType": "Discovered",
@@ -4010,6 +4027,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/Users/hansollee/Projects/TrainingApp/TrainingApp/wwwroot/image/loginImage.jpg",
+      "SourceId": "TrainingApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/hansollee/Projects/TrainingApp/TrainingApp/wwwroot/",
+      "BasePath": "_content/TrainingApp",
+      "RelativePath": "image/loginImage.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/image/loginImage.jpg"
     },
     {
       "Identity": "/Users/hansollee/Projects/TrainingApp/TrainingApp/wwwroot/js/app-style-switcher.js",
