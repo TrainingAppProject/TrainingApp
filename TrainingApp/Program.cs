@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TrainingApp.Data;
@@ -24,7 +25,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    //app.UseExceptionHandler("/Home/Error");
+    app.UseDeveloperExceptionPage();
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
