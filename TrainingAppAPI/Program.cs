@@ -1,19 +1,40 @@
-﻿using TrainingAppAPI.Service;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using TrainingAppAPI.Schema;
+using TrainingAppAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddGraphQLServer().AddQueryType<TemplateService>();
+builder.Services.AddGraphQLServer()
+    .AddQueryType<Query>()
+    .AddMutationType<Mutation>()
+    .AddSubscriptionType<SubScription>();
+
+builder.Services.AddInMemorySubscriptions();
+
+builder.Services.AddPooledDbContextFactory<TrainingDbContext>(
+    o => o.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    IDbContextFactory<TrainingDbContext> contextFactory =
+        scope.ServiceProvider.GetRequiredService<IDbContextFactory<TrainingDbContext>>();
+
+    using(TrainingDbContext context = contextFactory.CreateDbContext())
+    {
+        context.Database.Migrate();
+    }
+}
+
 app.UseRouting();
+app.UseWebSockets();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapGraphQL();

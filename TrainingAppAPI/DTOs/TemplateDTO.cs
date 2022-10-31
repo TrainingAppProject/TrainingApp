@@ -1,10 +1,10 @@
 ﻿using System;
-namespace TrainingAppAPI.Models
+
+namespace TrainingAppAPI.DTOs
 {
-    public class Template
+    public class TemplateDTO
     {
-        
-        public int ID { get; set; }
+        public Guid ID { get; set; }
         public int CompanyID { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
@@ -15,6 +15,12 @@ namespace TrainingAppAPI.Models
         public int GradeID { get; set; }
         public int State { get; set; }
         public string? ScriptNumber { get; set; }
+
+        public IList<TemplateElementDTO> Elements { get; set; }
+        public void AddTemplateElements(TemplateElementDTO element)
+        {
+            Elements.Add(element);
+        }
     }
 }
 

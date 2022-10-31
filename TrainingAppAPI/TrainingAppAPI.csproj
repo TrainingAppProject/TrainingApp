@@ -9,21 +9,42 @@
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="12.15.0" />
+    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="12.15.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.10" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Models\" />
     <None Remove="IService\" />
-    <None Remove="Service\" />
     <None Remove="Enum\" />
     <None Remove="HotChocolate.AspNetCore" />
     <None Remove="Controllers\" />
+    <None Remove="HotChocolate.Data.EntityFramework" />
+    <None Remove="Microsoft.EntityFrameworkCore.Sqlite" />
+    <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
+    <None Remove="Schema\" />
+    <None Remove="Microsoft.EntityFrameworkCore.Design" />
+    <None Remove="Microsoft.EntityFrameworkCore.Tools" />
+    <None Remove="Services\Templates\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="IService\" />
-    <Folder Include="Service\" />
     <Folder Include="Enum\" />
     <Folder Include="Controllers\" />
+    <Folder Include="Schema\" />
+    <Folder Include="Services\Templates\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Dto\TemplateDTO.json" />
   </ItemGroup>
 </Project>
