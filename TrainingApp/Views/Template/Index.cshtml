@@ -26,7 +26,7 @@
         </button>
     </div>
 
-    @await Html.PartialAsync("_TemplateFilter.cshtml")
+    <partial name="_TemplateFilter" />
 
     <div class="bg-white m20 p20">
         <div class="row">
@@ -70,4 +70,5 @@
         </div>
     </div>
 </div>
-@await Html.PartialAsync("_CreateTemplateModal.cshtml")
+<partial name="_CreateTemplateModal" />
+

@@ -136,3 +136,38 @@ div.custom-control-right {
         margin-bottom: 5px;
     }
 
+#logo {
+    width: 75%;
+}
+#logoText {
+    width: 80%
+}
+
+.searchInput div {
+    height: 40px;
+}
+
+.searchInput .iconSpan {
+    background: white;
+    border-right: 0;
+    border-radius: 5px;
+}
+
+.searchInput i {
+    color:gray;
+}
+
+.searchInput input {
+    border-left: 0;
+    height: 40px;
+}
+
+.nav-item .nav-link {
+    font-weight: 800;
+    font-size: 1.3em !important;
+}
+
+.button-left {
+    float: left;
+    margin-right: auto;
+}

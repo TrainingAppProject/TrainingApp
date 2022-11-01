@@ -1,0 +1,87 @@
+﻿<div class="modal" id="createAssessmentModal" tabindex="-1" role="dialog" aria-labelledby="createAssessmentLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createAssessmentLabel">Create Assessment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        onclick="modalClose('createAssessmentModal')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label for="templateName" class="col-sm-4 col-form-label">
+                        Name <span class="red">*</span>
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="templateName">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="gradingSchema" class="col-sm-4 col-form-label">
+                        Template <span class="red">*</span>
+                    </label>
+                    <div class="col-sm-8">
+                        <select class="form-control" id="gradingSchema">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="gradingSchema" class="col-sm-4 col-form-label">
+                        Trainee <span class="red">*</span>
+                    </label>
+                    <div class="col-sm-8">
+                        <select class="form-control" id="gradingSchema">
+                            <option>Trainee 1</option>
+                            <option>Trainee 2</option>
+                            <option>Trainee 3</option>
+                            <option>Trainee 4</option>
+                            <option>Trainee 5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">
+                        Purpose
+                    </label>
+                    <div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Evauating
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                            <label class="form-check-label" for="flexCheckChecked">
+                                Renewing certification
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                            <label class="form-check-label" for="flexCheckChecked">
+                                Practicing
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                            <label class="form-check-label" for="flexCheckChecked">
+                                Training
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary button-left">Create</button>
+                <button type="button" class="btn btn-light" onclick="modalClose('createAssessmentModal')">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop hide" style="display:none"></div>
