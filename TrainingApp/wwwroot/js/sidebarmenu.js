@@ -56,5 +56,23 @@ $(function() {
     $('#sidebarnav >li >a.has-arrow').on('click', function (e) {
         e.preventDefault();
     });
+
+    //Adjusting the width of highlight effect of selected menu item depending on whether the navbar is expanded or not.
+    $('.left-sidebar > .scroll-sidebar').mouseover(function() {
+        $('.sidebar-nav ul .sidebar-item.selected .sidebar-link.active').width(220);
+    }).mouseout(function() {
+        if ($('.scroll-sidebar').width() < 100) {
+            $('.sidebar-nav ul .sidebar-item.selected .sidebar-link.active').width(35);
+        }
+    });
+
+    //Adjusting the width of highlight effect of selected menu item when screen is resized.
+    $(window).resize(function() {
+        if ($('.scroll-sidebar').width() < 100) {
+            $('.sidebar-nav ul .sidebar-item.selected .sidebar-link.active').width(35);
+        } else {
+            $('.sidebar-nav ul .sidebar-item.selected .sidebar-link.active').width(220);
+        }
+    });
     
 });
