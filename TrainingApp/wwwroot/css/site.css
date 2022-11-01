@@ -102,12 +102,12 @@ div.custom-control-right {
 }
 
     div.custom-control-right .custom-control-label::after {
-        right: -8.5rem;
+        right: -4.5rem;
         left: auto;
     }
 
     div.custom-control-right .custom-control-label::before {
-        right: -9.35rem;
+        right: -5.35rem;
         left: auto;
     }
 
@@ -171,3 +171,4 @@ div.custom-control-right {
     float: left;
     margin-right: auto;
 }
+
