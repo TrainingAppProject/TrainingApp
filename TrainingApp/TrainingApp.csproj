@@ -39,6 +39,7 @@
     <Folder Include="Views\Account\" />
     <Folder Include="Views\User\" />
     <Folder Include="wwwroot\image\" />
+    <Folder Include="wwwroot\image\icon\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\js\pages\template\" />
@@ -48,17 +49,6 @@
     <Content Remove="wwwroot\js\pages\assessmentMonitor\" />
     <Content Remove="wwwroot\image\" />
     <Content Remove="Data\TemplateDbContext.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TrainingAppAPI\TrainingAppAPI.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Data\TemplateContext.cs">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Compile>
+    <Content Remove="wwwroot\image\icon\" />
   </ItemGroup>
 </Project>

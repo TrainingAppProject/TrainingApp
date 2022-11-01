@@ -20,13 +20,14 @@ public class HomeController : Controller
 
         //admin role
         //RedirectToAction("Index", "User", new { area = "Admin" });
+        return RedirectToAction("Index", "AssessmentMonitor");
 
         //exminer role
         //RedirectToAction("Inex", "AssessmentMonitor", new { area = "Admin" });
 
         //trainee role
         //RedirectToAction("Index", "Assessment", new { area = "Admin" });
-        return View();
+        //return View();
     }
 
     public IActionResult Privacy()
