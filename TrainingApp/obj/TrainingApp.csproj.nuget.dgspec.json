@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/hansollee/Projects/TrainingApp/TrainingApp/TrainingApp.csproj": {}
+    "/Users/jeiyang/TrainingApp/TrainingApp/TrainingApp.csproj": {}
   },
   "projects": {
-    "/Users/hansollee/Projects/TrainingApp/TrainingApp/TrainingApp.csproj": {
+    "/Users/jeiyang/TrainingApp/TrainingApp/TrainingApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/hansollee/Projects/TrainingApp/TrainingApp/TrainingApp.csproj",
+        "projectUniqueName": "/Users/jeiyang/TrainingApp/TrainingApp/TrainingApp.csproj",
         "projectName": "TrainingApp",
-        "projectPath": "/Users/hansollee/Projects/TrainingApp/TrainingApp/TrainingApp.csproj",
-        "packagesPath": "/Users/hansollee/.nuget/packages/",
-        "outputPath": "/Users/hansollee/Projects/TrainingApp/TrainingApp/obj/",
+        "projectPath": "/Users/jeiyang/TrainingApp/TrainingApp/TrainingApp.csproj",
+        "packagesPath": "/Users/jeiyang/.nuget/packages/",
+        "outputPath": "/Users/jeiyang/TrainingApp/TrainingApp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/hansollee/.nuget/NuGet/NuGet.Config"
+          "/Users/jeiyang/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
