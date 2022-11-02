@@ -3462,6 +3462,7 @@ input[type="button"].btn-block {
 .custom-control-label {
   position: relative;
   margin-bottom: 0;
+  min-width:150px;
   vertical-align: top; }
   .custom-control-label::before {
     position: absolute;
@@ -9103,7 +9104,17 @@ html[dir="ltr"] body .p-l-0 {
         #main-wrapper[data-layout="vertical"][data-sidebartype="mini-sidebar"] .left-sidebar:hover .sidebar-nav .nav-small-cap {
           -webkit-box-pack: start;
           -ms-flex-pack: start;
-          justify-content: flex-start; } }
+          justify-content: flex-start; } 
+
+          /* Adjusting the width of highlighted portion when user hovers over or selects an item on a mini-sidebar. */
+          #main-wrapper[data-layout="vertical"][data-sidebartype="mini-sidebar"] .sidebar-nav ul .sidebar-item .sidebar-link.active {
+            width: 65px; /* When mini-sidebar is not expanded, 65px by default. Go to sidebarmenu.js to adjust the expanded width when hovered. */
+          }
+          #main-wrapper[data-layout="vertical"][data-sidebartype="mini-sidebar"] .sidebar-nav ul .sidebar-item .sidebar-link:hover {
+            width: 250px;
+          }
+          
+        }
 
 @media (max-width: 766px) {
   #main-wrapper {
@@ -9787,9 +9798,13 @@ sidebar navigation
         color: #fff;
         display: inline-block;
         text-align: center; }
-        .sidebar-nav ul .sidebar-item .sidebar-link.active, .sidebar-nav ul .sidebar-item .sidebar-link:hover {
+        .sidebar-nav ul .sidebar-item .sidebar-link.active {
             background: #E3DEFF;
             opacity: 1;
+        }
+        .sidebar-nav ul .sidebar-item .sidebar-link:hover {
+          background: #D3DFFF;
+          opacity: 1;
         }
     .sidebar-nav ul .sidebar-item.selected > .sidebar-link {
       /*background: rgba(0, 0, 0, 0.04);*/

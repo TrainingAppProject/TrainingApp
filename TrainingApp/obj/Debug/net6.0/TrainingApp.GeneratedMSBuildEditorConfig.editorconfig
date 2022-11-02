@@ -67,7 +67,15 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVtcGxhdGUvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< HEAD
 [/Users/jeiyang/TrainingApp/TrainingApp/Views/Template/_TemplateFilter.cshtml]
+=======
+[/Users/hansollee/Projects/TrainingApp/TrainingApp/Views/Template/_CreateTemplate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVtcGxhdGUvX0NyZWF0ZVRlbXBsYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/hansollee/Projects/TrainingApp/TrainingApp/Views/Template/_TemplateFilter.cshtml]
+>>>>>>> 9e688b815d04066758853d5bbb595347ff848087
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVtcGxhdGUvX1RlbXBsYXRlRmlsdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
