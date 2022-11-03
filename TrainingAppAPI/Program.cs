@@ -5,13 +5,14 @@ using Microsoft.Extensions.Options;
 using TrainingAppAPI.Schema;
 using TrainingAppAPI.Services;
 using TrainingAppAPI.Services.Templates;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddGraphQLServer()
     .AddQueryType<Query>()
     .AddMutationType<Mutation>()
-    .AddSubscriptionType<SubScription>();
+    .AddSubscriptionType<Subscription>();
 
 builder.Services.AddInMemorySubscriptions();
 

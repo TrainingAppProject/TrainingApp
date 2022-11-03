@@ -29,7 +29,7 @@ namespace TrainingAppAPI.Services.Templates
             {
                 return await context.Templates
                     .Include(t=>t.Elements)
-                    .FindAsync(tempalteID);
+                    .FirstOrDefaultAsync(t=>t.ID == tempalteID);
             }
         }
 
