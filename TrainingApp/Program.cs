@@ -2,11 +2,19 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using TrainingApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<TrainingDbContext>(options =>
+{
+    options.UseSqlServer(connectionString);
+});
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -14,6 +22,18 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+
+//using (var scope = app.Services.CreateScope())
+//{
+//    IDbContextFactory<TrainingDbContext> contextFactory =
+//        scope.ServiceProvider.GetRequiredService<IDbContextFactory<TrainingDbContext>>();
+
+//    using (TrainingDbContext context = contextFactory.CreateDbContext())
+//    {
+//        context.Database.Migrate();
+//    }
+//}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

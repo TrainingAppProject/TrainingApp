@@ -463,3 +463,6 @@ $RECYCLE.BIN/
 ##all dll, pdb files within the bin/obj folers should be excluded from our commits
 */bin
 */obj
+TrainingApp/Properties/PublishProfiles/TrainingAppProject - Zip Deploy.pubxml.user
+.vs/TrainingApp/xs/project-cache/TrainingApp-Debug.json
+.vs/TrainingApp/xs/project-cache/TrainingApp-Debug.json
