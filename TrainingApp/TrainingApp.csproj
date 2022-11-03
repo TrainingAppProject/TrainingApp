@@ -33,6 +33,8 @@
     <Folder Include="Views\User\" />
     <Folder Include="wwwroot\image\" />
     <Folder Include="wwwroot\image\icon\" />
+    <Folder Include="Views\User\" />
+    <Folder Include="wwwroot\js\pages\user\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\js\pages\template\" />
@@ -43,6 +45,7 @@
     <Content Remove="wwwroot\image\" />
     <Content Remove="Data\TemplateDbContext.json" />
     <Content Remove="wwwroot\image\icon\" />
+    <Content Remove="wwwroot\js\pages\user\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrainingAppAPI\TrainingAppAPI.csproj">
