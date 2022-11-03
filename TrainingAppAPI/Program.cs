@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using TrainingAppAPI.Schema;
 using TrainingAppAPI.Services;
+using TrainingAppAPI.Services.Templates;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,8 @@ builder.Services.AddInMemorySubscriptions();
 
 builder.Services.AddPooledDbContextFactory<TrainingDbContext>(
     o => o.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.AddScoped<TemplateRepository>();
 
 // Add services to the container.
 builder.Services.AddControllers();
