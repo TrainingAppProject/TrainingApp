@@ -2493,9 +2493,10 @@ fieldset:disabled a.btn {
       box-shadow: 0 0 0 0.2rem rgba(247, 77, 107, 0.5); }
 
 .btn-light {
-  color: #0a0c0d;
-  background-color: #f8f9fa;
-  border-color: #f8f9fa; }
+    color: #0a0c0d;
+    background-color: #f8f9fa;
+    border-color: #0a0c0d;
+}
   .btn-light:hover {
     color: #0a0c0d;
     background-color: #e2e6ea;

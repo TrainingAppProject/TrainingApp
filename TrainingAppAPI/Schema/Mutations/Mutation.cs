@@ -57,7 +57,7 @@ namespace TrainingAppAPI.Schema
 
             };
 
-            string updateTemplateTopic = $"{template.ID}_{nameof(Subscription.TemplateUpdated)}}";
+            string updateTemplateTopic = $"{template.ID}_{nameof(Subscription.TemplateUpdated)}";
             await topicEventSender.SendAsync(Update, template);
 
             return template;

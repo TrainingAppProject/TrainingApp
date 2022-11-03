@@ -31,6 +31,10 @@ html {
     display: inline;
 }
 
+.sidebar-nav {
+    margin-top: 20px;
+}
+
 .daterangepicker td.active, .daterangepicker td.active:hover {
     background-color: #5932EA;
 }
