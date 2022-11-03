@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using TrainingApp.Helper;
 using TrainingApp.Models;
 
 namespace TrainingApp.Controllers;
@@ -7,6 +8,7 @@ namespace TrainingApp.Controllers;
 public class TemplateController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    TrainingAPI trainingapi = new TrainingAPI();
 
     public TemplateController(ILogger<HomeController> logger)
     {
