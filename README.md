@@ -1,1 +1,4 @@
 # TrainingApp
+
+
+This app is to manage pilot training and grading processes. The application enables airline training administrators to manage their trainees’ evaluation records efficiently and helps them create the airline pilots’ assessment templates. This application is specifically designed to meet the requirements of airlines and aviation training organizations worldwide. This system was created in the early 20s and has been being used by many airlines to manage their pilot training process. The application has various useful functionalities that are quite complex, but the user interface has been a little outdated. Some parts of this interface are not user-friendly and missing quite a few of the usability criteria. The CAE is currently planning on a project to redesign the system’s UI soon. It would be a great practice for us to test the usability of the current application and think about our own approach to improve the UI/UX design.
