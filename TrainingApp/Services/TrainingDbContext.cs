@@ -19,6 +19,11 @@ namespace TrainingApp.Services
         public DbSet<UserDTO> Users { get; set; }
         public DbSet<CompanyDTO> Companies { get; set; }
 
+        public DbSet<AssessmentDTO> Assessments { get; set; }
+        public DbSet<AssessmentElementDTO> AssessmentElements { get; set; }
+        public DbSet<AssessmentGradeDTO> AssessmentGrades { get; set; }
+        public DbSet<AssessmentGradeElementDTO> AssessmentGradeElements { get; set; }
+        public DbSet<AssessmentTaskDTO> AssessmentTasks { get; set; }
     }
 
 }
