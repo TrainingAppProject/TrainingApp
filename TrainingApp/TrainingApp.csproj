@@ -18,6 +18,7 @@
     <None Remove="Services\" />
     <None Remove="DTOs\" />
     <None Remove="Microsoft.EntityFrameworkCore" />
+    <None Remove="Models\Enums\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.10" />
@@ -48,6 +49,7 @@
     <Folder Include="Helper\" />
     <Folder Include="Services\" />
     <Folder Include="DTOs\" />
+    <Folder Include="Models\Enums\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\js\pages\template\" />

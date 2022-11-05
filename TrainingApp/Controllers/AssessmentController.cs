@@ -1,9 +1,11 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrainingApp.Models;
 
 namespace TrainingApp.Controllers;
 
+[Authorize]
 public class AssessmentMonitorController : Controller
 {
     private readonly ILogger<HomeController> _logger;

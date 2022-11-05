@@ -6,6 +6,7 @@ namespace TrainingApp.Services
 {
     public class TrainingDbContext : DbContext
     {
+
         public TrainingDbContext(DbContextOptions<TrainingDbContext> options)
             : base(options) { }
 
@@ -24,6 +25,8 @@ namespace TrainingApp.Services
         public DbSet<AssessmentGradeDTO> AssessmentGrades { get; set; }
         public DbSet<AssessmentGradeElementDTO> AssessmentGradeElements { get; set; }
         public DbSet<AssessmentTaskDTO> AssessmentTasks { get; set; }
+
+
     }
 
 }

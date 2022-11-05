@@ -1,4 +1,5 @@
-﻿@{
+﻿@model TrainingApp.Models.UserViewModel
+@{
     ViewData["Title"] = "User Page";
 }
 
@@ -44,27 +45,15 @@
                             </thead>
                             <tbody>
                                 @{
-                                    for (int i = 0; i < 15; i++)
+                                    foreach(var user in Model.Users)
                                     {
                                         <tr>
-                                            <td>User @i</td>
+                                            <td>@user.FirstName @user.LastName</td>
+                                            <td>@user.Role</td>
+                                            <td>@user.UserName</td>
+                                            <td>@user.UserCode</td>
+                                            <td>@user.CreateTime.ToShortDateString()</td>
                                             <td>
-                                                @{
-                                                    if (i % 2 == 0)
-                                                    {
-                                                        <span>Trainee</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span> Examiner </span>
-                                                    }
-                                                }
-                                            </td>
-                                            <td>Marvin McKinney</td>
-                                            <td>User Code @i</td>
-                                            <td>12.10.2022</td>
-                                            <td>
-                                                <button class="btn text-primary"><i class="fas fa-search"></i></button>
                                                 <button class="btn text-warning"><i class="fas fa-pencil-alt"></i></button>
                                                 <button class="btn text-danger"><i class="far fa-trash-alt"></i></button>
                                             </td>
@@ -79,4 +68,4 @@
         </div>
     </div>
 </div>
-<partial name="_CreateUserModal" />
+<partial name="_CreateUserModal" model="Model.User"/>

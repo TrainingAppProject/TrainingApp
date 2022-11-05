@@ -1,4 +1,5 @@
-﻿@{
+﻿@model LoginViewModel
+@{
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
@@ -21,15 +22,15 @@
                                         <h4 class="title mb-5 pb-1">Login to your account</h4>
                                     </div>
 
-                                    <form>
+                                    <form asp-controller="Account" asp-action="LoginUser" method="post" id="loginForm" role="form">
                                         <div class="form-outline mb-4">
-                                            <label class="form-label" for="email">Email</label>
-                                            <input type="email" id="email" class="form-control" />
+                                            <label class="form-label">User Name</label>
+                                            <input type="text" asp-for="UserName" id="userName" class="form-control" required/>
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <label class="form-label" for="password">Password</label>
-                                            <input type="password" id="password" class="form-control" />
+                                            <label class="form-label">Password</label>
+                                            <input type="password" asp-for="Password" id="password" class="form-control" required/>
                                         </div>
                                         <div class="mt-1 d-flex flex-row">
                                             <div class="form-check col-lg-6">
@@ -43,7 +44,7 @@
                                             </div>
                                         </div>
                                         <div class="text-center pt-1 mb-5 pb-1">
-                                            <button id="loginButton" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button">
+                                            <button id="loginButton" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">
                                                 Login
                                             </button>
                                         </div>
