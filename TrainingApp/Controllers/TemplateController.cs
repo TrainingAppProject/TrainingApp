@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrainingApp.Helper;
 using TrainingApp.Models;
 
 namespace TrainingApp.Controllers;
 
+[Authorize]
 public class TemplateController : Controller
 {
     private readonly ILogger<HomeController> _logger;

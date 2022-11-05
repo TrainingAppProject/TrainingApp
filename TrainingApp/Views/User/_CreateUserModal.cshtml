@@ -1,4 +1,6 @@
-﻿<div class="modal" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="createUserLabel" aria-hidden="true">
+﻿@model UserViewModel
+
+<div class="modal" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="createUserLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,71 +10,78 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="form-group row">
-                    <label for="templateName" class="col-sm-4 col-form-label">
-                        First Name <span class="red">*</span>
-                    </label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="templateName">
+            <form asp-controller="user" asp-action="createUser" method="post" id="createUserForm" role="form">
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="templateName" class="col-sm-4 col-form-label">
+                            First Name <span class="red">*</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" asp-for="User.FirstName" required>
+                            <span id="firstNameError" class="error text-danger" asp-validation-for="User.FirstName"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label for="templateDescription" class="col-sm-4 col-form-label">
-                        Last Name <span class="red">*</span>
-                    </label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="templateDescription">
+                    <div class="form-group row">
+                        <label for="templateDescription" class="col-sm-4 col-form-label">
+                            Last Name <span class="red">*</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="templateDescription" asp-for="User.LastName" required>
+                            <span id="lastNameError" class="error text-danger" asp-validation-for="User.LastName"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label for="scriptNumber" class="col-sm-4 col-form-label">
-                        User Name <span class="red">*</span>
-                    </label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="scriptNumber">
+                    <div class="form-group row">
+                        <label for="scriptNumber" class="col-sm-4 col-form-label">
+                            User Name <span class="red">*</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="scriptNumber" asp-for="User.UserName" required>
+                            <span id="userNameError" class="error text-danger" asp-validation-for="User.UserName"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label for="attemptAllow" class="col-sm-4 col-form-label">
-                        User Code
-                    </label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control mt10" id="userCode">
+                    <div class="form-group row">
+                        <label for="attemptAllow" class="col-sm-4 col-form-label">
+                            User Code
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control mt10" id="userCode" asp-for="User.UserCode">
+                            <span id="userCodeError" class="error text-danger" asp-validation-for="User.UserCode"></span>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="col-form-label">
-                        User Role
-                    </label>
-                    <div class="ml20">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Admin
-                            </label>
+                    <div class="form-group">
+                        <label class="col-form-label">
+                            User Role
+                        </label>
+                        <div class="ml20">
+                            <div class="form-check">
+                                <input class="form-check-input roleCheckbox" type="checkbox" value="Admin">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Admin
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input roleCheckbox" type="checkbox" value="Examiner">
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    Examiner
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input roleCheckbox" type="checkbox" value="Trainee">
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    Trainee
+                                </label>
+                            </div>
+                            <input id="rolesCheckboxInput" class="hide" type="text" asp-for="User.Role" />
+                            <span id="rolesError" class="error text-danger" asp-validation-for="User.Role"></span>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                               Examiner
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Trainee
-                            </label>
-                        </div>
-
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary button-left">Create</button>
-                <button type="button" class="btn btn-light" onclick="modalClose('createUserModal')">Close</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary button-left" onclick="validateUserForm('#createUserForm')">Create</button>
+                    <button type="button" class="btn btn-light" onclick="clearform('#createUserModal')">Close</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

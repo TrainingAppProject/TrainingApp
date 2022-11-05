@@ -2,8 +2,12 @@
   font-size: 14px;
 }
 
+.page-wrapper {
+    height:100vh;
+}
+
 @media (min-width: 768px) {
-  html {
+    html {
     font-size: 16px;
   }
 }
