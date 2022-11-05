@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TrainingApp.DTOs;
@@ -45,8 +46,8 @@ namespace TrainingApp.Controllers
                         throw new ArgumentNullException("User cannot find");
                     }
 
-                    if (!string.IsNullOrWhiteSpace(user.Password) &&
-                        user.Password != Decrypt(user.Password))
+                    if (!string.IsNullOrWhiteSpace(model.Password) &&
+                        model.Password != Decrypt(user.Password))
                     {
                         throw new Exception("Password wrong");
                     }
@@ -57,7 +58,7 @@ namespace TrainingApp.Controllers
                         await db.SaveChangesAsync();
                     }
 
-                    await SignInUser(user);
+                    await SignInUserIdentity(user);
 
                     return RedirectToAction("Index", "AssessmentMonitor");
                 }
@@ -70,7 +71,16 @@ namespace TrainingApp.Controllers
             }
         }
 
-        private async Task SignInUser(UserDTO user)
+        public async Task<IActionResult> Logout()
+        {
+            // Clear the existing external cookie
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return View("Login");
+        }
+
+        private async Task SignInUserIdentity(UserDTO user)
         {
             var claims = new List<Claim>
             {
