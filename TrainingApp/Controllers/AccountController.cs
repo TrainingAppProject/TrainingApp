@@ -46,7 +46,7 @@ namespace TrainingApp.Controllers
                         throw new ArgumentNullException("User cannot find");
                     }
 
-                    if (!string.IsNullOrWhiteSpace(model.Password) &&
+                    if (!string.IsNullOrWhiteSpace(user.Password) &&
                         model.Password != Decrypt(user.Password))
                     {
                         throw new Exception("Password wrong");
@@ -60,7 +60,7 @@ namespace TrainingApp.Controllers
 
                     await SignInUserIdentity(user);
 
-                    return RedirectToAction("Index", "AssessmentMonitor");
+                    return RedirectToAction("Index", "Home");
                 }
             }
             catch (Exception ex)
