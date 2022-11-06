@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrainingApp.Models;
@@ -17,19 +18,18 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        //session expire
-        //RedirectToAction("LogIn", "Account", new { area = "Admin" });
+        var claim = (User.Identity as ClaimsIdentity).Claims.Where(c => c.Type == "UserRoles").FirstOrDefault();
+        string userroles = claim.Value;
 
-        //admin role
-        //RedirectToAction("Index", "User", new { area = "Admin" });
+        List<string> roles = userroles.Split(',').ToList();
+
+        if (roles == null || roles.Count() < 1)
+            throw new Exception("role is empty");
+
+        if (roles.Count() == 1 && roles.Contains("Trainee"))
+            return RedirectToAction("Index", "Assessment");
+
         return RedirectToAction("Index", "AssessmentMonitor");
-
-        //exminer role
-        //RedirectToAction("Inex", "AssessmentMonitor", new { area = "Admin" });
-
-        //trainee role
-        //RedirectToAction("Index", "Assessment", new { area = "Admin" });
-        //return View();
     }
 
     public IActionResult Privacy()

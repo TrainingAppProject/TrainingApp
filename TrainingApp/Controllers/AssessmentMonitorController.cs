@@ -6,11 +6,11 @@ using TrainingApp.Models;
 namespace TrainingApp.Controllers;
 
 [Authorize]
-public class AssessmentController : Controller
+public class AssessmentMonitorController : Controller
 {
     private readonly ILogger<HomeController> _logger;
 
-    public AssessmentController(ILogger<HomeController> logger)
+    public AssessmentMonitorController(ILogger<HomeController> logger)
     {
         _logger = logger;
     }

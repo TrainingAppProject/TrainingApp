@@ -38,10 +38,10 @@
                 <div class="navbar-header" data-logobg="skin6">
                     <a class="navbar-brand" href="dashboard.html">
                         <b class="logo-icon">
-                            <img id="logo" src="image/Logomark.png" alt="homepage" />
+                            <img id="logo" src="~/image/Logomark.png" alt="homepage" />
                         </b>
                         <span class="logo-text">
-                            <img id="logoText" src="image/Logotype.png" alt="homepage" />
+                            <img id="logoText" src="~/image/Logotype.png" alt="homepage" />
                         </span>
                     </a>
                     <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
@@ -56,18 +56,51 @@
                 </div>
             </nav>
         </header>
+        @{
+                var claims = ((System.Security.Claims.ClaimsIdentity)User.Identity).Claims;
+                var claim = claims.SingleOrDefault(m => m.Type == "UserRoles");
+                string userroles = claim.Value;
+
+                List<string> roles = userroles.Split(',').ToList();
+        }
         <aside class="left-sidebar" data-sidebarbg="skin6">
             <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="@Url.Action("Index", "Template")"
-                               aria-expanded="false">
-                                <i class="fa fa-folder-open fa-lg" aria-hidden="true"></i>
-                                <span class="hide-menu">Template</span>
-                            </a>
-                        </li>
+                        @if (roles.Contains("Admin"))
+                        {
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                   href="@Url.Action("Index", "User")"
+                                   aria-expanded="false"
+                                   style="line-height:1.2">
+                                    <i class="fas fa-user fa-lg" aria-hidden="true"></i>
+                                    <span class="hide-menu">User</span>
+                                </a>
+                            </li>
+                        }
+                        @if (roles.Contains("Admin") || roles.Contains("Examiner"))
+                        {
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                   href="@Url.Action("Index", "Template")"
+                                   aria-expanded="false">
+                                    <i class="fa fa-folder-open fa-lg" aria-hidden="true"></i>
+                                    <span class="hide-menu">Template</span>
+                                </a>
+                            </li>
+
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                   href="@Url.Action("Index", "AssessmentMonitor")"
+                                   aria-expanded="false"
+                                   style="line-height:1.2">
+                                    <i class="far fa-chart-bar fa-lg" aria-hidden="true"></i>
+                                    <span class="hide-menu">Assessment <br /> Monitor</span>
+                                </a>
+                            </li>
+     
+                        }
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                href="@Url.Action("Index", "Assessment")"
@@ -76,50 +109,32 @@
                                 <span class="hide-menu">Assessment</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="@Url.Action("Index", "AssessmentMonitor")"
-                               aria-expanded="false"
-                               style="line-height:1.2">
-                                <i class="far fa-chart-bar fa-lg" aria-hidden="true"></i>
-                                <span class="hide-menu">Assessment <br /> Monitor</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="@Url.Action("Index", "User")"
-                               aria-expanded="false"
-                               style="line-height:1.2">
-                                <i class="fas fa-user fa-lg" aria-hidden="true"></i>
-                                <span class="hide-menu">User</span>
-                            </a>
-                        </li>
                     </ul>
                 </nav>
             </div>
         </aside>
         @*<header>
-                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                    <div class="container-fluid">
-                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TrainingApp</a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                            <ul class="navbar-nav flex-grow-1">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                                </li>
-                            </ul>
-                            <partial name="_LoginPartial" />
-                        </div>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TrainingApp</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                        </ul>
+                        <partial name="_LoginPartial" />
                     </div>
-                </nav>
-            </header>*@
+                </div>
+            </nav>
+        </header>*@
         <div>
             <main role="main" class="pb-3">
                 @RenderBody()
