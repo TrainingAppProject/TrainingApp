@@ -11,7 +11,7 @@
     "TrainingApp": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:7164;http://localhost:5009",
+      "applicationUrl": "https://localhost:7163;http://localhost:5007",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

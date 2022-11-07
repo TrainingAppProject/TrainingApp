@@ -1,3 +1,14 @@
-﻿#templateDateRange {
+﻿/*
+/// <summary>
+/// Module purpose: Css script to define the layout and style of Template view
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Oct 26, 2022
+/// Source: Created for COMP7022 project
+/// Revision History:
+///     
+///     
+/// </summary>
+*/
+#templateDateRange {
     min-width: 270px;
 }

@@ -1,4 +1,11 @@
-﻿
+﻿/// <summary>
+/// Module purpose: Commonly used javascript functions within the system
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Oct 26, 2022
+/// Source: Created for the COMP7022 project
+/// Revision History:
+///
+/// </summary>
 
 function clearform(formID) {
     $(':input', formID)

@@ -1,12 +1,21 @@
 ﻿@model UserViewModel
-
+<!--
+/// <summary>
+/// Module purpose: Modal for user creation
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Oct 26, 2022
+/// Source: Created for the COMP7022 project
+/// Revision History:
+///
+/// </summary>
+-->
 <div class="modal" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="createUserLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="createUserLabel">Create User</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                        onclick="modalClose('createUserModal')">
+                        onclick="modalClose('#createUserModal')">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

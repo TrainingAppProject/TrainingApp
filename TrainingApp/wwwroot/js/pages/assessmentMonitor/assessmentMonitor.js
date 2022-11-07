@@ -1,4 +1,14 @@
-﻿
+﻿/*
+/// <summary>
+/// Module purpose: javascript to define the frontend behaviour of Assessment Monitor view
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Oct 26, 2022
+/// Source: Created for COMP7022 project
+/// Revision History:
+///     
+///     
+/// </summary>
+*/
 $(document).ready(function () {
 
     $('input[name="AssessmentMonitorDateRange"]').daterangepicker({

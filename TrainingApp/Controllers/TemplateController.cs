@@ -6,6 +6,14 @@ using TrainingApp.Models;
 
 namespace TrainingApp.Controllers;
 
+/// <summary>
+/// Module purpose: Controller that connects Template view with db
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Oct 26, 2022
+/// Source: Created for the COMP7022 project
+/// Revision History:
+///     
+/// </summary>
 [Authorize]
 public class TemplateController : Controller
 {

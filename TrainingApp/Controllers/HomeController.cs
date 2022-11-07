@@ -6,6 +6,14 @@ using TrainingApp.Models;
 
 namespace TrainingApp.Controllers;
 
+/// <summary>
+/// Module purpose: Controller that connects Home(Index) view with db
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Oct 26, 2022
+/// Source: Created for the COMP7022 project
+/// Revision History:
+///     Nov 3, 2022 (Hansol Lee): Defined the index function
+/// </summary>
 [Authorize]
 public class HomeController : Controller
 {

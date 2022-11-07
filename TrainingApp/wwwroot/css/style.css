@@ -1,4 +1,15 @@
 /*
+/// <summary>
+/// Module purpose: Main css script to define the layout and style of the site.
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Oct 26, 2022
+/// Source: Admin Template by Niravjoshi / Wrappixel
+/// Revision History:
+///     Oct 31, 2022 (Hansol Lee): generated scripts
+///     Nov 5, 2022 (Jei Yang): updated for navbar layout changes (tablet screen size)
+/// </summary>
+*/
+/*
 Template Name: Admin Template
 Author: Niravjoshi / Wrappixel
 File: scss
@@ -9106,7 +9117,7 @@ html[dir="ltr"] body .p-l-0 {
           -webkit-box-pack: start;
           -ms-flex-pack: start;
           justify-content: flex-start; } 
-
+          /*JY*/
           /* Adjusting the width of highlighted portion when user hovers over or selects an item on a mini-sidebar. */
           #main-wrapper[data-layout="vertical"][data-sidebartype="mini-sidebar"] .sidebar-nav ul .sidebar-item .sidebar-link.active {
             width: 65px; /* When mini-sidebar is not expanded, 65px by default. Go to sidebarmenu.js to adjust the expanded width when hovered. */
@@ -9114,7 +9125,9 @@ html[dir="ltr"] body .p-l-0 {
           #main-wrapper[data-layout="vertical"][data-sidebartype="mini-sidebar"] .sidebar-nav ul .sidebar-item .sidebar-link:hover {
             width: 250px;
           }
-          
+          .topbar .top-navbar .navbar-header .navbar-brand {
+            padding: 0 0 0 15px !important; /* 20221106 JY: adjusted from 5 20 0 20 to 0 0 0 15 to make logo bigger and centered */
+          }
         }
 
 @media (max-width: 766px) {
