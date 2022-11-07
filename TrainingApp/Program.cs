@@ -1,4 +1,15 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿<!--
+/// <summary>
+/// Module purpose: Program c# file for initial project start, which connects to the database, defines authentication data and app settings
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Oct 26, 2022
+/// Source: Created for the COMP7022 project / Auto-generated
+/// Revision History:
+///
+/// </summary>
+-->
+
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

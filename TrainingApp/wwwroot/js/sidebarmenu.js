@@ -1,4 +1,15 @@
 /*
+/// <summary>
+/// Module purpose: javascript to define the frontend behaviour of Assessment Monitor view
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Oct 26, 2022
+/// Source: Admin Template (Author: Wrappixel)
+/// Revision History:
+///     Oct 28, 2022 (Hansol Lee): Script added
+///     
+/// </summary>
+*/
+/*
 Template Name: Admin Template
 Author: Wrappixel
 

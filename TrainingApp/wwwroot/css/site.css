@@ -1,4 +1,15 @@
-﻿html {
+﻿/*
+/// <summary>
+/// Module purpose: Main css script (2) to define the layout and style of the site.
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Oct 26, 2022
+/// Source: Admin Template by Niravjoshi / Wrappixel
+/// Revision History:
+///     Oct 31, 2022 (Hansol Lee): generated scripts
+///     Nov 5, 2022 (Jei Yang): updated for navbar layout changes (tablet screen size)
+/// </summary>
+*/
+html {
   font-size: 14px;
 }
 

@@ -13,6 +13,14 @@ using TrainingApp.Models;
 using TrainingApp.Models.Enums;
 using TrainingApp.Services;
 
+/// <summary>
+/// Module purpose: Controller that connects Acount view with db
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Oct 26, 2022
+/// Source: Created for the COMP7022 project
+/// Revision History:
+///     Nov 5, 2022 (Hansol Lee) - Created functions for authentication and encrpytion
+/// </summary>
 namespace TrainingApp.Controllers
 {
     [AllowAnonymous]
