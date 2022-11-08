@@ -8,7 +8,7 @@
 ///
 /// </summary>
 -->
-<div class="bg-white m20 p20 filterDiv">
+<div class="bg-white m20 p20 filterDiv" id="templateFilterSection">
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
             <div id="addFilterToggleDiv">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
               
-                <div class="filterDropDown hide">
+                <div class="filterDropDown hide" id="templateFilterDialog">
                     <h4 class="title">Add Filters</h4>
                     <div class="mt30 mb10">
                         <p class="subtitle">Date</p>
@@ -63,7 +63,7 @@
 
                     <div class="mt40">
                         <button class="btn btn-primary">Save</button>
-                        <button class="btn btn-default floatRight">Cancel</button>
+                        <button class="btn btn-default floatRight" id="filterFormCancelBtn">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -116,3 +116,4 @@
         </div>
     </div>
 </div>
+<div class="modal-backdrop hide" style="display:none"></div>

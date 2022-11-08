@@ -1,8 +1,12 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TrainingApp.Helper;
 using TrainingApp.Models;
+using TrainingApp.Models.Enums;
+using TrainingApp.DTOs;
+using TrainingApp.Services;
 
 namespace TrainingApp.Controllers;
 
@@ -18,16 +22,35 @@ namespace TrainingApp.Controllers;
 public class TemplateController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    TrainingAPI trainingapi = new TrainingAPI();
+    private readonly IDbContextFactory<TrainingDbContext> _context;
+    //TrainingAPI trainingapi = new TrainingAPI();
 
-    public TemplateController(ILogger<HomeController> logger)
+    public TemplateController(ILogger<HomeController> logger, IDbContextFactory<TrainingDbContext> context)
     {
         _logger = logger;
+        _context= context;
     }
 
     public IActionResult Index()
     {
-        return View();
+        TemplateViewModel model = new TemplateViewModel();
+        try
+        {
+            using (TrainingDbContext db = _context.CreateDbContext())
+            {
+                model.Templates = db.Templates.Where(t => t.State == (int)BasicStatus.Active).ToList();
+
+                foreach (var template in model.Templates) {
+                    var creator = db.Users.Where(u => u.ID == template.CreatedID).FirstOrDefault();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation("ERROR", ex.Message);
+        }
+
+        return View(model);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

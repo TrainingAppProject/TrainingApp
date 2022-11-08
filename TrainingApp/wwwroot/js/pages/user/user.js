@@ -28,6 +28,8 @@ $("#createUserModalBtn").click(function () {
 
 function validateUserForm(formID) {
     var isvalid = true;
+    //Adding # prefix by default, for consistency
+    formID = "#" + formID;
     $(formID + " .error").empty();
 
     if ($(formID).find('input[name="User.FirstName"]').val() == '') {
