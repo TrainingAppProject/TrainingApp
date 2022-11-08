@@ -17,7 +17,8 @@ namespace TrainingApp.DTOs
         public string? Name { get; set; }
         public string? Description { get; set; }
         public DateTime CreatedTime { get; set; }
-        public int CreatedID { get; set; }
+        public Guid CreatedID { get; set; }
+        public UserDTO Created {get; set;}
         public DateTime ModifiedDate { get; set; }
         public bool IsTaskMandatory { get; set; }
         public int State { get; set; }
@@ -34,6 +35,7 @@ namespace TrainingApp.DTOs
         {
             Elements.Add(element);
         }
+        public string? GradingSchema {get; set; }
     }
 }
 

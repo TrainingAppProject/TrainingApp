@@ -1,6 +1,4 @@
-﻿using System;
-using TrainingApp.DTOs;
-/// <summary>
+﻿/// <summary>
 /// Module purpose: User view model associated to UserDTO
 /// Authors: Hansol Lee / Jei Yang
 /// Date: Oct 26, 2022
@@ -8,6 +6,8 @@ using TrainingApp.DTOs;
 /// Revision History:
 ///
 /// </summary>
+using System;
+using TrainingApp.DTOs;
 
 namespace TrainingApp.Models
 {

@@ -1,4 +1,12 @@
-﻿using System;
+﻿/// <summary>
+/// Module purpose: DbContext file for the project which defines all data models
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Oct 26, 2022
+/// Source: Created for the COMP7022 project / Auto-generated
+/// Revision History:
+///
+/// </summary>
+using System;
 using Microsoft.EntityFrameworkCore;
 using TrainingApp.DTOs;
 

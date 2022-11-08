@@ -22,13 +22,21 @@ $(document).ready(function () {
     });
 });
 
+
+
 $("#createTemplateModalBtn").click(function () {
-    showModal("createTemplateModal");
+    showModal('createTemplateModal');
 });
 
 $("#addFilterToggleBtn").click(function () {
-    $(".filterDropDown").toggleClass("show hide");
+    showFilter('templateFilterDialog');
+    
 });
+
+$("#filterFormCancelBtn").click(function () {
+    filterClose('templateFilterDialog');
+});
+
 
 $('input[name="templateDateRange"]').on('apply.daterangepicker', function (ev, picker) {
     $(this).val('Created Date: ' + picker.startDate.format('MM.DD.YYYY') + ' ~ ' + picker.endDate.format('MM.DD.YYYY'));
@@ -40,3 +48,17 @@ $('input[name="templateDateRange"]').on('cancel.daterangepicker', function (ev, 
 });
 
 
+//When user clicks outside the filter dialog(popup), close the dialog.
+window.addEventListener('click', function(e){   
+    //If clicked outside the filter box
+    if (!document.getElementById('templateFilterDialog').contains(e.target)){
+        //If clicked outside the 'Add Filter' button
+        if (!document.getElementById('addFilterToggleBtn').contains(e.target)) {
+            
+            if ($('#templateFilterDialog').hasClass('active')) { //If the filter dialog is currently open
+                filterClose('templateFilterDialog');
+            }
+        }
+        //If 'Add Filter' button is clicked, leave the filter dialog open.
+    }
+});
