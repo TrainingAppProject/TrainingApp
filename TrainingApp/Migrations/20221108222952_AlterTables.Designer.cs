@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrainingApp.Services;
 
@@ -11,9 +12,10 @@ using TrainingApp.Services;
 namespace TrainingApp.Migrations
 {
     [DbContext(typeof(TrainingDbContext))]
-    partial class TrainingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221108222952_AlterTables")]
+    partial class AlterTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,6 +180,36 @@ namespace TrainingApp.Migrations
                     b.ToTable("Companies");
                 });
 
+            modelBuilder.Entity("TrainingApp.DTOs.GradeDTO", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Grade")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("GradeID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("State")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Grades");
+                });
+
             modelBuilder.Entity("TrainingApp.DTOs.TaskDTO", b =>
                 {
                     b.Property<Guid>("ID")
@@ -217,7 +249,10 @@ namespace TrainingApp.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("GradingSchema")
+                    b.Property<Guid>("GradeID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("GradingSchema")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsTaskMandatory")
@@ -240,6 +275,8 @@ namespace TrainingApp.Migrations
                     b.HasIndex("CompanyID");
 
                     b.HasIndex("CreatedID");
+
+                    b.HasIndex("GradeID");
 
                     b.ToTable("Templates");
                 });
@@ -359,9 +396,17 @@ namespace TrainingApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TrainingApp.DTOs.GradeDTO", "Grade")
+                        .WithMany()
+                        .HasForeignKey("GradeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Company");
 
                     b.Navigation("Created");
+
+                    b.Navigation("Grade");
                 });
 
             modelBuilder.Entity("TrainingApp.DTOs.TemplateElementDTO", b =>
