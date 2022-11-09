@@ -21,7 +21,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form asp-controller="template" asp-action="createTemplate" method="post" id="createTemplateForm" role="form">
+            <form asp-controller="Template" asp-action="CreateTemplate" method="post" id="createTemplateForm" role="form">
                 <div class="modal-body">
                     <div class="form-group row">
                         <label for="templateName" class="col-sm-4 col-form-label">
@@ -38,7 +38,7 @@
                         </label>
                         <div class="col-sm-8">
                             <select class="form-control" id="gradingSchema" asp-for="Template.GradingSchema" asp-items="Html.GetEnumSelectList<GradingSchema>()" required>
-                                <option>Select Grading Schema...</option>
+                                <option class="placeholder-message" selected>Select Grading Schema...</option>
                             </select>
                             <span id="gradingSchemaError" class="error text-danger" asp-validation-for="Template.GradingSchema"></span>
                         </div>
@@ -78,18 +78,19 @@
                         <div class="col-sm-8">
                             <div class="mt20">
                                 <div class="form-check-inline">
-                                    <input class="form-check-input isMandatoryRadio" type="radio" name="allTaskMandatory" id="allTaskMandatoryYes" value="true" asp-for="Template.IsTaskMandatory" checked>
+                                    <input class="form-check-input isMandatoryRadio" type="radio" name="allTaskMandatory" id="allTaskMandatoryYes" value="true" checked>
                                     <label class="form-check-label" for="allTaskMandatoryYes">
                                         Yes
                                     </label>
                                 </div>
 
                                 <div class="form-check-inline">
-                                    <input class="form-check-input isMandatoryRadio" type="radio" name="allTaskMandatory" id="allTaskMandatoryNo" value="false" asp-for="Template.IsTaskMandatory">
+                                    <input class="form-check-input isMandatoryRadio" type="radio" name="allTaskMandatory" id="allTaskMandatoryNo" value="false">
                                     <label class="form-check-label" for="allTaskMandatoryNo">
                                         No
                                     </label>
                                 </div>
+                                <input id="mandatoryRadioInput" class="hide" type="text" asp-for="Template.IsTaskMandatory" />
 
                                 <span id="isTaskMandatoryError" class="error text-danger" asp-validation-for="Template.IsTaskMandatory"></span>
                             </div>
@@ -100,7 +101,7 @@
             
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary button-left"  onclick="validateTemplateForm('createTemplateForm')">Create</button>
-                <button type="button" class="btn btn-light" onclick="modalClose('createTemplateModal')">Close</button>
+                <button type="button" class="btn btn-light" type="delete" onclick="modalClose('createTemplateModal')">Close</button>
             </div>
         </div>
     </div>

@@ -71,17 +71,20 @@ function validateTemplateForm(formID) {
     formID = "#" + formID;
     $(formID + " .error").empty();
     //TBD
-    if ($(formID).find('input[name="Template.Name"]').val() == '') {
+    var tempName = $(formID).find('input[name="Template.Name"]').val();
+    if (tempName == '') {
         showErrorMsg("#nameError", requiredErrorMessage);
         isvalid = false;
     }
 
-    if ($(formID).find('input[name="Template.GradingSchema"]').val() == '') {
+    var gradingSchema = $('#gradingSchema option:selected');
+    if (!gradingSchema.text() || gradingSchema.text() == '' || gradingSchema.hasClass('placeholder-message')) {
         showErrorMsg("#gradingSchemaError", requiredErrorMessage);
         isvalid = false;
     }
 
-    if ($(formID).find('input[name="Template.Description"]').val() == '') {
+    var desc = $(formID).find('input[name="Template.Description"]').val()
+    if (!desc || desc == '') {
         showErrorMsg("#descriptionError", requiredErrorMessage);
         isvalid = false;
     }
@@ -91,12 +94,18 @@ function validateTemplateForm(formID) {
         return this.value;
     }).get();
     if (isTaskMandatory.length != 1) {
-        showErrorMsg("#isTaskMandatoryError", selectionErrorMessage);
+        showErrorMsg("#isTaskMandatoryError", radioErrorMessage);
         isvalid = false;
     }
-
     else
-        $("#rolesCheckboxInput").val(roles);
+        $("#mandatoryRadioInput").val(isTaskMandatory[0]);
+
+    //AttemptAllow, scriptNumber
+    var attemptAllow = $(formID).find('input[name="Template.AttemptsAllowedPerTask"]').val();
+    if (!attemptAllow || attemptAllow == '' || attemptAllow < 0) {
+        showErrorMsg("#descriptionError", requiredErrorMessage);
+        isvalid = false;
+    }
 
     if (isvalid)
         $(formID).submit();
@@ -104,4 +113,20 @@ function validateTemplateForm(formID) {
 
 
 
+//Open the confirmation modal when user clicks on 'Delete' button from index page (main table)
+function confirmDeleteTemplate(id) {
+    //if (confirm('Are you sure you want to remove this record?'))
+    showModal('deleteModal');
+    //add onclick event to the button with the templateID
+    $('#deleteButton').attr('onClick', 'deleteTemplate("' + id+ '")');
+}
 
+
+function deleteTemplate(id){
+    $.post("/Template/DeleteTemplate/" + id);
+    //$("#successMessage").html("The record has been deleted successfully!");
+
+    modalClose('deleteModal'); // now close modal
+    //TBD Current bug: the page won't refresh.
+    window.location.reload();
+}  
