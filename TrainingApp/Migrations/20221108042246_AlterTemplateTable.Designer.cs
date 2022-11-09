@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrainingApp.Services;
 
@@ -11,9 +12,10 @@ using TrainingApp.Services;
 namespace TrainingApp.Migrations
 {
     [DbContext(typeof(TrainingDbContext))]
-    partial class TrainingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221108042246_AlterTemplateTable")]
+    partial class AlterTemplateTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,9 +62,6 @@ namespace TrainingApp.Migrations
 
                     b.Property<string>("OverallGrade")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PassGrade")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("State")
@@ -134,6 +133,33 @@ namespace TrainingApp.Migrations
                     b.ToTable("AssessmentGrades");
                 });
 
+            modelBuilder.Entity("TrainingApp.DTOs.AssessmentGradeElementDTO", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AssessmentGradeID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsFail")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AssessmentGradeID");
+
+                    b.ToTable("AssessmentGradeElements");
+                });
+
             modelBuilder.Entity("TrainingApp.DTOs.AssessmentTaskDTO", b =>
                 {
                     b.Property<Guid>("Id")
@@ -142,9 +168,6 @@ namespace TrainingApp.Migrations
 
                     b.Property<Guid>("AssessmentElementID")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -178,14 +201,59 @@ namespace TrainingApp.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("TrainingApp.DTOs.TaskDTO", b =>
+            modelBuilder.Entity("TrainingApp.DTOs.GradeDTO", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Description")
+                    b.Property<Guid>("GradeID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("State")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Grades");
+                });
+
+            modelBuilder.Entity("TrainingApp.DTOs.GradeElementDTO", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("GradeID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsFail")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("GradeID");
+
+                    b.ToTable("GradeElements");
+                });
+
+            modelBuilder.Entity("TrainingApp.DTOs.TaskDTO", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -217,8 +285,11 @@ namespace TrainingApp.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("GradingSchema")
-                        .HasColumnType("int");
+                    b.Property<Guid>("GradeID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("GradingSchema")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsTaskMandatory")
                         .HasColumnType("bit");
@@ -240,6 +311,8 @@ namespace TrainingApp.Migrations
                     b.HasIndex("CompanyID");
 
                     b.HasIndex("CreatedID");
+
+                    b.HasIndex("GradeID");
 
                     b.ToTable("Templates");
                 });
@@ -334,6 +407,17 @@ namespace TrainingApp.Migrations
                     b.Navigation("AssessmentElement");
                 });
 
+            modelBuilder.Entity("TrainingApp.DTOs.AssessmentGradeElementDTO", b =>
+                {
+                    b.HasOne("TrainingApp.DTOs.AssessmentGradeDTO", "AssessmentGrade")
+                        .WithMany("AssessmentGradeElements")
+                        .HasForeignKey("AssessmentGradeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AssessmentGrade");
+                });
+
             modelBuilder.Entity("TrainingApp.DTOs.AssessmentTaskDTO", b =>
                 {
                     b.HasOne("TrainingApp.DTOs.AssessmentElementDTO", "AssessmentElement")
@@ -343,6 +427,17 @@ namespace TrainingApp.Migrations
                         .IsRequired();
 
                     b.Navigation("AssessmentElement");
+                });
+
+            modelBuilder.Entity("TrainingApp.DTOs.GradeElementDTO", b =>
+                {
+                    b.HasOne("TrainingApp.DTOs.GradeDTO", "Grade")
+                        .WithMany("Elements")
+                        .HasForeignKey("GradeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Grade");
                 });
 
             modelBuilder.Entity("TrainingApp.DTOs.TemplateDTO", b =>
@@ -359,9 +454,17 @@ namespace TrainingApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TrainingApp.DTOs.GradeDTO", "Grade")
+                        .WithMany()
+                        .HasForeignKey("GradeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Company");
 
                     b.Navigation("Created");
+
+                    b.Navigation("Grade");
                 });
 
             modelBuilder.Entity("TrainingApp.DTOs.TemplateElementDTO", b =>
@@ -406,6 +509,16 @@ namespace TrainingApp.Migrations
 
                     b.Navigation("Task")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TrainingApp.DTOs.AssessmentGradeDTO", b =>
+                {
+                    b.Navigation("AssessmentGradeElements");
+                });
+
+            modelBuilder.Entity("TrainingApp.DTOs.GradeDTO", b =>
+                {
+                    b.Navigation("Elements");
                 });
 
             modelBuilder.Entity("TrainingApp.DTOs.TemplateDTO", b =>

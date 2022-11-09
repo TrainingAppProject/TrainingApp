@@ -16,12 +16,13 @@ namespace TrainingApp.DTOs
         public Guid ID { get; set; }
         public string Name { get; set; }
         public int State { get; set; }
+        public DateTime? CreatedDate { get; set;}
 
+        public DateTime? ModifiedDate { get; set; }
+        public string? Grade { get; set; }
         public Guid AssessmentElementID { get; set; }
         public AssessmentElementDTO AssessmentElement { get; set; }
 
-
-        public IList<AssessmentGradeElementDTO> AssessmentGradeElements { get; set; }
     }
 }
 

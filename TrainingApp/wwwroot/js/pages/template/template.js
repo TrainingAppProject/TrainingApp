@@ -10,7 +10,7 @@
 /// </summary>
 */
 $(document).ready(function () {
-
+    /*
     $('input[name="templateDateRange"]').daterangepicker({
         opens: 'right',
         autoUpdateInput: false,
@@ -19,7 +19,7 @@ $(document).ready(function () {
         }
     }, function (start, end, label) {
         
-    });
+    });*/
 });
 
 
@@ -62,3 +62,46 @@ window.addEventListener('click', function(e){
         //If 'Add Filter' button is clicked, leave the filter dialog open.
     }
 });
+
+
+
+function validateTemplateForm(formID) {
+    var isvalid = true;
+    //Adding # prefix by default, for consistency
+    formID = "#" + formID;
+    $(formID + " .error").empty();
+    //TBD
+    if ($(formID).find('input[name="Template.Name"]').val() == '') {
+        showErrorMsg("#nameError", requiredErrorMessage);
+        isvalid = false;
+    }
+
+    if ($(formID).find('input[name="Template.GradingSchema"]').val() == '') {
+        showErrorMsg("#gradingSchemaError", requiredErrorMessage);
+        isvalid = false;
+    }
+
+    if ($(formID).find('input[name="Template.Description"]').val() == '') {
+        showErrorMsg("#descriptionError", requiredErrorMessage);
+        isvalid = false;
+    }
+
+    //set checkbox value
+    var isTaskMandatory = $('.isMandatoryRadio:radio:checked').map(function () {
+        return this.value;
+    }).get();
+    if (isTaskMandatory.length != 1) {
+        showErrorMsg("#isTaskMandatoryError", selectionErrorMessage);
+        isvalid = false;
+    }
+
+    else
+        $("#rolesCheckboxInput").val(roles);
+
+    if (isvalid)
+        $(formID).submit();
+}
+
+
+
+

@@ -64,7 +64,7 @@
                                             <td class="txt-oflo">@template.CreatedTime</td>
                                             <td>@template.Created.FirstName @template.Created.LastName</td> <!--Creator Name-->
                                             <td class="txt-oflo"> @(template.IsTaskMandatory ? "Yes" : "No")</td>
-                                            <td>@template.GradingSchema</td> <!--Grading Schema-->
+                                            <td>@Html.DisplayFor(model => template.GradingSchema)</td>
                                             <td>
                                                 <button class="btn text-primary"><i class="fas fa-search"></i></button>
                                                 <button class="btn text-warning"><i class="fas fa-pencil-alt"></i></button>

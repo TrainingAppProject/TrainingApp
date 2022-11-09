@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.ComponentModel.DataAnnotations;
+using TrainingApp.Models.Enums;
 /// <summary>
 /// Module purpose: Data Transfer Object for Template data model
 /// Authors: Hansol Lee / Jei Yang
@@ -7,7 +8,7 @@
 /// Source: Created for the COMP7022 project
 /// Revision History:
 ///     Oct 31, 2022 (Hansol Lee): Initial creation / model definition
-///     
+///     Nov 7, 2022 (Jei Yang): Updated for template /task association
 /// </summary>
 namespace TrainingApp.DTOs
 {
@@ -26,16 +27,16 @@ namespace TrainingApp.DTOs
 
         public int CompanyID { get; set; }
         public CompanyDTO Company { get; set; }
-
-        public Guid GradeID { get; set; }
-        public GradeDTO Grade { get; set; }
-
+        
         public IList<TemplateElementDTO> Elements { get; set; }
         public void AddTemplateElements(TemplateElementDTO element)
         {
             Elements.Add(element);
         }
-        public string? GradingSchema {get; set; }
+        //[EnumDataType(typeof(GradingSchema))]
+        public GradingSchema GradingSchema {get; set; } //Associated to Enum GradingSchema
+        
+        public int AttemptsAllowedPerTask {get; set;}
     }
 }
 

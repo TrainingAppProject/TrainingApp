@@ -7,6 +7,7 @@ using TrainingApp.Models;
 using TrainingApp.Models.Enums;
 using TrainingApp.DTOs;
 using TrainingApp.Services;
+using System.Reflection;
 
 namespace TrainingApp.Controllers;
 
@@ -41,7 +42,7 @@ public class TemplateController : Controller
                 model.Templates = db.Templates.Where(t => t.State == (int)BasicStatus.Active).ToList();
 
                 foreach (var template in model.Templates) {
-                    var creator = db.Users.Where(u => u.ID == template.CreatedID).FirstOrDefault();
+                    template.Created = db.Users.Where(u => u.ID == template.CreatedID).FirstOrDefault();
                 }
             }
         }
@@ -58,5 +59,6 @@ public class TemplateController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
 }
 
