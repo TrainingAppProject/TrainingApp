@@ -22,11 +22,7 @@ $(document).ready(function () {
     });*/
 });
 
-
-
-$("#createTemplateModalBtn").click(function () {
-    showModal('createTemplateModal');
-});
+//-----------------------------------------FILTER-------------------------------//
 
 $("#addFilterToggleBtn").click(function () {
     showFilter('templateFilterDialog');
@@ -63,6 +59,12 @@ window.addEventListener('click', function(e){
     }
 });
 
+
+//--------------------------------CREATE TEMPLATE--------------------------//
+
+$("#createTemplateModalBtn").click(function () {
+    showModal('createTemplateModal');
+});
 
 
 function validateTemplateForm(formID) {
@@ -112,6 +114,7 @@ function validateTemplateForm(formID) {
 }
 
 
+//------------------------DELETE TEMPLATE-----------------------//
 
 //Open the confirmation modal when user clicks on 'Delete' button from index page (main table)
 function confirmDeleteTemplate(id) {
@@ -123,11 +126,14 @@ function confirmDeleteTemplate(id) {
 
 
 function deleteTemplate(id) {
-    $.post("/Template/DeleteTemplate/" + id);
+    var posting = $.post("/Template/DeleteTemplate/" + id);
     //$("#successMessage").html("The record has been deleted successfully!");
-
     modalClose('deleteModal'); // now close modal
-    //TBD Current bug: the page won't refresh.
-    window.location.reload();
+
+    posting.done(function(){
+        //TBD Current bug: the page won't refresh.
+        window.location.reload();
+    });
+    
 }  
 
