@@ -15,11 +15,11 @@
 
 @section Scripts
 {
-    <script src="@Url.Content("~/js/pages/template/template.js")"></script>
+<script src="@Url.Content("~/js/pages/template/template.js")"></script>
 }
 
 @section Styles {
-    <link href="@Url.Content("~/css/pages/template.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/css/pages/template.css")" rel="stylesheet" type="text/css" />
 }
 
 <hr class="solid" />
@@ -57,7 +57,7 @@
                             </thead>
                             <tbody>
                                 @{
-                                    foreach(var template in Model.Templates)
+                                    foreach (var template in Model.Templates)
                                     {
                                         <tr>
                                             <td>@template.Name</td>
@@ -66,12 +66,14 @@
                                             <td class="txt-oflo"> @(template.IsTaskMandatory ? "Yes" : "No")</td>
                                             <td>@Html.DisplayFor(model => template.GradingSchema)</td>
                                             <td>
-                                                <button class="btn text-primary"><i class="fas fa-search"></i></button>
+                                                <button id="viewTemplateBtn" class="btn text-primary" type="button"
+                                                onclick="location.href='@Url.Action("ViewTemplate","Template", new { templateID = @template.ID.ToString() })'">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
                                                 <button id="editTemplateBtn" class="btn text-warning" type="button">
                                                     <i class="fas fa-pencil-alt"></i>
                                                 </button>
-                                                <button id="deleteTemplateBtn" type="button" class="btn text-danger" type="delete" onclick="confirmDeleteTemplate('@template.ID')"
-                                                    data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                <button id="deleteTemplateBtn" class="btn text-danger" type="button" onclick="confirmDeleteTemplate('@template.ID')" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                                     <i class="far fa-trash-alt"></i>
                                                 </button>
                                             </td>
@@ -90,23 +92,26 @@
 
 
 <!----Delete Confirmation modal starts here--->
-<div id="deleteModal" class="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Confirmation</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="modalClose('deleteModal')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to delete this?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="modalClose('deleteModal')">Cancel</button>
-        <button type="button" class="btn btn-danger" id="deleteButton">Delete</button>
-      </div>
+<div id="deleteModal" class="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    onclick="modalClose('deleteModal')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    onclick="modalClose('deleteModal')">Cancel</button>
+                <button type="button" class="btn btn-danger" id="deleteButton">Delete</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <!--Modal ends here--->

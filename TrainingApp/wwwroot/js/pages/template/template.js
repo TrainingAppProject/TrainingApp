@@ -122,7 +122,7 @@ function confirmDeleteTemplate(id) {
 }
 
 
-function deleteTemplate(id){
+function deleteTemplate(id) {
     $.post("/Template/DeleteTemplate/" + id);
     //$("#successMessage").html("The record has been deleted successfully!");
 
@@ -130,3 +130,4 @@ function deleteTemplate(id){
     //TBD Current bug: the page won't refresh.
     window.location.reload();
 }  
+
