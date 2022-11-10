@@ -46,7 +46,7 @@ public class TemplateController : Controller
 
                 foreach (var template in model.Templates) {
                     template.Created = db.Users.Where(u => u.ID == template.CreatedID).FirstOrDefault();
-                    template.Elements = db.TemplateElements.Where(e => e.TemplateID == template.ID).ToList();
+                    template.Elements = db.TemplateElements.Where(e => e.TemplateID == template.ID).ToList(); //TBD - to be tested and removed later
                 }
             }
         }
@@ -157,9 +157,47 @@ public class TemplateController : Controller
         {
             _logger.LogInformation("ERROR", ex.Message);
         }
-
         return View(model);
     }
+
+    public async Task<IActionResult> CreateTask(TemplateViewModel model)
+    {
+        try
+        {
+            using (TrainingDbContext db = _context.CreateDbContext())
+            {
+                //Create a Task
+                TaskDTO task = new TaskDTO();
+                task.ID = Guid.NewGuid();
+                task.Name = model.TaskViewModel.Name;
+                task.Description = model.TaskViewModel.Description;
+
+                //Define an OrderNo for the new record - add it as the last item by default
+                var numOfExistingElements = db.TemplateElements.Where(e => e.TemplateID == model.TaskViewModel.TemplateID).Count();
+                
+                //Create a TemplateElement with the new TaskID
+                TemplateElementDTO element = new TemplateElementDTO();
+                element.Id = Guid.NewGuid();
+                element.TemplateID = model.TaskViewModel.TemplateID;
+                element.TaskID = task.ID;
+
+                element.OrderNo = numOfExistingElements + 1;
+
+                db.Tasks.Add(task);
+                db.TemplateElements.Add(element);
+
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("ViewTemplate", new { templateID =  model.TaskViewModel.TemplateID });
+            }
+            
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation("ERROR", ex.Message);
+        }
+        return RedirectToAction("Error", "Home");
+    }   
 }
 
 

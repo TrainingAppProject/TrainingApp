@@ -19,5 +19,24 @@ namespace TrainingApp.Models
         public IEnumerable<TemplateDTO> Templates { get; set; }
         public TemplateDTO Template { get; set; }
 
+        public TaskViewModel TaskViewModel { get; set;}
+    }
+
+    //View Template Details (Task)
+    public class TaskViewModel
+    {
+        //public TemplateElementDTO TemplateElement { get; set; }
+
+        public string Name { get; set; }
+
+        public string? Description { get; set; }
+
+        public Guid TemplateID { get; set;}
+
+        public Guid TemplateElementID { get; set; }
+
+        public Guid TaskID { get; set; }
+
+        public int OrderNo { get; set; }
     }
 }
