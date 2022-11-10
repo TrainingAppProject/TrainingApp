@@ -15,6 +15,7 @@ namespace TrainingApp.Models
     {
         public IEnumerable<UserDTO> Users { get; set; }
         public UserDTO User { get; set; }
+        public string TargetAction { get; set; }
     }
 }
 

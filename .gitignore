@@ -467,3 +467,4 @@ appsettings.Development.json
 ##all dll, pdb files within the bin/obj folers should be excluded from our commits
 */bin
 
+.vs/TrainingApp/xs/project-cache/TrainingApp-Debug.json
