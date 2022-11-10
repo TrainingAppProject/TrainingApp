@@ -45,6 +45,27 @@ function getUserInfo(id) {
     });
 }
 
+function getDeleteUserInfo(id) {
+    var modalname = "deleteBasicDefaultModal";
+
+    $.ajax({
+        type: "Get",
+        url: "User/GetDeleteUserForm/" + id,
+        success: function (data) {
+            $("#" + modalname + " #modalBody").html(data);
+            $("#" + modalname + " .action").text("User");
+            showModal(modalname);
+        },
+        error: function (error) {
+            alert(error);
+        }
+    });
+}
+
+function submitDelete() {
+    $("#deleteBasicDefaultModal #deleteForm").submit();
+}
+
 
 function validateUserForm(formID) {
     var isvalid = true;

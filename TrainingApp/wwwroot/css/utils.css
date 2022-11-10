@@ -26,6 +26,6 @@
 
 /* Text */
 .Upper { text-transform: uppercase; }
-
+.lh2 { line-height: 2; }
 
 .floatRight { float: right; }
