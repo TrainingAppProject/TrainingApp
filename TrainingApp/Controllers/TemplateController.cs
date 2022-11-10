@@ -42,7 +42,7 @@ public class TemplateController : Controller
         {
             using (TrainingDbContext db = _context.CreateDbContext())
             {
-                model.Templates = db.Templates.Where(t => t.State == (int)BasicStatus.Active).OrderByDescending(t => t.ModifiedDate).ToList();
+                model.Templates = db.Templates.Where(t => t.State == (int)BasicStatus.Active).OrderByDescending(t => t.CreatedTime).ToList();
 
                 foreach (var template in model.Templates) {
                     template.Created = db.Users.Where(u => u.ID == template.CreatedID).FirstOrDefault();
@@ -66,37 +66,53 @@ public class TemplateController : Controller
 
     public async Task<IActionResult> CreateTemplate(TemplateViewModel model)
     {
+
         try
         {
             using (TrainingDbContext db = _context.CreateDbContext())
             {
-                if (model.Template.GradingSchema == 0) {
-                    throw new ArgumentException("Grading Schema is not defined");
-                }
-
-                //Grab currently logged in user's username
+                TemplateDTO template = new TemplateDTO();
+                
                 var claim = (User.Identity as ClaimsIdentity).Claims.Where(c => c.Type == ClaimTypes.Name).FirstOrDefault();
                 string currentUserName = claim.Value;
 
+                //Edit
+                if (model.Template.ID != null && model.Template.ID != Guid.Empty)
+                {
+                    template = db.Templates.Where(t => t.ID == model.Template.ID).FirstOrDefault();
+                    if (template == null)
+                        throw new ArgumentNullException("Template does not exist");
+                }
+                else //Create
+                {
+                    //TemplateDTO template = new TemplateDTO();
+                    template.ID = Guid.NewGuid();
+                    template.Created = db.Users.Where(u => u.UserName == currentUserName).FirstOrDefault();
+                    template.CreatedID = template.Created.ID;
+                    template.CreatedTime = DateTime.UtcNow;
+                    template.State = (int) BasicStatus.Active;  
+                    template.Company = db.Companies.Where(c => c.ID == template.Created.CompanyID).FirstOrDefault();
+                    template.CompanyID = template.Company.ID;
 
-                TemplateDTO template = new TemplateDTO();
-                template.ID = Guid.NewGuid();
-                template.Created = db.Users.Where(u => u.UserName == currentUserName).FirstOrDefault();
-                template.CreatedID = template.Created.ID;
-                template.CreatedTime = DateTime.UtcNow;
+                    template.Name = model.Template.Name;
+                    template.GradingSchema = model.Template.GradingSchema;
+                }
+                
                 template.Description = model.Template.Description;
-                template.Name = model.Template.Name;
                 template.IsTaskMandatory = model.Template.IsTaskMandatory;
                 template.ModifiedDate = DateTime.UtcNow;
                 template.ScriptNumber = model.Template.ScriptNumber;
-                template.State = (int) BasicStatus.Active;
                 template.AttemptsAllowedPerTask = model.Template.AttemptsAllowedPerTask;
-                template.GradingSchema = model.Template.GradingSchema;
-                template.Company = db.Companies.Where(c => c.ID == template.Created.CompanyID).FirstOrDefault();
-                template.CompanyID = template.Company.ID;
-
-                db.Templates.Add(template);
-
+                
+                if (model.Template.ID != null && model.Template.ID != Guid.Empty)
+                {
+                    db.Templates.Update(template); //Edit
+                }
+                else
+                {
+                    db.Templates.Add(template); //Create
+                }
+                
                 await db.SaveChangesAsync();
 
                 return RedirectToAction("Index");
@@ -256,6 +272,54 @@ public class TemplateController : Controller
         }
         return RedirectToAction("Error", "Home");
 
+    }
+
+    [HttpGet]
+    public IActionResult GetTemplateForm(string templateID)
+    {
+        TemplateViewModel model = new TemplateViewModel();
+        //This is a create form
+        if (templateID == "0")
+        {
+            model.TargetAction = "Create";
+            return PartialView("_CreateTemplate", model);
+        }
+        bool isValidID = Guid.TryParse(templateID, out Guid templateIDGuid);
+        if (!isValidID)
+            throw new ArgumentException("Invalid Template ID");
+
+        try
+        {
+            using (TrainingDbContext db = _context.CreateDbContext())
+            {
+                var templateToEdit = db.Templates.FirstOrDefault(t => t.ID == templateIDGuid);
+                model.Template = new TemplateDTO();
+                if (templateToEdit == null)
+                {
+                    throw new ArgumentNullException("Template does not exist");
+                }
+                model.Template.ID = templateToEdit.ID;
+                model.Template.Name = templateToEdit.Name;
+                model.Template.GradingSchema = templateToEdit.GradingSchema;
+                model.Template.Description = templateToEdit.Description;
+                model.Template.ScriptNumber = templateToEdit.ScriptNumber;
+                model.Template.AttemptsAllowedPerTask = templateToEdit.AttemptsAllowedPerTask;
+                model.Template.IsTaskMandatory = templateToEdit.IsTaskMandatory;
+                model.Template.Created = db.Users.FirstOrDefault(u => u.ID == templateToEdit.CreatedID);
+                model.Template.CreatedTime = templateToEdit.CreatedTime;
+                model.Template.ModifiedDate = templateToEdit.ModifiedDate;
+
+                model.TargetAction = "Edit";
+                
+                return PartialView("_CreateTemplate", model);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, responseText = ex.Message });
+                _logger.LogInformation("ERROR", ex.Message);
+        }
     }
 }
 
