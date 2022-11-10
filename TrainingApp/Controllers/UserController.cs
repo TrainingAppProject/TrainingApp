@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -48,40 +49,116 @@ namespace TrainingApp.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> CreateUser(UserViewModel model)
+        [HttpPost]
+        public async Task<IActionResult> UpdateUser(UserViewModel model)
         {
             try
             {
                 using (TrainingDbContext db = _context.CreateDbContext())
                 {
-                    UserDTO existUser = db.Users.Where(u => u.UserName == model.User.UserName).FirstOrDefault();
-                    if (existUser != null)
-                        throw new ArgumentException("This user is already existing");
-
-                    UserDTO user = new UserDTO();
-                    user.ID = Guid.NewGuid();
-                    user.FirstName = model.User.FirstName;
-                    user.LastName = model.User.LastName;
-                    user.UserName = model.User.UserName;
-                    user.UserCode = model.User.UserCode;
-                    user.CreateTime = DateTime.UtcNow;
-                    user.Role = model.User.Role;
-                    user.State = (int)BasicStatus.Active;
-                    user.CompanyID = 1;
-
-                    db.Users.Add(user);
-
-                    await db.SaveChangesAsync();
+                    //Edit 
+                    if (model.User.ID != null && model.User.ID != Guid.Empty)
+                        await EditUser(db, model);
+                    //Create
+                    else
+                        await CreateUser(db, model);
 
                     return RedirectToAction("Index");
                 }
-                
             }
             catch (Exception ex)
             {
                 _logger.LogInformation("ERROR", ex.Message);
+                return RedirectToAction("Error", "Home");
             }
-            return RedirectToAction("Error", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult GetUserForm(string id)
+        {
+            UserViewModel model = new UserViewModel();
+
+            //This is create user form
+            if (id == "0")
+            {
+                model.TargetAction = "Create";
+                return PartialView("_UpdateUserModalBody", model);
+            }
+
+            //this is edit user form
+            bool isValidID = Guid.TryParse(id, out Guid userid);
+            if (!isValidID)
+                throw new ArgumentException("Invalid user ID");
+
+            try
+            {
+                using (TrainingDbContext db = _context.CreateDbContext())
+                {
+                    UserDTO user = db.Users.FirstOrDefault(u => u.ID == userid &&
+                        u.State == (int)BasicStatus.Active);
+                    if (user == null)
+                        throw new ArgumentNullException("User does not exist");
+
+                    model.TargetAction = "Edit";
+                    model.User = new UserDTO();
+                    model.User.ID = user.ID;
+                    model.User.FirstName = user.FirstName;
+                    model.User.LastName = user.LastName;
+                    model.User.Role = user.Role;
+                    model.User.UserName = user.UserName;
+                    model.User.UserCode = user.UserCode;
+
+                    return PartialView("_UpdateUserModalBody", model);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, responseText = ex.Message });
+                _logger.LogInformation("ERROR", ex.Message);
+            }
+        }
+
+        private async Task CreateUser(TrainingDbContext db, UserViewModel model)
+        {
+            UserDTO existUser = db.Users.Where(u => u.UserName == model.User.UserName).FirstOrDefault();
+            if (existUser != null)
+                throw new ArgumentException("This user is already existing");
+
+            UserDTO user = new UserDTO();
+            user.ID = Guid.NewGuid();
+            user.UserName = model.User.UserName;
+            user.CreateTime = DateTime.UtcNow;
+            user.State = (int)BasicStatus.Active;
+            user.CompanyID = 1;
+
+            SetUser(user, model);
+
+            db.Users.Add(user);
+            db.Entry(user).State = EntityState.Added;
+            await db.SaveChangesAsync();
+        }
+
+        private async Task EditUser(TrainingDbContext db, UserViewModel model)
+        {
+            //TODO if selected user is current user and role changes => sign out??
+
+
+            UserDTO user = db.Users.Where(u => u.ID == model.User.ID).FirstOrDefault();
+            if (user == null)
+                throw new ArgumentNullException("User does not exist");
+
+            SetUser(user, model);
+            db.Entry(user).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+        }
+
+
+        private void SetUser(UserDTO user, UserViewModel model)
+        {
+            user.FirstName = model.User.FirstName;
+            user.LastName = model.User.LastName;
+            user.UserCode = model.User.UserCode;
+            user.Role = model.User.Role;
         }
     }
 }

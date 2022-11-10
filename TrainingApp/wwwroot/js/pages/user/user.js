@@ -22,9 +22,29 @@ $(document).ready(function () {
 
 });
 
-$("#createUserModalBtn").click(function () {
-    showModal("createUserModal");
-});
+
+function getUserInfo(id) {
+    var modalTitle = "";
+    $.ajax({
+        type: "Get",
+        url: "User/GetUserForm/" + id,
+        success: function (data) {
+            $("#userModalBody").html(data);
+
+            if (id == "0")
+                modalTitle = "Create";
+            else
+                modalTitle = "Edit";
+
+            $("#createUserModal .action").text(modalTitle);
+            showModal("createUserModal");
+        },
+        error: function (error) {
+            alert(error);
+        }
+    });
+}
+
 
 function validateUserForm(formID) {
     var isvalid = true;
