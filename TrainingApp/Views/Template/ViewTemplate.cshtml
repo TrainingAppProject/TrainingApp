@@ -1,0 +1,99 @@
+<!--
+/// <summary>
+/// Module purpose: partial view to display the selected template's details
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Oct 26, 2022
+/// Source: Created for the COMP7022 project
+/// Revision History:
+///
+/// </summary>
+-->
+@model TrainingApp.Models.TemplateViewModel
+@{
+    ViewData["Title"] = "Template Details Page";
+}
+
+@section Scripts
+{
+<script src="@Url.Content("~/js/pages/template/task.js")"></script>
+}
+
+@section Styles {
+<link href="@Url.Content("~/css/pages/template.css")" rel="stylesheet" type="text/css" />
+}
+
+<hr class="solid" />
+<div class="tab-pain" id="v-pills-view-template" role="tabpanel" aria-labelledby="v-pills-view-template">
+    <div class="page-wrapper">
+        <div class="page-breadcrumb">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <h4 class="page-title">@Html.ActionLink("< Go to Templates", "Index", "Template")</h4>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white m20 p20">
+            <div class="row align-items-center pb-1">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <h4 class="page-title">@Model.Template.Name</h4>
+                </div>
+            </div>
+            <div class="row align-items-center pb-3">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <button id="createTaskModalBtn" class="btn btn-primary mt20" type="button" onclick="openCreateTaskModal('createTaskModal', '@Model.Template.ID')"> <!-- -->
+                        <i class="fas fa-plus"></i>
+                        Create Task
+                    </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12">
+                    <div class="white-box">
+                        <!--CONTENTS BEGIN-->
+                        <div class="drop">
+                            <div class="drop__container">
+                                <div class="drop__card">
+                                    <div class="drop__date">
+                                        <div class="list-group">
+                                            @{
+                                                foreach (var element in Model.Template.Elements)
+                                                {
+                                                    <div class="list-group-item list-group-item-action d-flex flex-row bd-highlight px-1 px-4 mb-3 blockquote">
+                                                        <div id="taskDragIcon" class="px-1 flex-shrink-1 bd-highlight mr-1">
+                                                            <i class="fa fa-arrows-alt"></i>
+                                                        </div>
+
+                                                        <div id="taskMainContents" class="px-2 py-2 flex-grow-1 bd-highlight">
+                                                            <h5 class="taskNameText">@element.Task.Name</h5>
+                                                        </div>
+
+                                                        <div id="taskButtons" class="px-1 flex-shrink-1 bd-highlight">
+                                                            <button id="editTaskBtn" class="btn text-warning" type="button">
+                                                                <i class="fas fa-pencil-alt"></i>
+                                                            </button>
+                                                            <button id="deleteTaskBtn" type="button" class="btn text-danger"
+                                                            type="delete"
+                                                            onclick="confirmDeleteTemplateElement('@element.Id')"
+                                                            data-bs-toggle="modal" data-bs-target="#deleteTaskModal">
+                                                                <i class="far fa-trash-alt"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--CONTENTS END-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_CreateTask" model="Model" />

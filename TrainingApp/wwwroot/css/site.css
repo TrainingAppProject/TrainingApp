@@ -191,3 +191,12 @@ div.custom-control-right {
     margin-right: auto;
 }
 
+#taskDragIcon {
+    font-size: 1.5rem;
+}
+
+.taskNameText {
+    align-self: center;
+    margin-bottom: 0;
+    vertical-align: middle;
+}

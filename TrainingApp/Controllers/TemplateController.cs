@@ -18,6 +18,8 @@ namespace TrainingApp.Controllers;
 /// Date: Oct 26, 2022
 /// Source: Created for the COMP7022 project
 /// Revision History:
+///     Nov 8, 2022 (Jei Yang): Create/Delete Template feature implementation
+///     Nov 9, 2022 (Jei Yang): View Tasks feature implementation
 ///     
 /// </summary>
 [Authorize]
@@ -44,6 +46,7 @@ public class TemplateController : Controller
 
                 foreach (var template in model.Templates) {
                     template.Created = db.Users.Where(u => u.ID == template.CreatedID).FirstOrDefault();
+                    template.Elements = db.TemplateElements.Where(e => e.TemplateID == template.ID).ToList(); //TBD - to be tested and removed later
                 }
             }
         }
@@ -114,10 +117,13 @@ public class TemplateController : Controller
         {
             using (TrainingDbContext db = _context.CreateDbContext())
             {
-                var elements = db.TemplateElements.Where(e => e.TemplateID == id).ToList();
+                var elementsToDelete = db.TemplateElements.Where(e => e.TemplateID == id).ToList();
+                var tasksToDelete = db.Tasks.Where(t => elementsToDelete.Any(e => e.TaskID == t.ID)).ToList();
+                //TBD
+                db.Tasks.RemoveRange(tasksToDelete);
+                db.TemplateElements.RemoveRange(elementsToDelete.AsEnumerable());
+                db.Templates.RemoveRange(db.Templates.Where(t => t.ID == id).AsEnumerable());
 
-                db.TemplateElements.RemoveRange(db.TemplateElements.Where(e => e.TemplateID == id).AsEnumerable().ToList());
-                db.Templates.RemoveRange(db.Templates.Where(t => t.ID == id).AsEnumerable().ToList());
                 await db.SaveChangesAsync();
 
                 return RedirectToAction("Index", "Template");
@@ -130,6 +136,69 @@ public class TemplateController : Controller
         return RedirectToAction("Error", "Home");
 
     }
+
+    // Get a list of tasks that are associated with the given template ID
+    public IActionResult ViewTemplate(Guid templateID)
+    {
+        TemplateViewModel model = new TemplateViewModel();
+        try
+        {
+            using (TrainingDbContext db = _context.CreateDbContext())
+            {
+                model.Template = db.Templates.Where(t => t.ID == templateID).FirstOrDefault();
+                model.Template.Elements = db.TemplateElements.Where(e => e.TemplateID == templateID).ToList();
+                foreach(var element in model.Template.Elements)
+                {
+                    element.Task = db.Tasks.Where(t => t.ID == element.TaskID).FirstOrDefault();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation("ERROR", ex.Message);
+        }
+        return View(model);
+    }
+
+    public async Task<IActionResult> CreateTask(TemplateViewModel model)
+    {
+        try
+        {
+            using (TrainingDbContext db = _context.CreateDbContext())
+            {
+                //Create a Task
+                TaskDTO task = new TaskDTO();
+                task.ID = Guid.NewGuid();
+                task.Name = model.TaskViewModel.Name;
+                task.Description = model.TaskViewModel.Description;
+
+                //Define an OrderNo for the new record - add it as the last item by default
+                var numOfExistingElements = db.TemplateElements.Where(e => e.TemplateID == model.TaskViewModel.TemplateID).Count();
+                
+                //Create a TemplateElement with the new TaskID
+                TemplateElementDTO element = new TemplateElementDTO();
+                element.Id = Guid.NewGuid();
+                element.TemplateID = model.TaskViewModel.TemplateID;
+                element.TaskID = task.ID;
+
+                element.OrderNo = numOfExistingElements + 1;
+
+                db.Tasks.Add(task);
+                db.TemplateElements.Add(element);
+
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("ViewTemplate", new { templateID =  model.TaskViewModel.TemplateID });
+            }
+            
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation("ERROR", ex.Message);
+        }
+        return RedirectToAction("Error", "Home");
+    }   
 }
 
 
+ 

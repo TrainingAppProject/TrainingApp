@@ -19,25 +19,24 @@ namespace TrainingApp.Models
         public IEnumerable<TemplateDTO> Templates { get; set; }
         public TemplateDTO Template { get; set; }
 
+        public TaskViewModel TaskViewModel { get; set;}
     }
-    public static class EnumProcess
+
+    //View Template Details (Task)
+    public class TaskViewModel
     {
-        public static string GetDisplayName(this Enum value)
-        {
-            Type enumType = value.GetType();
-            var enumValue = Enum.GetName(enumType, value);
-            MemberInfo member = enumType.GetMember(enumValue)[0];
+        //public TemplateElementDTO TemplateElement { get; set; }
 
-            var attrs = member.GetCustomAttributes(typeof(DisplayAttribute), false);
-            var outString = ((DisplayAttribute)attrs[0]).Name;
+        public string Name { get; set; }
 
-            if (((DisplayAttribute)attrs[0]).ResourceType != null)
-            {
-                outString = ((DisplayAttribute)attrs[0]).GetName();
-            }
+        public string? Description { get; set; }
 
-            return outString;
-        }
+        public Guid TemplateID { get; set;}
+
+        public Guid TemplateElementID { get; set; }
+
+        public Guid TaskID { get; set; }
+
+        public int OrderNo { get; set; }
     }
-
 }
