@@ -1,6 +1,6 @@
 /*
 /// <summary>
-/// Module purpose: javascript to define the frontend behaviour of Template view
+/// Module purpose: javascript to define the frontend behaviour of Task (associated to Template)
 /// Authors: Hansol Lee / Jei Yang
 /// Date: Oct 26, 2022
 /// Source: Created for COMP7022 project
@@ -10,10 +10,31 @@
 /// </summary>
 */
 
+//-------------------------DELETE-----------------------//
 function confirmDeleteTemplateElement(id) {
-
+    //if (confirm('Are you sure you want to remove this record?'))
+    showModal('deleteModal');
+    //add onclick event to the button with the templateID
+    $('#deleteButton').attr('onClick', 'deleteTask("' + id+ '")');
 }
 
+
+function deleteTask(id) {
+    var posting = $.post("/Template/DeleteTask/" + id);
+    //$("#successMessage").html("The record has been deleted successfully!");
+
+    modalClose('deleteModal'); // now close modal
+
+    posting.done(function(){
+        //TBD Current bug: the page won't refresh.
+        window.location.reload();
+    });
+    
+}  
+
+
+
+//--------------------------CREATE----------------------//
 function openCreateTaskModal (formID, templateID) {
     showModal(formID);
     $("#templateID").val(templateID);

@@ -42,7 +42,7 @@ public class TemplateController : Controller
         {
             using (TrainingDbContext db = _context.CreateDbContext())
             {
-                model.Templates = db.Templates.Where(t => t.State == (int)BasicStatus.Active).ToList();
+                model.Templates = db.Templates.Where(t => t.State == (int)BasicStatus.Active).OrderByDescending(t => t.ModifiedDate).ToList();
 
                 foreach (var template in model.Templates) {
                     template.Created = db.Users.Where(u => u.ID == template.CreatedID).FirstOrDefault();
@@ -118,10 +118,22 @@ public class TemplateController : Controller
             using (TrainingDbContext db = _context.CreateDbContext())
             {
                 var elementsToDelete = db.TemplateElements.Where(e => e.TemplateID == id).ToList();
-                var tasksToDelete = db.Tasks.Where(t => elementsToDelete.Any(e => e.TaskID == t.ID)).ToList();
-                //TBD
-                db.Tasks.RemoveRange(tasksToDelete);
-                db.TemplateElements.RemoveRange(elementsToDelete.AsEnumerable());
+
+                //Check if there is any TemplateElements and Tasks for this Template.
+                if (elementsToDelete.Count > 0)
+                {
+                    var tasksToDelete = elementsToDelete.Select(n => 
+                            db.Tasks.Single(t => t.ID == n.TaskID)
+                        ).ToList();
+
+                    if (tasksToDelete.Count == 0)
+                    {
+                        throw new ArgumentException("The TemplateElement record with ID '" + id + "' is not associated to any Task record");
+                    }
+                    db.Tasks.RemoveRange(tasksToDelete);
+                    db.TemplateElements.RemoveRange(elementsToDelete.AsEnumerable());
+                }
+
                 db.Templates.RemoveRange(db.Templates.Where(t => t.ID == id).AsEnumerable());
 
                 await db.SaveChangesAsync();
@@ -146,7 +158,7 @@ public class TemplateController : Controller
             using (TrainingDbContext db = _context.CreateDbContext())
             {
                 model.Template = db.Templates.Where(t => t.ID == templateID).FirstOrDefault();
-                model.Template.Elements = db.TemplateElements.Where(e => e.TemplateID == templateID).ToList();
+                model.Template.Elements = db.TemplateElements.Where(e => e.TemplateID == templateID).OrderBy(e => e.OrderNo).ToList();
                 foreach(var element in model.Template.Elements)
                 {
                     element.Task = db.Tasks.Where(t => t.ID == element.TaskID).FirstOrDefault();
@@ -188,7 +200,7 @@ public class TemplateController : Controller
 
                 await db.SaveChangesAsync();
 
-                return RedirectToAction("ViewTemplate", new { templateID =  model.TaskViewModel.TemplateID });
+                return RedirectToAction("ViewTemplate", "Template", new { templateID =  model.TaskViewModel.TemplateID });
             }
             
         }
@@ -198,6 +210,53 @@ public class TemplateController : Controller
         }
         return RedirectToAction("Error", "Home");
     }   
+
+
+    public async Task<IActionResult> DeleteTask(Guid id)
+    {
+        try
+        {
+            using (TrainingDbContext db = _context.CreateDbContext())
+            {
+                //Given param 'id' is a TemplateElementID
+                var elementToDelete = db.TemplateElements.Where(e => e.Id == id).FirstOrDefault();
+                if (elementToDelete == null)
+                {
+                    throw new ArgumentException("Cannot find a Template Element associated to ID'" + id + "'");
+                }
+                var taskToDelete = db.Tasks.Where(t => t.ID == elementToDelete.TaskID).FirstOrDefault();
+                if (taskToDelete == null)
+                {
+                    throw new ArgumentException("Cannot find a Task associated to ID'" + id + "'");
+                }
+
+                //Update the OrderNo of other tasks associated to the Template
+                var otherElements = db.TemplateElements.Where(e => e.TemplateID == elementToDelete.TemplateID && e.Id != elementToDelete.Id).ToList();
+                foreach (var element in otherElements)
+                {
+                    if (element.OrderNo > elementToDelete.OrderNo)
+                    {
+                        element.OrderNo--;
+                    }
+                }   
+                db.TemplateElements.UpdateRange(otherElements);
+
+                //Remove records
+                db.Tasks.Remove(taskToDelete);
+                db.TemplateElements.Remove(elementToDelete);
+
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("ViewTemplate", "Template", new { templateID = elementToDelete.TemplateID });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation("ERROR", ex.Message);
+        }
+        return RedirectToAction("Error", "Home");
+
+    }
 }
 
 
