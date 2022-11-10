@@ -35,12 +35,6 @@ function deleteTask(id) {
 
 
 //--------------------------CREATE----------------------//
-function openCreateTaskModal (formID, templateID) {
-    showModal(formID);
-    $("#templateID").val(templateID);
-}
-
-
 
 //_CreateTask validation function
 function validateTaskForm(formID) {
@@ -61,4 +55,30 @@ function validateTaskForm(formID) {
 
     if (isvalid)
         $(formID).submit();
+}
+
+//-------------------------UPDATE TASK----------------------------//
+
+function getTaskInfo(templateElementID, templateID) {
+    var modalTitle = "Edit";
+
+    if (templateElementID == "0") {
+        modalTitle = "Create";
+        //$("#templateID").val(templateID);
+    }
+
+    $.ajax({
+        type: "Get",
+        url: "GetTaskForm",
+        data: { "templateElementID" : templateElementID, "templateID" : templateID },
+        success: function (data) {
+            $("#taskModalBody").html(data);
+            $("#createTaskModal .action").text(modalTitle);
+            showModal("createTaskModal");
+        },
+        error: function (error) {
+            alert(error);
+        }
+    });
+
 }

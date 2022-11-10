@@ -10,47 +10,31 @@
 -->
 @model TrainingApp.Models.TemplateViewModel
 
-<div class="modal" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTaskLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createTaskLabel">Create Task</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                        onclick="modalClose('createTaskModal')">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form asp-controller="Template" asp-action="CreateTask" method="post" id="createTaskForm" role="form">
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <label for="TaskName" class="col-sm-4 col-form-label">
-                            Name <span class="red">*</span>
-                        </label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" id="TaskName" asp-for="TaskViewModel.Name" required>
-                            <span id="nameError" class="error text-danger" asp-validation-for="TaskViewModel.Name"></span>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="TaskDescription" class="col-sm-4 col-form-label">
-                            Description
-                        </label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" id="TaskDescription" asp-for="TaskViewModel.Description">
-                            <span id="descriptionError" class="error text-danger" asp-validation-for="TaskViewModel.Description"></span>
-                        </div>
 
-                        <input id="templateID" class="hide" type="text" asp-for="TaskViewModel.TemplateID" />
-                        
-                    </div>
-                </div>
-            </form>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light button-left" type="delete" onclick="modalClose('createTaskModal')">Close</button>
-                <button type="button" class="btn btn-primary"  onclick="validateTaskForm('createTaskForm')">Create</button>
+<form asp-controller="Template" asp-action="CreateTask" method="post" id="createTaskForm" role="form">
+    <div class="modal-body">
+        <input type="text" class="form-control hide" asp-for="TaskViewModel.TemplateElementID">
+        <input type="text" class="form-control hide" asp-for="TaskViewModel.TaskID">
+        <input type="text" id="templateID" class="hide" asp-for="TaskViewModel.TemplateID" />
+        <div class="form-group row">
+            <label for="TaskName" class="col-sm-4 col-form-label">
+                Name <span class="red">*</span>
+            </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="TaskName" asp-for="TaskViewModel.Name" required>
+                <span id="nameError" class="error text-danger" asp-validation-for="TaskViewModel.Name"></span>
             </div>
         </div>
+        <div class="form-group row">
+            <label for="TaskDescription" class="col-sm-4 col-form-label">
+                Description
+            </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="TaskDescription" asp-for="TaskViewModel.Description">
+                <span id="descriptionError" class="error text-danger"
+                    asp-validation-for="TaskViewModel.Description"></span>
+            </div>
+        </div>
+
     </div>
-</div>
-<div class="modal-backdrop hide" style="display:none"></div>
+</form>
