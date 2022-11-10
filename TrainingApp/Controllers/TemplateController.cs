@@ -194,25 +194,41 @@ public class TemplateController : Controller
         {
             using (TrainingDbContext db = _context.CreateDbContext())
             {
-                //Create a Task
-                TaskDTO task = new TaskDTO();
-                task.ID = Guid.NewGuid();
-                task.Name = model.TaskViewModel.Name;
-                task.Description = model.TaskViewModel.Description;
+                // Check if TaskID is given
+                if (model.TaskViewModel != null && model.TaskViewModel.TaskID != null && model.TaskViewModel.TaskID != Guid.Empty)
+                {
+                    //Edit the existing Task
+                    var taskToEdit = db.Tasks.FirstOrDefault(t => t.ID == model.TaskViewModel.TaskID);
+                    if (taskToEdit == null)
+                        throw new ArgumentNullException("Task does not exist");
 
-                //Define an OrderNo for the new record - add it as the last item by default
-                var numOfExistingElements = db.TemplateElements.Where(e => e.TemplateID == model.TaskViewModel.TemplateID).Count();
+                    taskToEdit.Name = model.TaskViewModel.Name;
+                    taskToEdit.Description = model.TaskViewModel.Description;
+                    db.Tasks.Update(taskToEdit);
+                }
+                else
+                {
+                    //Create a Task
+                    TaskDTO task = new TaskDTO();
+                    task.ID = Guid.NewGuid();
+                    task.Name = model.TaskViewModel.Name;
+                    task.Description = model.TaskViewModel.Description;
+
+                    //Define an OrderNo for the new record - add it as the last item by default
+                    var numOfExistingElements = db.TemplateElements.Where(e => e.TemplateID == model.TaskViewModel.TemplateID).Count();
+
+                    //Create a TemplateElement with the new TaskID
+                    TemplateElementDTO element = new TemplateElementDTO();
+                    element.Id = Guid.NewGuid();
+                    element.TemplateID = model.TaskViewModel.TemplateID;
+                    element.TaskID = task.ID;
+
+                    element.OrderNo = numOfExistingElements + 1;
+
+                    db.Tasks.Add(task);
+                    db.TemplateElements.Add(element);
+                }
                 
-                //Create a TemplateElement with the new TaskID
-                TemplateElementDTO element = new TemplateElementDTO();
-                element.Id = Guid.NewGuid();
-                element.TemplateID = model.TaskViewModel.TemplateID;
-                element.TaskID = task.ID;
-
-                element.OrderNo = numOfExistingElements + 1;
-
-                db.Tasks.Add(task);
-                db.TemplateElements.Add(element);
 
                 await db.SaveChangesAsync();
 
@@ -312,6 +328,61 @@ public class TemplateController : Controller
                 model.TargetAction = "Edit";
                 
                 return PartialView("_CreateTemplate", model);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, responseText = ex.Message });
+                _logger.LogInformation("ERROR", ex.Message);
+        }
+    }
+
+    [HttpGet]
+    public IActionResult GetTaskForm(string templateElementID, string templateID)
+    {
+        TemplateViewModel model = new TemplateViewModel();
+        model.TaskViewModel = new TaskViewModel();
+        //This is a create form
+        if (templateElementID == "0")
+        {
+            model.TargetAction = "Create";
+
+            Guid.TryParse(templateID, out Guid templateIDGuid);
+            model.TaskViewModel.TemplateID = templateIDGuid;
+            return PartialView("_CreateTask", model);
+        }
+
+        bool isValidID = Guid.TryParse(templateElementID, out Guid templateElementIDGuid);
+        if (!isValidID)
+            throw new ArgumentException("Invalid Template Element ID");
+
+
+        try
+        {
+            using (TrainingDbContext db = _context.CreateDbContext())
+            {
+                var elementToEdit = db.TemplateElements.FirstOrDefault(t => t.Id == templateElementIDGuid);
+                if (elementToEdit == null)
+                {
+                    throw new ArgumentNullException("Template does not exist");
+                }
+                var taskToEdit = db.Tasks.FirstOrDefault(t => t.ID == elementToEdit.TaskID);
+                if (taskToEdit == null)
+                {
+                    throw new ArgumentNullException("Template does not exist");
+                }
+                
+                model.TaskViewModel.TemplateElementID = elementToEdit.Id;
+                model.TaskViewModel.TaskID = taskToEdit.ID;
+                model.TaskViewModel.TemplateID = elementToEdit.TemplateID;
+                model.TaskViewModel.Name = taskToEdit.Name;
+                model.TaskViewModel.Description = taskToEdit.Description;
+                model.TaskViewModel.OrderNo = elementToEdit.OrderNo;
+                
+                model.TargetAction = "Edit";
+                
+                return PartialView("_CreateTask", model);
             }
 
         }

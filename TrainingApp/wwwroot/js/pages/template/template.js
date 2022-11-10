@@ -130,13 +130,11 @@ function getTemplateInfo(templateID) {
             $("#templateModalBody").html(data);
             $("#createTemplateModal .action").text(modalTitle);
             showModal("createTemplateModal");
-            /*
+            
             var isTaskMandatory = $("#mandatoryRadioInput").val();
-            if (isTaskMandatory == 'true') {
-                $("#allTaskMandatoryYes").is(":checked");
-            } else if (isTaskMandatory == 'false') {
-                $("#allTaskMandatoryNo").is(":checked");
-            }*/
+            if (isTaskMandatory == '') {
+                $("#allTaskMandatoryYes").prop("checked", true);
+            }
         },
         error: function (error) {
             alert(error);
