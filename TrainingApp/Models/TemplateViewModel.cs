@@ -20,13 +20,12 @@ namespace TrainingApp.Models
         public TemplateDTO Template { get; set; }
 
         public TaskViewModel TaskViewModel { get; set;}
+        public string TargetAction { get; set; } = "Create";
     }
 
     //View Template Details (Task)
     public class TaskViewModel
     {
-        //public TemplateElementDTO TemplateElement { get; set; }
-
         public string Name { get; set; }
 
         public string? Description { get; set; }

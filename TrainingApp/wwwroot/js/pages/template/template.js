@@ -66,7 +66,6 @@ $("#createTemplateModalBtn").click(function () {
     showModal('createTemplateModal');
 });
 
-
 function validateTemplateForm(formID) {
     var isvalid = true;
     //Adding # prefix by default, for consistency
@@ -92,6 +91,7 @@ function validateTemplateForm(formID) {
     }
 
     //set checkbox value
+    
     var isTaskMandatory = $('.isMandatoryRadio:radio:checked').map(function () {
         return this.value;
     }).get();
@@ -111,6 +111,39 @@ function validateTemplateForm(formID) {
 
     if (isvalid)
         $(formID).submit();
+}
+
+//------------------------UDPATE TEMPLATE-----------------------//
+
+function getTemplateInfo(templateID) {
+    var modalTitle = "Create";
+
+    if (templateID != "0") {
+        modalTitle = "Edit";
+    }
+        
+    $.ajax({
+        type: "Get",
+        url: "Template/GetTemplateForm/" + templateID,
+        data: { "templateID" : templateID },
+        success: function (data) {
+            $("#templateModalBody").html(data);
+            $("#createTemplateModal .action").text(modalTitle);
+            showModal("createTemplateModal");
+            /*
+            var isTaskMandatory = $("#mandatoryRadioInput").val();
+            if (isTaskMandatory == 'true') {
+                $("#allTaskMandatoryYes").is(":checked");
+            } else if (isTaskMandatory == 'false') {
+                $("#allTaskMandatoryNo").is(":checked");
+            }*/
+        },
+        error: function (error) {
+            alert(error);
+        }
+    });
+
+
 }
 
 
