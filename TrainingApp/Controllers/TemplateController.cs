@@ -122,7 +122,10 @@ public class TemplateController : Controller
                 //Check if there is any TemplateElements and Tasks for this Template.
                 if (elementsToDelete.Count > 0)
                 {
-                    var tasksToDelete = db.Tasks.Where(t => elementsToDelete.Any(e => e.TaskID == t.ID)).ToList();
+                    var tasksToDelete = elementsToDelete.Select(n => 
+                            db.Tasks.Single(t => t.ID == n.TaskID)
+                        ).ToList();
+
                     if (tasksToDelete.Count == 0)
                     {
                         throw new ArgumentException("The TemplateElement record with ID '" + id + "' is not associated to any Task record");
@@ -244,7 +247,7 @@ public class TemplateController : Controller
 
                 await db.SaveChangesAsync();
 
-                return RedirectToAction("ViewTemplate", "Template", new { templateID =  id });
+                return RedirectToAction("ViewTemplate", "Template", new { templateID = elementToDelete.TemplateID });
             }
         }
         catch (Exception ex)
