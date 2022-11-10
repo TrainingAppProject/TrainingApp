@@ -1,0 +1,20 @@
+﻿@model UserViewModel
+<!--
+/// <summary>
+/// Module purpose: Modal for user creation
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Nov 9, 2022
+/// Source: Created for the COMP7022 project
+/// Revision History:
+///
+/// </summary>
+-->
+
+<form asp-controller="user" asp-action="DeleteUser" method="post" id="deleteForm" role="form">
+    <input type="text" class="form-control hide" asp-for="User.ID">
+    <p class="lh2">
+        Are you sure you want to delete the “@Model.User.FirstName @Model.User.LastName”? <br/>
+        This action cannot be undone and you will be unable to recover any data
+    </p>
+</form>
+
