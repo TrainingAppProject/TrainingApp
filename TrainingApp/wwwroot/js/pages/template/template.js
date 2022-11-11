@@ -84,11 +84,13 @@ function validateTemplateForm(formID) {
         isvalid = false;
     }
 
+    /*
     var desc = $(formID).find('input[name="Template.Description"]').val()
     if (!desc || desc == '') {
         showErrorMsg("#descriptionError", requiredErrorMessage);
         isvalid = false;
     }
+    */
 
     //set checkbox value
     
@@ -104,8 +106,8 @@ function validateTemplateForm(formID) {
 
     //AttemptAllow, scriptNumber
     var attemptAllow = $(formID).find('input[name="Template.AttemptsAllowedPerTask"]').val();
-    if (!attemptAllow || attemptAllow == '' || attemptAllow < 0) {
-        showErrorMsg("#descriptionError", requiredErrorMessage);
+    if (!attemptAllow || attemptAllow == '' || attemptAllow <= 0) {
+        showErrorMsg("#attemptsAllowedPerTaskError", requiredErrorMessage);
         isvalid = false;
     }
 
