@@ -10,19 +10,32 @@
 /// </summary>
 */
 $(document).ready(function () {
-    /*
-    $('input[name="templateDateRange"]').daterangepicker({
+    initDateFilters();
+});
+
+//-----------------------------------------FILTER-------------------------------//
+function initDateFilters() {
+
+    $('input[name="templateCreateDateRange"]').daterangepicker({
         opens: 'right',
         autoUpdateInput: false,
         locale: {
             cancelLabel: 'Clear'
         }
     }, function (start, end, label) {
-        
-    });*/
-});
 
-//-----------------------------------------FILTER-------------------------------//
+    });
+
+    $('input[name="templatepublishDateRange"]').daterangepicker({
+        opens: 'right',
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear'
+        }
+    }, function (start, end, label) {
+
+    });
+}
 
 $("#addFilterToggleBtn").click(function () {
     showFilter('templateFilterDialog');
@@ -34,13 +47,31 @@ $("#filterFormCancelBtn").click(function () {
 });
 
 
-$('input[name="templateDateRange"]').on('apply.daterangepicker', function (ev, picker) {
+$('input[name="templateCreateDateRange"]').on('apply.daterangepicker', function (ev, picker) {
     $(this).val('Created Date: ' + picker.startDate.format('MM.DD.YYYY') + ' ~ ' + picker.endDate.format('MM.DD.YYYY'));
     this.style.width = ((this.value.length + 1) * 7) + 'px';
 });
 
-$('input[name="templateDateRange"]').on('cancel.daterangepicker', function (ev, picker) {
+$('input[name="templateCreateDateRange"]').on('cancel.daterangepicker', function (ev, picker) {
     $(this).val('');
+});
+
+$('input[name="templatepublishDateRange"]').on('apply.daterangepicker', function (ev, picker) {
+    $(this).val('Created Date: ' + picker.startDate.format('MM.DD.YYYY') + ' ~ ' + picker.endDate.format('MM.DD.YYYY'));
+    this.style.width = ((this.value.length + 1) * 7) + 'px';
+});
+
+$('input[name="templatepublishDateRange"]').on('cancel.daterangepicker', function (ev, picker) {
+    $(this).val('');
+});
+
+$("#applyFilterButton").click(function () {
+
+    var arr = [];
+    $('#templateFilterDialog input.custom-control-input:checkbox:checked').each(function () {
+        arr.push($(this).val());
+    });
+    alert(arr);
 });
 
 

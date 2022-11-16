@@ -69,7 +69,7 @@ namespace TrainingApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogInformation("ERROR", ex.Message);
-                return RedirectToAction("Error", "Home");
+                return PartialView("_UpdateUserModalBody", model);
             }
         }
 
@@ -177,11 +177,13 @@ namespace TrainingApp.Controllers
 
         private async Task CreateUser(TrainingDbContext db, UserViewModel model)
         {
-            //TODO show the user friendly error message on the screen
-
             UserDTO existUser = db.Users.Where(u => u.UserName == model.User.UserName).FirstOrDefault();
             if (existUser != null)
-                throw new ArgumentException("This user is already existing");
+            {
+                string errorMsg = "Username does not exist";
+                ModelState.AddModelError(nameof(model.User.UserName), errorMsg);
+                throw new ArgumentNullException(errorMsg);
+            }
 
             UserDTO user = new UserDTO();
             user.ID = Guid.NewGuid();

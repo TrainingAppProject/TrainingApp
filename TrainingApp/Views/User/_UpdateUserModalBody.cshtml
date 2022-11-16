@@ -44,6 +44,7 @@
             @if (Model.TargetAction == "Create")
             {
                 <input type="text" class="form-control" id="userName" asp-for="User.UserName" required>
+                @Html.ValidationMessageFor(m => m.User.UserName, "", new { @class = "text-danger" })
             }
             else
             {

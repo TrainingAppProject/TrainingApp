@@ -48,6 +48,8 @@ public class TemplateController : Controller
                     template.Created = db.Users.Where(u => u.ID == template.CreatedID).FirstOrDefault();
                     template.Elements = db.TemplateElements.Where(e => e.TemplateID == template.ID).ToList(); //TBD - to be tested and removed later
                 }
+
+                model.TemplateFilters = new TemplateFilters();
             }
         }
         catch (Exception ex)

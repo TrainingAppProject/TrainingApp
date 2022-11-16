@@ -51,13 +51,15 @@ namespace TrainingApp.Controllers
                     UserDTO user = db.Users.Where(u=>u.UserName == model.UserName).FirstOrDefault();
                     if (user == null)
                     {
-                        throw new ArgumentNullException("User cannot find");
+                        ModelState.AddModelError(nameof(LoginViewModel.UserName), "Username does not exist");
+                        return View("Login", model);
                     }
 
                     if (!string.IsNullOrWhiteSpace(user.Password) &&
                         model.Password != Decrypt(user.Password))
                     {
-                        throw new Exception("Password wrong");
+                        ModelState.AddModelError(nameof(LoginViewModel.Password), "Password wrong");
+                        return View("Login", model);
                     }
 
                     //First time login set the password

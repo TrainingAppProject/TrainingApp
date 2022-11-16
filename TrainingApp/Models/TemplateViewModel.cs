@@ -21,6 +21,8 @@ namespace TrainingApp.Models
 
         public TaskViewModel TaskViewModel { get; set;}
         public string TargetAction { get; set; } = "Create";
+
+        public TemplateFilters TemplateFilters { get; set; }
     }
 
     //View Template Details (Task)
@@ -37,5 +39,16 @@ namespace TrainingApp.Models
         public Guid TaskID { get; set; }
 
         public int OrderNo { get; set; }
+    }
+
+    public class TemplateFilters
+    {
+        public bool CreateDate { get; set; }
+
+        public bool PublichDate { get; set; }
+
+        public bool Status { get; set; }
+
+        public bool GradingSchema { get; set; }
     }
 }
