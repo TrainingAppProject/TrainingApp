@@ -48,8 +48,6 @@ public class TemplateController : Controller
                     template.Created = db.Users.Where(u => u.ID == template.CreatedID).FirstOrDefault();
                     template.Elements = db.TemplateElements.Where(e => e.TemplateID == template.ID).ToList(); //TBD - to be tested and removed later
                 }
-
-                model.TemplateFilters = new TemplateFilters();
             }
         }
         catch (Exception ex)
@@ -394,6 +392,41 @@ public class TemplateController : Controller
                 _logger.LogInformation("ERROR", ex.Message);
         }
     }
+
+    [HttpPost]
+    public IActionResult FilterTemplates([FromBody]TemplateFilters filter)
+    {
+        try
+        {
+            using (TrainingDbContext db = _context.CreateDbContext())
+            {
+                TemplateViewModel model = new TemplateViewModel();
+
+                var templates = db.Templates
+                    .Include(t=>t.Elements)
+                    .ToList();
+
+                BasicStatus state = (filter.Status == "Active") ? BasicStatus.Active : BasicStatus.Delete;
+                if (!string.IsNullOrWhiteSpace(filter.Status))
+                    templates = templates.Where(t => t.State == (int)state).ToList();
+
+                foreach (var template in templates)
+                {
+                    template.Created = db.Users.Where(u => u.ID == template.CreatedID).FirstOrDefault();
+                }
+
+                model.Templates = templates;
+
+                return PartialView("_TemplateListBody", model);
+            }
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, responseText = ex.Message });
+            _logger.LogInformation("ERROR", ex.Message);
+        }
+    }
+
 }
 
 

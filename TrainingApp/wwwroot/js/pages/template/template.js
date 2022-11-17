@@ -9,14 +9,41 @@
 ///     
 /// </summary>
 */
+
+
+var createStarDate;
+var createEndDate;
+var publishStarDate;
+var publishEndDate;
+var status;
+var gradingSchema;
+
 $(document).ready(function () {
     initDateFilters();
 });
 
 //-----------------------------------------FILTER-------------------------------//
 function initDateFilters() {
+    hideAllfilters();
 
-    $('input[name="templateCreateDateRange"]').daterangepicker({
+    var createDatePicker = $('input[name="templateCreateDateRange"]');
+    createDatePicker.daterangepicker({
+        opens: 'right',
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear'
+        }
+    }, function (start, end, label) {
+            console.log(start);
+            console.log(end);
+    });
+
+    var today = moment();
+    createDatePicker.data('daterangepicker').setStartDate();
+    createDatePicker.data('daterangepicker').setEndDate(today);
+
+    var publishDatePicker = $('input[name="templatepublishDateRange"]');
+    publishDatePicker.daterangepicker({
         opens: 'right',
         autoUpdateInput: false,
         locale: {
@@ -26,15 +53,8 @@ function initDateFilters() {
 
     });
 
-    $('input[name="templatepublishDateRange"]').daterangepicker({
-        opens: 'right',
-        autoUpdateInput: false,
-        locale: {
-            cancelLabel: 'Clear'
-        }
-    }, function (start, end, label) {
-
-    });
+    publishDatePicker.data('daterangepicker').setStartDate();
+    publishDatePicker.data('daterangepicker').setEndDate(today);
 }
 
 $("#addFilterToggleBtn").click(function () {
@@ -57,7 +77,7 @@ $('input[name="templateCreateDateRange"]').on('cancel.daterangepicker', function
 });
 
 $('input[name="templatepublishDateRange"]').on('apply.daterangepicker', function (ev, picker) {
-    $(this).val('Created Date: ' + picker.startDate.format('MM.DD.YYYY') + ' ~ ' + picker.endDate.format('MM.DD.YYYY'));
+    $(this).val('Published Date: ' + picker.startDate.format('MM.DD.YYYY') + ' ~ ' + picker.endDate.format('MM.DD.YYYY'));
     this.style.width = ((this.value.length + 1) * 7) + 'px';
 });
 
@@ -66,13 +86,30 @@ $('input[name="templatepublishDateRange"]').on('cancel.daterangepicker', functio
 });
 
 $("#applyFilterButton").click(function () {
-
+    hideAllfilters();
     var arr = [];
     $('#templateFilterDialog input.custom-control-input:checkbox:checked').each(function () {
         arr.push($(this).val());
     });
-    alert(arr);
+
+    if (arr && arr.length > 0)
+        filterSelectionShow(arr);
+
+    filterClose('templateFilterDialog');
 });
+
+function filterSelectionShow(arr) {
+    $(arr).each(function () {
+        $("#" + this + "SelectionDiv").show();
+    });
+}
+
+function setStatus(value) {
+    $("#statusValue").text(value);
+    status = value;
+
+    filterTemplates();
+}
 
 
 //When user clicks outside the filter dialog(popup), close the dialog.
@@ -89,6 +126,34 @@ window.addEventListener('click', function(e){
         //If 'Add Filter' button is clicked, leave the filter dialog open.
     }
 });
+
+function hideAllfilters() {
+    $('#appliedFilterDiv').find('.filterSelections').hide();
+}
+
+function filterTemplates() {
+    var filterdata = {
+        CreateStarDate: createStarDate,
+        CreateEndDate: createEndDate,
+        PublishStartDate: publishStarDate,
+        PublishEndDate: publishEndDate,
+        Status: status,
+        GradingSchema: gradingSchema
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "Template/FilterTemplates",
+        contentType: "application/json",
+        data: JSON.stringify(filterdata),  
+        success: function (data) {
+            $("#templateListBody").html(data);
+        },
+        error: function (error) {
+            alert(error);
+        }
+    });
+}
 
 
 //--------------------------------CREATE TEMPLATE--------------------------//
