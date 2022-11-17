@@ -1,0 +1,26 @@
+﻿@model TrainingApp.Models.TemplateViewModel
+
+@{
+    foreach (var template in Model.Templates)
+    {
+        <tr>
+            <td>@template.Name</td>
+            <td class="txt-oflo">@template.CreatedTime</td>
+            <td>@template.Created.FirstName @template.Created.LastName</td> <!--Creator Name-->
+            <td class="txt-oflo"> @(template.IsTaskMandatory ? "Yes" : "No")</td>
+            <td>@Html.DisplayFor(model => template.GradingSchema)</td>
+            <td>
+                <button id="viewTemplateBtn" class="btn text-primary" type="button"
+                        onclick="location.href='@Url.Action("ViewTemplate","Template", new { templateID = @template.ID.ToString() })'">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button id="editTemplateBtn" class="btn text-warning" type="button" onclick="getTemplateInfo('@template.ID')">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+                <button id="deleteTemplateBtn" class="btn text-danger" type="button" onclick="confirmDeleteTemplate('@template.ID')" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <i class="far fa-trash-alt"></i>
+                </button>
+            </td>
+        </tr>
+    }
+}

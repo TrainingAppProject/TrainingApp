@@ -35,12 +35,14 @@
                                     <form asp-controller="Account" asp-action="LoginUser" method="post" id="loginForm" role="form">
                                         <div class="form-outline mb-4">
                                             <label class="form-label">User Name</label>
-                                            <input type="text" asp-for="UserName" id="userName" class="form-control" required/>
+                                            <input type="text" asp-for="UserName" id="userName" class="form-control" required />
+                                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
                                         </div>
 
                                         <div class="form-outline mb-4">
                                             <label class="form-label">Password</label>
-                                            <input type="password" asp-for="Password" id="password" class="form-control" required/>
+                                            <input type="password" asp-for="Password" id="password" class="form-control" required />
+                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                                         </div>
                                         @*<div class="mt-1 d-flex flex-row">
                                             <div class="form-check col-lg-6">

@@ -1,4 +1,5 @@
-﻿<!--
+﻿
+<!--
 /// <summary>
 /// Module purpose: Filter section of the Template page
 /// Authors: Hansol Lee / Jei Yang
@@ -37,12 +38,16 @@
                     <div class="mt30 mb10">
                         <p class="subtitle">Date</p>
                         <div class="custom-control-right custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="createFilterSwitch">
+
+                                <input type="checkbox" class="custom-control-input" value="createDate" id="createFilterSwitch">
+                            
                             <label id="createFilterSwitchlabel" class="custom-control-label Upper"
                                    for="createFilterSwitch">create</label>
                         </div>
                         <div class="custom-control-right custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="publishFilterSwitch">
+                           
+                                <input type="checkbox" class="custom-control-input" value="publichDate"  id="publishFilterSwitch">
+                            
                             <label id="publishFilterSwitchlabel" class="custom-control-label Upper"
                                    for="publishFilterSwitch">publish</label>
                         </div>
@@ -51,57 +56,71 @@
                     <div class="mt10">
                         <p class="subtitle">State</p>
                         <div class="custom-control-right custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="statusFilterSwitch">
+                            
+                                <input type="checkbox" class="custom-control-input" value="status" id="statusFilterSwitch">
+                            
                             <label class="custom-control-label Upper" for="statusFilterSwitch">Status</label>
                         </div>
                         <div class="custom-control-right custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="gradeFilterSwitch">
+                            
+                                <input type="checkbox" class="custom-control-input" value="gradingSchema"  id="gradeFilterSwitch">
+                            
                             <label id="gradeFilterSwitchlabel" class="custom-control-label Upper"
                                    for="gradeFilterSwitch">Grading Schema</label>
                         </div>
                     </div>
 
                     <div class="mt40">
-                        <button class="btn btn-primary">Save</button>
+                        <button class="btn btn-primary" id="applyFilterButton">Save</button>
                         <button class="btn btn-default floatRight" id="filterFormCancelBtn">Cancel</button>
                     </div>
                 </div>
             </div>
 
-            <div class="mt20 d-flex">
-                <div>
+            <div class="mt20 d-flex" id="appliedFilterDiv">
+                <div class="ml20 filterSelections" id="createDateSelectionDiv"">
                     <div class="filterTags">
-                        <input class="filterTagsInput" id="templateDateRange" type="text"
-                               name="templateDateRange" value="Created Date: 01.01.2018 - 01.15.2018" />
+                        <input class="filterTagsInput" id="templateCreateDateRange" type="text"
+                                name="templateCreateDateRange" value="Created Date: 01.01.2018 - 01.15.2018" />
                         <button><i class="far fa-times-circle buttonicon"></i></button>
                     </div>
                 </div>
-                <div class="ml20">
+
+                <div class="ml20 filterSelections" id="publichDateSelectionDiv"">
+                    <div class="filterTags">
+                        <input class="filterTagsInput" id="" type="text"
+                                name="templatepublishDateRange" value="Created Date: 01.01.2018 - 01.15.2018" />
+                        <button><i class="far fa-times-circle buttonicon"></i></button>
+                    </div>
+                </div>
+              
+                <div class="ml20 filterSelections" id="statusSelectionDiv"">
                     <div class="filterTags filterSelectTags">
                         <div class="dropdown inline">
                             <div class="btn dropdown-toggle"
-                                 type="button" id="dropdownMenuButton"
-                                 data-toggle="dropdown"
-                                 aria-haspopup="true"
-                                 aria-expanded="false">
-                                State: Active
+                                    type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                State: <span id="statusValue"></span>
                             </div>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Active</a>
-                                <a class="dropdown-item" href="#">Deleted</a>
+                                <a class="dropdown-item" onclick="setStatus('Active')">Active</a>
+                                <a class="dropdown-item" onclick="setStatus('Delete')">Deleted</a>
                             </div>
                         </div>
                         <button><i class="far fa-times-circle buttonicon inline"></i></button>
                     </div>
                 </div>
-                <div class="ml20">
+           
+                <div class="ml20 filterSelections" id="gradingSchemaSelectionDiv">
                     <div class="filterTags filterSelectTags">
                         <div class="dropdown inline">
                             <div class="btn dropdown-toggle"
-                                 type="button" id="dropdownMenuButton"
-                                 data-toggle="dropdown"
-                                 aria-haspopup="true"
-                                 aria-expanded="false">
+                                    type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
                                 Grading Schema: GRADE(1-5)
                             </div>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
