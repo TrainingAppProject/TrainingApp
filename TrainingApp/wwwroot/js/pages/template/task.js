@@ -82,3 +82,27 @@ function getTaskInfo(templateElementID, templateID) {
     });
 
 }
+//---------------------------DRAG AND DROP--------------------//
+
+var dropItems = document.getElementById('taskListBody'); //drop-items
+
+new Sortable(dropItems, {
+    animation: 350,
+    chosenClass: "sortable-chosen",
+    dragClass: "sortable-drag",
+
+    // Called when dragging element changes position
+	onEnd: function (/**Event*/evt) {
+        // Example: https://jsbin.com/nawahef/edit?js,output
+        updateTaskListOrder(evt.item, evt.newIndex, evt.oldIndex);
+    },
+});
+
+function updateTaskListOrder (draggedItem, newIndex, oldIndex) {
+    var templateElementID = draggedItem.querySelector(".templateElementID").innerHTML;
+    
+    var url = "/Template/UpdateTaskOrder/";
+    $.post(url, { templateElementID: templateElementID, newIndex: newIndex, oldIndex: oldIndex }, function (data) {  
+        $("#taskListBody").html(data);
+    });
+}

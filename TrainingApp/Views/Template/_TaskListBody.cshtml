@@ -1,0 +1,28 @@
+@model TrainingApp.Models.TemplateViewModel
+@{
+    foreach (var element in Model.Template.Elements)
+    {
+        <div class="drop__card list-group-item list-group-item-action d-flex flex-row bd-highlight px-1 px-4 mb-3 blockquote">
+            <div id="taskDragIcon" class="px-1 flex-shrink-1 bd-highlight mr-1">
+                <i class="fa fa-arrows-alt"></i>
+            </div>
+
+            <div id="taskMainContents" class="px-2 py-2 flex-grow-1 bd-highlight">
+                <p class="form-control hide templateElementID">@element.Id</p>
+                <h5 class="taskNameText">@element.OrderNo. @element.Task.Name</h5>
+            </div>
+
+            <div id="taskButtons" class="px-1 flex-shrink-1 bd-highlight">
+                <button id="editTaskBtn" class="btn text-warning" type="button"
+                onclick="getTaskInfo('@element.Id', '@Model.Template.ID')">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+                <button id="deleteTaskBtn" type="button" class="btn text-danger" type="delete"
+                onclick="confirmDeleteTemplateElement('@element.Id')" data-bs-toggle="modal"
+                data-bs-target="#deleteTaskModal">
+                    <i class="far fa-trash-alt"></i>
+                </button>
+            </div>
+        </div>
+    }
+}
