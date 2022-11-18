@@ -200,3 +200,11 @@ div.custom-control-right {
     margin-bottom: 0;
     vertical-align: middle;
 }
+
+.sortable-chosen {
+    box-shadow: 8px 8px 32px #E1E1E1;
+}
+
+.sortable-drag {
+    opacity: 0;
+}

@@ -462,6 +462,67 @@ public class TemplateController : Controller
     }
 
 
+    [HttpPost]
+    public async Task<IActionResult> UpdateTaskOrder(string templateElementID, int newIndex, int oldIndex)
+    {
+        try
+        {
+            using (TrainingDbContext db = _context.CreateDbContext())
+            {
+                newIndex++;
+                oldIndex++;
+                TemplateViewModel model = new TemplateViewModel();
+                
+                
+                bool isValidID = Guid.TryParse(templateElementID, out Guid templateElementIDGuid);
+                if (!isValidID)
+                    throw new ArgumentException("Invalid Template Element ID");
+
+                var elementDragged = db.TemplateElements.Where(e => e.Id == templateElementIDGuid).FirstOrDefault();
+                model.Template = db.Templates.FirstOrDefault(t => t.ID == elementDragged.TemplateID);
+                //Update the OrderNo of tasks associated to the Template
+                var otherElements = db.TemplateElements.Where(e => e.TemplateID == elementDragged.TemplateID && e.Id != templateElementIDGuid).ToList();
+                
+                if (oldIndex < newIndex) //dragged down
+                {
+                    for (int i = oldIndex + 1; i <= newIndex; i++)
+                    {
+                        otherElements.FirstOrDefault(e => e.OrderNo == i).OrderNo = i - 1;
+                    }
+                    elementDragged.OrderNo = newIndex;
+                }
+                else if (newIndex < oldIndex) //dragged up
+                {
+                    for (int i = newIndex; i < oldIndex; i++)
+                    {
+                        otherElements.FirstOrDefault(e => e.OrderNo == i).OrderNo = i + 1;
+                    }
+                    elementDragged.OrderNo = newIndex;
+                }
+
+                otherElements.Add(elementDragged);
+                db.TemplateElements.UpdateRange(otherElements);
+                await db.SaveChangesAsync();
+
+                model.Template.Elements = otherElements.OrderBy(e => e.OrderNo).ToList();
+                foreach (var element in model.Template.Elements)
+                {
+                    element.Task = db.Tasks.Where(t => t.ID == element.TaskID).FirstOrDefault();
+                }
+                
+
+                return PartialView("_TaskListBody", model);
+                //return RedirectToAction("ViewTemplate", "Template", new { templateID = elementDragged.TemplateID });
+            }
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, responseText = ex.Message });
+            _logger.LogInformation("ERROR", ex.Message);
+        }
+    }
+
+
     private DateTime ConvertStringToDate(string date)
     {
         return DateTime.ParseExact(date, "dd/MM/yyyy",
