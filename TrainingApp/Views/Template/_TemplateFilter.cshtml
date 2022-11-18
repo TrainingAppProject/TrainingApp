@@ -27,8 +27,9 @@
                                     <i class="fas fa-search fa-lg"></i>
                                 </span>
                             </div>
-                            <input type="text" class=" form-control" placeholder="Search"
-                                   aria-label="Username" aria-describedby="basic-addon1">
+                            <input id="templateSearchInput" name="templateNameSearch" type="text" class="form-control"
+                                   placeholder="Search template name"
+                                   aria-label="SearchString" aria-describedby="basic-addon1">
                         </div>
                     </div>
                 </div>
@@ -38,33 +39,25 @@
                     <div class="mt30 mb10">
                         <p class="subtitle">Date</p>
                         <div class="custom-control-right custom-switch">
-
-                                <input type="checkbox" class="custom-control-input" value="createDate" id="createFilterSwitch">
-                            
+                            <input type="checkbox" class="custom-control-input" value="createDate" id="createFilterSwitch">
                             <label id="createFilterSwitchlabel" class="custom-control-label Upper"
                                    for="createFilterSwitch">create</label>
                         </div>
                         <div class="custom-control-right custom-switch">
-                           
-                                <input type="checkbox" class="custom-control-input" value="publichDate"  id="publishFilterSwitch">
-                            
-                            <label id="publishFilterSwitchlabel" class="custom-control-label Upper"
-                                   for="publishFilterSwitch">publish</label>
+                            <input type="checkbox" class="custom-control-input" value="modifyDate" id="modifyFilterSwitch">
+                            <label id="modifyFilterSwitchlabel" class="custom-control-label Upper"
+                                   for="modifyFilterSwitch">modify</label>
                         </div>
                     </div>
                     <hr />
                     <div class="mt10">
                         <p class="subtitle">State</p>
                         <div class="custom-control-right custom-switch">
-                            
-                                <input type="checkbox" class="custom-control-input" value="status" id="statusFilterSwitch">
-                            
+                            <input type="checkbox" class="custom-control-input" value="status" id="statusFilterSwitch">
                             <label class="custom-control-label Upper" for="statusFilterSwitch">Status</label>
                         </div>
                         <div class="custom-control-right custom-switch">
-                            
-                                <input type="checkbox" class="custom-control-input" value="gradingSchema"  id="gradeFilterSwitch">
-                            
+                            <input type="checkbox" class="custom-control-input" value="gradingSchema"  id="gradeFilterSwitch">
                             <label id="gradeFilterSwitchlabel" class="custom-control-label Upper"
                                    for="gradeFilterSwitch">Grading Schema</label>
                         </div>
@@ -78,23 +71,23 @@
             </div>
 
             <div class="mt20 d-flex" id="appliedFilterDiv">
-                <div class="ml20 filterSelections" id="createDateSelectionDiv"">
+                <div class="ml20 filterSelections" id="createDateSelectionDiv">
                     <div class="filterTags">
                         <input class="filterTagsInput" id="templateCreateDateRange" type="text"
-                                name="templateCreateDateRange" value="Created Date: 01.01.2018 - 01.15.2018" />
-                        <button><i class="far fa-times-circle buttonicon"></i></button>
+                                name="templateCreateDateRange" value="Created Date: Select" />
+                        <button onclick="filterSelectionHide('createDate')"><i class="far fa-times-circle buttonicon"></i></button>
                     </div>
                 </div>
 
-                <div class="ml20 filterSelections" id="publichDateSelectionDiv"">
+                <div class="ml20 filterSelections" id="modifyDateSelectionDiv">
                     <div class="filterTags">
                         <input class="filterTagsInput" id="" type="text"
-                                name="templatepublishDateRange" value="Created Date: 01.01.2018 - 01.15.2018" />
-                        <button><i class="far fa-times-circle buttonicon"></i></button>
+                                name="templateModifyDateRange" value="Modify Date: Select" />
+                        <button onclick="filterSelectionHide('modifyDate')"><i class="far fa-times-circle buttonicon"></i></button>
                     </div>
                 </div>
               
-                <div class="ml20 filterSelections" id="statusSelectionDiv"">
+                <div class="ml20 filterSelections" id="statusSelectionDiv">
                     <div class="filterTags filterSelectTags">
                         <div class="dropdown inline">
                             <div class="btn dropdown-toggle"
@@ -102,14 +95,16 @@
                                     data-toggle="dropdown"
                                     aria-haspopup="true"
                                     aria-expanded="false">
-                                State: <span id="statusValue"></span>
+                                Status: <span id="statusValue">Select</span>
                             </div>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" onclick="setStatus('Active')">Active</a>
                                 <a class="dropdown-item" onclick="setStatus('Delete')">Deleted</a>
                             </div>
                         </div>
-                        <button><i class="far fa-times-circle buttonicon inline"></i></button>
+                        <button onclick="filterSelectionHide('status')">
+                            <i class="far fa-times-circle buttonicon inline"></i>
+                        </button>
                     </div>
                 </div>
            
@@ -121,14 +116,16 @@
                                     data-toggle="dropdown"
                                     aria-haspopup="true"
                                     aria-expanded="false">
-                                Grading Schema: GRADE(1-5)
+                                Grading Schema: <span id="gradingSchemaValue">Select</span>
                             </div>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">GRADE(1-5)</a>
-                                <a class="dropdown-item" href="#">PASS/NOT PASS</a>
+                                <a class="dropdown-item" onclick="setGradingSchema('PassFail')">GRADE(1-5)</a>
+                                <a class="dropdown-item" onclick="setGradingSchema('Score')">PASS/NOT PASS</a>
                             </div>
                         </div>
-                        <button><i class="far fa-times-circle buttonicon inline"></i></button>
+                        <button onclick="filterSelectionHide('gradingSchema')">
+                            <i class="far fa-times-circle buttonicon inline"></i>
+                        </button>
                     </div>
                 </div>
             </div>
