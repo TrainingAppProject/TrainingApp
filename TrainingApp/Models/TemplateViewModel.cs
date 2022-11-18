@@ -46,12 +46,14 @@ namespace TrainingApp.Models
 
         public string CreateEndDate { get; set; }
 
-        public string PublishStartDate { get; set; }
+        public string ModifyStartDate { get; set; }
 
-        public string PublishEndDate { get; set; }
+        public string ModifyEndDate { get; set; }
 
         public string Status { get; set; }
 
         public string GradingSchema { get; set; }
+
+        public string searchString { get; set; }
     }
 }

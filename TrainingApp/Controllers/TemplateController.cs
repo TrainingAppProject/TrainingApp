@@ -393,6 +393,7 @@ public class TemplateController : Controller
         }
     }
 
+    // TODO: devide to multiple functions
     [HttpPost]
     public IActionResult FilterTemplates([FromBody]TemplateFilters filter)
     {
@@ -406,9 +407,42 @@ public class TemplateController : Controller
                     .Include(t=>t.Elements)
                     .ToList();
 
+                //create date
+                if(!string.IsNullOrWhiteSpace(filter.CreateStarDate) &&
+                    !string.IsNullOrWhiteSpace(filter.CreateEndDate))
+                {
+                    templates = templates.Where(t =>
+                        t.CreatedTime >= ConvertStringToDate(filter.CreateStarDate) &&
+                        t.CreatedTime <= ConvertStringToDate(filter.CreateEndDate)).ToList();
+                }
+
+                //modifit date
+                if (!string.IsNullOrWhiteSpace(filter.ModifyStartDate) &&
+                    !string.IsNullOrWhiteSpace(filter.ModifyEndDate))
+                {
+                    templates = templates.Where(t =>
+                        t.ModifiedDate >= ConvertStringToDate(filter.ModifyStartDate) &&
+                        t.ModifiedDate <= ConvertStringToDate(filter.ModifyEndDate)).ToList();
+                }
+
+                //status filter
                 BasicStatus state = (filter.Status == "Active") ? BasicStatus.Active : BasicStatus.Delete;
                 if (!string.IsNullOrWhiteSpace(filter.Status))
                     templates = templates.Where(t => t.State == (int)state).ToList();
+
+                //grading schema filter
+                if (!string.IsNullOrWhiteSpace(filter.GradingSchema))
+                {
+                    Enum.TryParse(filter.GradingSchema, out GradingSchema grading);
+                    templates = templates.Where(t => t.GradingSchema == grading).ToList();
+                }
+
+                //search name
+                if (!string.IsNullOrWhiteSpace(filter.searchString))
+                {
+                    templates = templates.Where(t =>
+                        t.Name.ToLower().Contains(filter.searchString.ToLower())).ToList();
+                }
 
                 foreach (var template in templates)
                 {
@@ -427,6 +461,12 @@ public class TemplateController : Controller
         }
     }
 
+
+    private DateTime ConvertStringToDate(string date)
+    {
+        return DateTime.ParseExact(date, "dd/MM/yyyy",
+                                      System.Globalization.CultureInfo.InvariantCulture);
+    }
 }
 
 
