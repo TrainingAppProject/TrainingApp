@@ -10,19 +10,26 @@
 /// </summary>
 */
 
+const dateFormat = "DD/MM/YYYY";
+const searchInterval = 1000; 
 
 var createStarDate;
 var createEndDate;
-var publishStarDate;
-var publishEndDate;
+var modifyStarDate;
+var modifyEndDate;
 var status;
 var gradingSchema;
+var searchString;
+
+var typingTimer;               
+
 
 $(document).ready(function () {
     initDateFilters();
 });
 
 //-----------------------------------------FILTER-------------------------------//
+
 function initDateFilters() {
     hideAllfilters();
 
@@ -31,30 +38,31 @@ function initDateFilters() {
         opens: 'right',
         autoUpdateInput: false,
         locale: {
-            cancelLabel: 'Clear'
+            cancelLabel: 'Clear',
+            format: dateFormat
         }
     }, function (start, end, label) {
-            console.log(start);
-            console.log(end);
+            createStarDate = start.format(dateFormat);
+            createEndDate = end.format(dateFormat);
+
+            filterTemplates();
     });
 
-    var today = moment();
-    createDatePicker.data('daterangepicker').setStartDate();
-    createDatePicker.data('daterangepicker').setEndDate(today);
-
-    var publishDatePicker = $('input[name="templatepublishDateRange"]');
-    publishDatePicker.daterangepicker({
+    var modifyDatePicker = $('input[name="templateModifyDateRange"]');
+    modifyDatePicker.daterangepicker({
         opens: 'right',
         autoUpdateInput: false,
         locale: {
-            cancelLabel: 'Clear'
+            cancelLabel: 'Clear',
+            format: dateFormat
         }
     }, function (start, end, label) {
+            modifyStarDate = start.format(dateFormat);
+            modifyEndDate = end.format(dateFormat);
 
+            filterTemplates();
     });
 
-    publishDatePicker.data('daterangepicker').setStartDate();
-    publishDatePicker.data('daterangepicker').setEndDate(today);
 }
 
 $("#addFilterToggleBtn").click(function () {
@@ -67,8 +75,27 @@ $("#filterFormCancelBtn").click(function () {
 });
 
 
+$("#templateSearchInput").on('keyup', function () {
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(searchTemplateName, searchInterval);
+});
+
+$("#templateSearchInput").on('keydown', function () {
+    clearTimeout(typingTimer);
+});
+
+function searchTemplateName() {
+    searchString = $("#templateSearchInput").val().trim();
+    if (searchString && searchString.length > 0) {
+        filterTemplates();
+    } else { //Reset the search string
+        searchString = '';
+        filterTemplates();
+    }
+}
+
 $('input[name="templateCreateDateRange"]').on('apply.daterangepicker', function (ev, picker) {
-    $(this).val('Created Date: ' + picker.startDate.format('MM.DD.YYYY') + ' ~ ' + picker.endDate.format('MM.DD.YYYY'));
+    $(this).val('Created Date: ' + picker.startDate.format(dateFormat) + ' ~ ' + picker.endDate.format(dateFormat));
     this.style.width = ((this.value.length + 1) * 7) + 'px';
 });
 
@@ -76,12 +103,12 @@ $('input[name="templateCreateDateRange"]').on('cancel.daterangepicker', function
     $(this).val('');
 });
 
-$('input[name="templatepublishDateRange"]').on('apply.daterangepicker', function (ev, picker) {
-    $(this).val('Published Date: ' + picker.startDate.format('MM.DD.YYYY') + ' ~ ' + picker.endDate.format('MM.DD.YYYY'));
+$('input[name="templateModifyDateRange"]').on('apply.daterangepicker', function (ev, picker) {
+    $(this).val('Modified Date: ' + picker.startDate.format('MM.DD.YYYY') + ' ~ ' + picker.endDate.format('MM.DD.YYYY'));
     this.style.width = ((this.value.length + 1) * 7) + 'px';
 });
 
-$('input[name="templatepublishDateRange"]').on('cancel.daterangepicker', function (ev, picker) {
+$('input[name="templateModifyDateRange"]').on('cancel.daterangepicker', function (ev, picker) {
     $(this).val('');
 });
 
@@ -104,6 +131,34 @@ function filterSelectionShow(arr) {
     });
 }
 
+function filterSelectionHide(target) {
+    $("#" + target + "SelectionDiv").hide();
+
+    switch (target) {
+        case "createDate":
+            createStarDate = '';
+            createEndDate = '';
+            break;
+        case "modifyDate":
+            modifyStarDate = '';
+            modifyEndDate = '';
+            break;
+        case "status":
+            status = '';
+            break;
+        case "gradingSchema":
+            gradingSchema = '';
+            break;
+    }
+    filterTemplates();
+
+    $('#templateFilterDialog input.custom-control-input:checkbox:checked').each(function () {
+        if ($(this).val() == target) {
+            $(this).prop('checked', false);
+        }
+    });
+}
+
 function setStatus(value) {
     $("#statusValue").text(value);
     status = value;
@@ -111,6 +166,18 @@ function setStatus(value) {
     filterTemplates();
 }
 
+function setGradingSchema(value) {
+    var gradingDisplay = "";
+    if (value == "PassFail")
+        gradingDisplay = "BASIC - Pass / Fail";
+    else if (value == "Score")
+        gradingDisplay = "ADVANCED - Score";
+
+    $("#gradingSchemaValue").text(gradingDisplay);
+    gradingSchema = value;
+
+    filterTemplates();
+}
 
 //When user clicks outside the filter dialog(popup), close the dialog.
 window.addEventListener('click', function(e){   
@@ -135,10 +202,11 @@ function filterTemplates() {
     var filterdata = {
         CreateStarDate: createStarDate,
         CreateEndDate: createEndDate,
-        PublishStartDate: publishStarDate,
-        PublishEndDate: publishEndDate,
+        ModifyStartDate: modifyStarDate,
+        ModifyEndDate: modifyEndDate,
         Status: status,
-        GradingSchema: gradingSchema
+        GradingSchema: gradingSchema,
+        SearchString: searchString
     };
 
     $.ajax({
