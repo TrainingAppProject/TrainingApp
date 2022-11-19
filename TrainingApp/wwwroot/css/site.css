@@ -208,3 +208,7 @@ div.custom-control-right {
 .sortable-drag {
     opacity: 0;
 }
+
+.error-title {
+    color: #FF0000;
+}

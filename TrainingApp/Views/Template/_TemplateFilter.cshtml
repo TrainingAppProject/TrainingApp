@@ -53,13 +53,19 @@
                     <div class="mt10">
                         <p class="subtitle">State</p>
                         <div class="custom-control-right custom-switch">
-                            <input type="checkbox" class="custom-control-input" value="status" id="statusFilterSwitch">
+                            <input type="checkbox" class="custom-control-input" value="status" id="statusFilterSwitch" checked>
                             <label class="custom-control-label Upper" for="statusFilterSwitch">Status</label>
                         </div>
                         <div class="custom-control-right custom-switch">
                             <input type="checkbox" class="custom-control-input" value="gradingSchema"  id="gradeFilterSwitch">
                             <label id="gradeFilterSwitchlabel" class="custom-control-label Upper"
                                    for="gradeFilterSwitch">Grading Schema</label>
+                        </div>
+
+                        <div class="custom-control-right custom-switch">
+                            <input type="checkbox" class="custom-control-input" value="isPublished"  id="isPublishedFilterSwitch">
+                            <label id="isPublishedFilterSwitchlabel" class="custom-control-label Upper"
+                                   for="isPublishedFilterSwitch">Published?</label>
                         </div>
                     </div>
 
@@ -119,8 +125,8 @@
                                 Grading Schema: <span id="gradingSchemaValue">Select</span>
                             </div>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" onclick="setGradingSchema('PassFail')">GRADE(1-5)</a>
-                                <a class="dropdown-item" onclick="setGradingSchema('Score')">PASS/NOT PASS</a>
+                                <a class="dropdown-item" onclick="setGradingSchema('PassFail')">BASIC - Pass / Fail</a>
+                                <a class="dropdown-item" onclick="setGradingSchema('Score')">ADVANCED - Score</a>
                             </div>
                         </div>
                         <button onclick="filterSelectionHide('gradingSchema')">
@@ -128,8 +134,30 @@
                         </button>
                     </div>
                 </div>
+
+
+                <div class="ml20 filterSelections" id="isPublishedSelectionDiv">
+                    <div class="filterTags filterIsPublishedTags">
+                        <div class="dropdown inline">
+                            <div class="btn dropdown-toggle"
+                                    type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                Published?: <span id="isPublishedValue">Select</span>
+                            </div>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" onclick="setPublished('true')">Yes</a>
+                                <a class="dropdown-item" onclick="setPublished('false')">No</a>
+                            </div>
+                        </div>
+                        <button onclick="filterSelectionHide('isPublished')">
+                            <i class="far fa-times-circle buttonicon inline"></i>
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
-<div class="modal-backdrop hide" style="display:none"></div>

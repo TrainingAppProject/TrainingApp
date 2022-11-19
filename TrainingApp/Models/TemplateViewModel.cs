@@ -18,9 +18,9 @@ namespace TrainingApp.Models
     {
         public IEnumerable<TemplateDTO> Templates { get; set; }
         public TemplateDTO Template { get; set; }
-
         public TaskViewModel TaskViewModel { get; set;}
         public string TargetAction { get; set; } = "Create";
+        
 
     }
 
@@ -55,5 +55,7 @@ namespace TrainingApp.Models
         public string GradingSchema { get; set; }
 
         public string searchString { get; set; }
+
+        public string IsPublished { get; set; }
     }
 }

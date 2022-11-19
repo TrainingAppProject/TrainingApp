@@ -37,6 +37,7 @@ namespace TrainingApp.DTOs
         public GradingSchema GradingSchema {get; set; } //Associated to Enum GradingSchema
         
         public int AttemptsAllowedPerTask {get; set;}
+        public bool IsPublished {get; set;}
     }
 }
 
