@@ -77,7 +77,7 @@
             </div>
 
             <div class="mt20 d-flex" id="appliedFilterDiv">
-                <div class="ml20 filterSelections" id="createDateSelectionDiv">
+                <div class="ml20 filterSelections" id="createDateSelectionDiv" style="display:none;">
                     <div class="filterTags">
                         <input class="filterTagsInput" id="templateCreateDateRange" type="text"
                                 name="templateCreateDateRange" value="Created Date: Select" />
@@ -85,9 +85,9 @@
                     </div>
                 </div>
 
-                <div class="ml20 filterSelections" id="modifyDateSelectionDiv">
+                <div class="ml20 filterSelections" id="modifyDateSelectionDiv" style="display:none;">
                     <div class="filterTags">
-                        <input class="filterTagsInput" id="" type="text"
+                        <input class="filterTagsInput" id="templateModifyDateRange" type="text"
                                 name="templateModifyDateRange" value="Modify Date: Select" />
                         <button onclick="filterSelectionHide('modifyDate')"><i class="far fa-times-circle buttonicon"></i></button>
                     </div>
@@ -101,7 +101,7 @@
                                     data-toggle="dropdown"
                                     aria-haspopup="true"
                                     aria-expanded="false">
-                                Status: <span id="statusValue">Select</span>
+                                Status: <span id="statusValue">Active</span>
                             </div>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" onclick="setStatus('Active')">Active</a>
@@ -114,7 +114,7 @@
                     </div>
                 </div>
            
-                <div class="ml20 filterSelections" id="gradingSchemaSelectionDiv">
+                <div class="ml20 filterSelections" id="gradingSchemaSelectionDiv" style="display:none;">
                     <div class="filterTags filterSelectTags">
                         <div class="dropdown inline">
                             <div class="btn dropdown-toggle"

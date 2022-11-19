@@ -1,0 +1,93 @@
+﻿@model AssessmentViewModel
+<!--
+/// <summary>
+/// Module purpose: Assessment creation modal(popup) for Assessment view
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Nov 11, 2022
+/// Source: Created for the COMP7022 project
+/// Revision History:
+///
+/// </summary>
+-->
+<form asp-controller="Assessment" asp-action="CreateAssessment" method="post" id="createAssessmentForm" role="form">
+    <input type="text" class="form-control hide" asp-for="Assessment.ID">
+    <div class="form-group row">
+        <label for="AssessmentName" class="col-sm-4 col-form-label">
+            Name <span class="red">*</span>
+        </label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="AssessmentName" asp-for="Assessment.Name">
+            <span id="assessmentNameError" class="error text-danger" asp-validation-for="Assessment.Name"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="AssessmentDescription" class="col-sm-4 col-form-label">
+            Description
+        </label>
+        <div class="col-sm-8">
+            <textarea class="form-control" id="AssessmentDescription" rows="3" asp-for="Assessment.Description"></textarea>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="gradingSchema" class="col-sm-4 col-form-label">
+            Template <span class="red">*</span>
+        </label>
+        <div class="col-sm-8">
+            <select class="form-control" id="template" asp-for="Assessment.TemplateID">
+                <option value="0">Select template</option>
+                @foreach (var template in Model.Templates)
+                {
+                    <option value="@template.ID">@template.Name</option>
+                }
+            </select>
+            <span id="templateSelectionError" class="error text-danger" asp-validation-for="Assessment.TemplateID"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="gradingSchema" class="col-sm-4 col-form-label">
+            Trainee <span class="red">*</span>
+        </label>
+        <div class="col-sm-8">
+            <select class="form-control" id="gradingSchema" asp-for="Assessment.TraineeID">
+                <option value="0">Select trainee</option>
+                @foreach (var trainee in Model.Trainees)
+                {
+                    <option value="@trainee.ID">@trainee.FirstName @trainee.LastName</option>
+                }
+            </select>
+            <span id="traineeSelectionError" class="error text-danger" asp-validation-for="Assessment.TraineeID"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control hide">
+        <label class="col-form-label">
+            Purpose
+        </label>
+        <div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Evauating
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                <label class="form-check-label" for="flexCheckChecked">
+                    Renewing certification
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                <label class="form-check-label" for="flexCheckChecked">
+                    Practicing
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                <label class="form-check-label" for="flexCheckChecked">
+                    Training
+                </label>
+            </div>
+        </div>
+    </div>
+</form>

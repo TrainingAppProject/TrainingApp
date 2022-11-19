@@ -9484,7 +9484,9 @@ Preloader
   top: 0px;
   position: fixed;
   z-index: 99999;
-  background: #fff; }
+  background: #fff;
+  opacity:0.5;
+}
 
 .lds-ripple {
   display: inline-block;

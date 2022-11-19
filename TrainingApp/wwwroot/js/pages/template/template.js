@@ -1,4 +1,4 @@
-﻿/*
+/*
 /// <summary>
 /// Module purpose: javascript to define the frontend behaviour of Template view
 /// Authors: Hansol Lee / Jei Yang
@@ -17,12 +17,13 @@ var createStarDate;
 var createEndDate;
 var modifyStarDate;
 var modifyEndDate;
-var status;
+var status = 'Active';
 var gradingSchema;
 var searchString;
 var isPublished;
 
-var typingTimer;               
+var typingTimer;
+var checkedFilters= [];
 
 
 $(document).ready(function () {
@@ -34,8 +35,6 @@ $(document).ready(function () {
 //-----------------------------------------FILTER-------------------------------//
 
 function initDateFilters() {
-    hideAllfilters();
-
     var createDatePicker = $('input[name="templateCreateDateRange"]');
     createDatePicker.daterangepicker({
         opens: 'right',
@@ -47,7 +46,7 @@ function initDateFilters() {
     }, function (start, end, label) {
             createStarDate = start.format(dateFormat);
             createEndDate = end.format(dateFormat);
-
+        
             filterTemplates();
     });
 
@@ -65,7 +64,6 @@ function initDateFilters() {
 
             filterTemplates();
     });
-
 }
 
 $("#addFilterToggleBtn").click(function () {
@@ -116,14 +114,26 @@ $('input[name="templateModifyDateRange"]').on('cancel.daterangepicker', function
 });
 
 $("#applyFilterButton").click(function () {
+    let tempCheckedFilters = [];
     hideAllfilters();
-    var arr = [];
-    $('#templateFilterDialog input.custom-control-input:checkbox:checked').each(function () {
-        arr.push($(this).val());
+    
+    $('#templateFilterDialog input.custom-control-input:checkbox').each(function () {
+        let val = $(this).val();
+
+        //filter checkbox checked
+        if ($(this).is(':checked')) {
+            tempCheckedFilters.push(val);
+        } else {
+            //removed from original filter, reset the value
+            if (jQuery.inArray(val, checkedFilters) == 0) {
+                filterSelectionReset(val);
+            }
+        }
     });
 
-    if (arr && arr.length > 0)
-        filterSelectionShow(arr);
+    checkedFilters = tempCheckedFilters;
+    if (checkedFilters && checkedFilters.length > 0)
+        filterSelectionShow(checkedFilters);
 
     filterClose('templateFilterDialog');
 });
@@ -134,28 +144,17 @@ function filterSelectionShow(arr) {
     });
 }
 
+function filterSelectionReset(target) {
+    $("#" + target + "SelectionDiv").hide();
+    removeFilterValue(target);
+    console.log(target);
+    filterTemplates();
+}
+
 function filterSelectionHide(target) {
     $("#" + target + "SelectionDiv").hide();
 
-    switch (target) {
-        case "createDate":
-            createStarDate = '';
-            createEndDate = '';
-            break;
-        case "modifyDate":
-            modifyStarDate = '';
-            modifyEndDate = '';
-            break;
-        case "status":
-            status = '';
-            break;
-        case "gradingSchema":
-            gradingSchema = '';
-            break;
-        case "isPublished":
-            isPublished = '';
-            break;
-    }
+    removeFilterValue(target);
     filterTemplates();
 
     $('#templateFilterDialog input.custom-control-input:checkbox:checked').each(function () {
@@ -163,6 +162,37 @@ function filterSelectionHide(target) {
             $(this).prop('checked', false);
         }
     });
+}
+
+function removeFilterValue(target) {
+    switch (target) {
+        case "createDate":
+            createStarDate = '';
+            createEndDate = '';
+            resetDatePicker($("#templateCreateDateRange"));
+            break;
+        case "modifyDate":
+            modifyStarDate = '';
+            modifyEndDate = '';
+            resetDatePicker($("#templateModifyDateRange"));
+            break;
+        case "status":
+            status = '';
+            $("#statusValue").text('Select');
+            break;
+        case "gradingSchema":
+            gradingSchema = '';
+            $("#gradingSchemaValue").text('Select');
+            break;
+        case "isPublished":
+            isPublished = '';
+            break;
+    }
+}
+
+function resetDatePicker(target) {
+    target.val('Created Date: Select');
+    target.css("width", "");
 }
 
 function setStatus(value) {
@@ -212,6 +242,7 @@ function hideAllfilters() {
 }
 
 function filterTemplates() {
+
     var filterdata = {
         CreateStarDate: createStarDate,
         CreateEndDate: createEndDate,

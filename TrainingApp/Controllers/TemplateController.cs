@@ -9,6 +9,9 @@ using TrainingApp.DTOs;
 using TrainingApp.Services;
 using System.Reflection;
 using System.Security.Claims;
+using System.Globalization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 
 namespace TrainingApp.Controllers;
 
@@ -29,7 +32,9 @@ public class TemplateController : Controller
     private readonly IDbContextFactory<TrainingDbContext> _context;
     //TrainingAPI trainingapi = new TrainingAPI();
 
-    public TemplateController(ILogger<HomeController> logger, IDbContextFactory<TrainingDbContext> context)
+    public TemplateController(
+        ILogger<HomeController> logger,
+        IDbContextFactory<TrainingDbContext> context)
     {
         _logger = logger;
         _context= context;
@@ -401,32 +406,45 @@ public class TemplateController : Controller
             {
                 TemplateViewModel model = new TemplateViewModel();
 
-                var templates = db.Templates
-                    .Include(t=>t.Elements)
-                    .ToList();
+                var templates = db.Templates.ToList();
+                var users = db.Users.ToList();
+                var elements = db.TemplateElements.ToList();
 
                 //create date
-                if(!string.IsNullOrWhiteSpace(filter.CreateStarDate) &&
+                if (!string.IsNullOrWhiteSpace(filter.CreateStarDate) &&
                     !string.IsNullOrWhiteSpace(filter.CreateEndDate))
                 {
+                    DateTime start = ConvertStringToDate(filter.CreateStarDate);
+                    DateTime end = ConvertStringToDate(filter.CreateEndDate);
+                    if (start == end)
+                        end = end.AddDays(1);
+
                     templates = templates.Where(t =>
-                        t.CreatedTime >= ConvertStringToDate(filter.CreateStarDate) &&
-                        t.CreatedTime <= ConvertStringToDate(filter.CreateEndDate)).ToList();
+                        t.CreatedTime >=  start && t.CreatedTime < end).ToList();
                 }
 
-                //modifit date
+                //modify date
                 if (!string.IsNullOrWhiteSpace(filter.ModifyStartDate) &&
                     !string.IsNullOrWhiteSpace(filter.ModifyEndDate))
                 {
+                    DateTime start = ConvertStringToDate(filter.ModifyStartDate);
+                    DateTime end = ConvertStringToDate(filter.ModifyEndDate);
+                    if (start == end)
+                        end = end.AddDays(1);
+
                     templates = templates.Where(t =>
-                        t.ModifiedDate >= ConvertStringToDate(filter.ModifyStartDate) &&
-                        t.ModifiedDate <= ConvertStringToDate(filter.ModifyEndDate)).ToList();
+                        t.ModifiedDate >= start && t.ModifiedDate < end).ToList();
                 }
 
                 //status filter
-                BasicStatus state = (filter.Status == "Active") ? BasicStatus.Active : BasicStatus.Delete;
+                BasicStatus defaultState = BasicStatus.Active;
+
                 if (!string.IsNullOrWhiteSpace(filter.Status))
-                    templates = templates.Where(t => t.State == (int)state).ToList();
+                {
+                    BasicStatus.TryParse(filter.Status, out BasicStatus filterstatus);
+                    templates = templates.Where(t => t.State == (int)filterstatus).ToList();
+                }
+                
 
                 //Published filter
                 if (!string.IsNullOrWhiteSpace(filter.IsPublished))
@@ -448,9 +466,11 @@ public class TemplateController : Controller
                         t.Name.ToLower().Contains(filter.searchString.ToLower())).ToList();
                 }
 
+               
                 foreach (var template in templates)
                 {
-                    template.Created = db.Users.Where(u => u.ID == template.CreatedID).FirstOrDefault();
+                    template.Created = users.Where(u => u.ID == template.CreatedID).FirstOrDefault();
+                    template.Elements = elements.Where(e => e.TemplateID == template.ID).ToList();
                 }
 
                 model.Templates = templates;
@@ -529,8 +549,12 @@ public class TemplateController : Controller
 
     private DateTime ConvertStringToDate(string date)
     {
-        return DateTime.ParseExact(date, "dd/MM/yyyy",
+        // Parse the string you have, to create a datetime.
+        DateTime tempDate = DateTime.ParseExact(date, "dd/MM/yyyy",
                                       System.Globalization.CultureInfo.InvariantCulture);
+
+        // Set time to 0
+        return new DateTime(tempDate.Year, tempDate.Month, tempDate.Day, 0, 0, 0);
     }
 }
 
