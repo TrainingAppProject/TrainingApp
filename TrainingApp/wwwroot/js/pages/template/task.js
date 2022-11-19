@@ -10,6 +10,15 @@
 /// </summary>
 */
 
+$(document).ready(function () {
+    // If it's a deleted template, disable adding new tasks as well as editing or removing existing tasks.
+    if ($("#templateState").val() == 2) {
+        $("#createTaskModalBtn").prop("disabled", true); //create disabled
+        sortable.option("disabled", true); //drag-and-drop disabled
+        $(".disabled-btn").prop("disabled", true); //edit and delete  disabled
+    }
+});
+
 //-------------------------DELETE-----------------------//
 function confirmDeleteTemplateElement(id) {
     //if (confirm('Are you sure you want to remove this record?'))
@@ -86,7 +95,7 @@ function getTaskInfo(templateElementID, templateID) {
 
 var dropItems = document.getElementById('taskListBody'); //drop-items
 
-new Sortable(dropItems, {
+var sortable = new Sortable(dropItems, {
     animation: 350,
     chosenClass: "sortable-chosen",
     dragClass: "sortable-drag",

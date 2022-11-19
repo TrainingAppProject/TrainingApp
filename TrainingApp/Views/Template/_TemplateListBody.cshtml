@@ -7,7 +7,7 @@
             <td>@template.Name</td>
             <td class="txt-oflo">@template.CreatedTime</td>
             <td>@template.Created.FirstName @template.Created.LastName</td> <!--Creator Name-->
-            <td class="txt-oflo"> @(template.IsTaskMandatory ? "Yes" : "No")</td>
+            <td class="txt-oflo"> @(template.IsPublished ? "Yes" : "No")</td>
             <td>@Html.DisplayFor(model => template.GradingSchema)</td>
             <td>
                 <button id="viewTemplateBtn" class="btn text-primary" type="button"

@@ -13,11 +13,11 @@
             </div>
 
             <div id="taskButtons" class="px-1 flex-shrink-1 bd-highlight">
-                <button id="editTaskBtn" class="btn text-warning" type="button"
+                <button id="editTaskBtn" class="btn text-warning disabled-btn" type="button"
                 onclick="getTaskInfo('@element.Id', '@Model.Template.ID')">
                     <i class="fas fa-pencil-alt"></i>
                 </button>
-                <button id="deleteTaskBtn" type="button" class="btn text-danger" type="delete"
+                <button id="deleteTaskBtn" type="button" class="btn text-danger disabled-btn" type="delete"
                 onclick="confirmDeleteTemplateElement('@element.Id')" data-bs-toggle="modal"
                 data-bs-target="#deleteTaskModal">
                     <i class="far fa-trash-alt"></i>
