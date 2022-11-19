@@ -41,6 +41,7 @@ function showFilter(id) {
     $(id).show();
     $(id).addClass('active');
 }
+
 function filterClose(id) {
     //Adding # prefix by default, for consistency
     id = '#' + id;
@@ -48,3 +49,10 @@ function filterClose(id) {
     $(id).remove('active');
 }
 
+function showloader() {
+    $('.preloader').show();
+}
+
+function hideloader() {
+    $('.preloader').hide();
+}

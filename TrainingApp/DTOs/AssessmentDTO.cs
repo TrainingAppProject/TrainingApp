@@ -23,7 +23,7 @@ namespace TrainingApp.DTOs
         public DateTime ModifiedDate { get; set; }
         public Guid ModifiedID { get; set; }
 
-        public string OverallGrade { get; set; }
+        public string? OverallGrade { get; set; }
         public bool IsTaskMandatory { get; set; }
         public int State { get; set; }
 
