@@ -53,7 +53,7 @@
                     <div class="mt10">
                         <p class="subtitle">State</p>
                         <div class="custom-control-right custom-switch">
-                            <input type="checkbox" class="custom-control-input" value="status" id="statusFilterSwitch">
+                            <input type="checkbox" class="custom-control-input" value="status" id="statusFilterSwitch" checked>
                             <label class="custom-control-label Upper" for="statusFilterSwitch">Status</label>
                         </div>
                         <div class="custom-control-right custom-switch">
@@ -71,7 +71,7 @@
             </div>
 
             <div class="mt20 d-flex" id="appliedFilterDiv">
-                <div class="ml20 filterSelections" id="createDateSelectionDiv">
+                <div class="ml20 filterSelections" id="createDateSelectionDiv" style="display:none;">
                     <div class="filterTags">
                         <input class="filterTagsInput" id="templateCreateDateRange" type="text"
                                 name="templateCreateDateRange" value="Created Date: Select" />
@@ -79,9 +79,9 @@
                     </div>
                 </div>
 
-                <div class="ml20 filterSelections" id="modifyDateSelectionDiv">
+                <div class="ml20 filterSelections" id="modifyDateSelectionDiv" style="display:none;">
                     <div class="filterTags">
-                        <input class="filterTagsInput" id="" type="text"
+                        <input class="filterTagsInput" id="templateModifyDateRange" type="text"
                                 name="templateModifyDateRange" value="Modify Date: Select" />
                         <button onclick="filterSelectionHide('modifyDate')"><i class="far fa-times-circle buttonicon"></i></button>
                     </div>
@@ -95,7 +95,7 @@
                                     data-toggle="dropdown"
                                     aria-haspopup="true"
                                     aria-expanded="false">
-                                Status: <span id="statusValue">Select</span>
+                                Status: <span id="statusValue">Active</span>
                             </div>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" onclick="setStatus('Active')">Active</a>
@@ -108,7 +108,7 @@
                     </div>
                 </div>
            
-                <div class="ml20 filterSelections" id="gradingSchemaSelectionDiv">
+                <div class="ml20 filterSelections" id="gradingSchemaSelectionDiv" style="display:none;">
                     <div class="filterTags filterSelectTags">
                         <div class="dropdown inline">
                             <div class="btn dropdown-toggle"
@@ -119,8 +119,8 @@
                                 Grading Schema: <span id="gradingSchemaValue">Select</span>
                             </div>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" onclick="setGradingSchema('PassFail')">GRADE(1-5)</a>
-                                <a class="dropdown-item" onclick="setGradingSchema('Score')">PASS/NOT PASS</a>
+                                <a class="dropdown-item" onclick="setGradingSchema('PassFail')">BASIC - Pass / Fail</a>
+                                <a class="dropdown-item" onclick="setGradingSchema('Score')">ADVANCED - Score</a>
                             </div>
                         </div>
                         <button onclick="filterSelectionHide('gradingSchema')">
