@@ -82,6 +82,7 @@ public class TemplateController : Controller
                     template = db.Templates.Where(t => t.ID == model.Template.ID).FirstOrDefault();
                     if (template == null)
                         throw new ArgumentNullException("Template does not exist");
+                    template.IsPublished = model.Template.IsPublished;
                 }
                 else //Create
                 {
@@ -93,7 +94,7 @@ public class TemplateController : Controller
                     template.State = (int) BasicStatus.Active;  
                     template.Company = db.Companies.Where(c => c.ID == template.Created.CompanyID).FirstOrDefault();
                     template.CompanyID = template.Company.ID;
-
+                    template.IsPublished = false;
                     template.Name = model.Template.Name;
                     template.GradingSchema = model.Template.GradingSchema;
                 }
@@ -133,24 +134,15 @@ public class TemplateController : Controller
         {
             using (TrainingDbContext db = _context.CreateDbContext())
             {
-                var elementsToDelete = db.TemplateElements.Where(e => e.TemplateID == id).ToList();
 
-                //Check if there is any TemplateElements and Tasks for this Template.
-                if (elementsToDelete.Count > 0)
+                var templateToDelete = db.Templates.FirstOrDefault(t => t.ID == id);
+                templateToDelete.IsPublished = false;
+                if (templateToDelete.State == (int) BasicStatus.Delete)
                 {
-                    var tasksToDelete = elementsToDelete.Select(n => 
-                            db.Tasks.Single(t => t.ID == n.TaskID)
-                        ).ToList();
-
-                    if (tasksToDelete.Count == 0)
-                    {
-                        throw new ArgumentException("The TemplateElement record with ID '" + id + "' is not associated to any Task record");
-                    }
-                    db.Tasks.RemoveRange(tasksToDelete);
-                    db.TemplateElements.RemoveRange(elementsToDelete.AsEnumerable());
+                    throw new ArgumentException("The template is already in 'Delete' state.");
                 }
-
-                db.Templates.RemoveRange(db.Templates.Where(t => t.ID == id).AsEnumerable());
+                templateToDelete.State = (int) BasicStatus.Delete;
+                db.Templates.Update(templateToDelete);
 
                 await db.SaveChangesAsync();
 
@@ -159,7 +151,12 @@ public class TemplateController : Controller
         }
         catch (Exception ex)
         {
-            _logger.LogInformation("ERROR", ex.Message);
+            //_logger.LogInformation("ERROR", ex.Message);
+            var result = new JsonResult(new {
+                Message = ex.Message,
+            });
+            result.StatusCode = 500;
+            return result;
         }
         return RedirectToAction("Error", "Home");
 
@@ -324,7 +321,8 @@ public class TemplateController : Controller
                 model.Template.Created = db.Users.FirstOrDefault(u => u.ID == templateToEdit.CreatedID);
                 model.Template.CreatedTime = templateToEdit.CreatedTime;
                 model.Template.ModifiedDate = templateToEdit.ModifiedDate;
-
+                model.Template.IsPublished = templateToEdit.IsPublished;
+                model.Template.State = templateToEdit.State;
                 model.TargetAction = "Edit";
                 
                 return PartialView("_CreateTemplate", model);
@@ -430,6 +428,12 @@ public class TemplateController : Controller
                 if (!string.IsNullOrWhiteSpace(filter.Status))
                     templates = templates.Where(t => t.State == (int)state).ToList();
 
+                //Published filter
+                if (!string.IsNullOrWhiteSpace(filter.IsPublished))
+                {
+                    bool.TryParse(filter.IsPublished, out bool published);
+                    templates = templates.Where(t => t.IsPublished == published).ToList();
+                }
                 //grading schema filter
                 if (!string.IsNullOrWhiteSpace(filter.GradingSchema))
                 {

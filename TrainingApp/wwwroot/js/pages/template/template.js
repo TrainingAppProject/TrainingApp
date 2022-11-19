@@ -20,12 +20,15 @@ var modifyEndDate;
 var status;
 var gradingSchema;
 var searchString;
+var isPublished;
 
 var typingTimer;               
 
 
 $(document).ready(function () {
     initDateFilters();
+    $("#statusSelectionDiv").show(); // enabled to display records in active state by default
+    $("#statusValue").text('Active');
 });
 
 //-----------------------------------------FILTER-------------------------------//
@@ -149,6 +152,9 @@ function filterSelectionHide(target) {
         case "gradingSchema":
             gradingSchema = '';
             break;
+        case "isPublished":
+            isPublished = '';
+            break;
     }
     filterTemplates();
 
@@ -160,8 +166,15 @@ function filterSelectionHide(target) {
 }
 
 function setStatus(value) {
-    $("#statusValue").text(value);
+    $("#statusValue").text(value == 'Delete' ? "Deleted" : "Active");
     status = value;
+
+    filterTemplates();
+}
+
+function setPublished(value) {
+    $("#isPublishedValue").text(value == 'true' ? 'Yes' : 'No');
+    isPublished = value;
 
     filterTemplates();
 }
@@ -206,7 +219,8 @@ function filterTemplates() {
         ModifyEndDate: modifyEndDate,
         Status: status,
         GradingSchema: gradingSchema,
-        SearchString: searchString
+        SearchString: searchString,
+        IsPublished: isPublished
     };
 
     $.ajax({
@@ -258,6 +272,7 @@ function validateTemplateForm(formID) {
 
     //set checkbox value
     
+    //IsTaskMandatory
     var isTaskMandatory = $('.isMandatoryRadio:radio:checked').map(function () {
         return this.value;
     }).get();
@@ -267,6 +282,14 @@ function validateTemplateForm(formID) {
     }
     else
         $("#mandatoryRadioInput").val(isTaskMandatory[0]);
+
+    //IsPublished
+    var isPublished = $('.isPublishedRadio:radio:checked').map(function () {
+        return this.value;
+    }).get();
+    if (isPublished.length > 0) {
+        $("#isPublishedRadioInput").val(isPublished[0]);
+    }
 
     //AttemptAllow, scriptNumber
     var attemptAllow = $(formID).find('input[name="Template.AttemptsAllowedPerTask"]').val();
@@ -301,6 +324,28 @@ function getTemplateInfo(templateID) {
             if (isTaskMandatory == '') {
                 $("#allTaskMandatoryYes").prop("checked", true);
             }
+
+            //State
+            var state = $('#state').val();
+            var stateText = 'Active';
+            if (state) {
+                if (state == 2) {
+                    stateText = 'Deleted';
+
+                    //Deleted records should have all fields disabled - Description, ScriptNumber, AttemptsAllowedPerTask, AllTaskMandatroy, Published
+                    $("#templateDescription").prop( "disabled", true);
+                    $("#scriptNumber").prop( "disabled", true);
+                    $("#attemptAllow").prop( "disabled", true);
+                    $("#allTaskMandatoryYes").prop( "disabled", true);
+                    $("#allTaskMandatoryNo").prop( "disabled", true);
+                    $("#isPublishedYes").prop( "disabled", true);
+                    $("#isPublishedNo").prop( "disabled", true);
+                } else if (state == 3) {
+                    stateText = 'Pending';
+                }
+                $("#stateText").val(stateText);
+            }
+            
         },
         error: function (error) {
             alert(error);
@@ -323,14 +368,15 @@ function confirmDeleteTemplate(id) {
 
 
 function deleteTemplate(id) {
-    var posting = $.post("/Template/DeleteTemplate/" + id);
-    //$("#successMessage").html("The record has been deleted successfully!");
-    modalClose('deleteModal'); // now close modal
-
-    posting.done(function(){
+    var posting = $.post("/Template/DeleteTemplate/" + id).done(function(){
         //TBD Current bug: the page won't refresh.
         window.location.reload();
+    }).fail(function(xhr){
+        modalClose('deleteModal'); // now close modal
+        showModal('errorAlertDialog');
+        $('#errorMessage').html(xhr.responseJSON.message)
     });
-    
+
+   
 }  
 
