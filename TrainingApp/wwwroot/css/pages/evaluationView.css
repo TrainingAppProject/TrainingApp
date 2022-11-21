@@ -10,12 +10,20 @@
 /// </summary>
 */
 
-#taskGradeContainer .gradeButton {
+#taskGradeContainer .gradeFailPassButton {
     margin: 0;
     width: 30%;
     height: 100%;
     font-size: 1.5em;
 }
+
+#taskGradeContainer .gradeScoresButton {
+    margin: 0;
+    width: 15%;
+    height: 100%;
+    font-size: 1.5em;
+}
+
 
 #taskGradeContainer .gradeContainer {
     text-align:right;
@@ -47,58 +55,112 @@
     background-color: green;
 }*/
 
-.btn-fail {
+.btn-fail, .btn-one {
     color: #fff;
-    background-color: #FDA2A2;
-    border-color: #FDA2A2;
+    background-color: #E20E0E;
+    opacity: 0.5;
     border: 0;
 }
-    .btn-fail:active {
-        color: #fff;
-        background-color: #DF0404;
+    .btn-fail:active, .btn-fail:hover, .btn-fail:focus, .btn-fail.focus,
+    .btn-one:active, .btn-one:hover, .btn-one:focus, .btn-one.focus {
+        color: white;
+        opacity: 1;
     }
 
-    .btn-fail:hover {
-        color: #fff;
-        background-color: #DF0404;
-    }
 
-    .btn-fail:focus, .btn-fail.focus {
+    .btn-fail.disabled, .btn-fail:disabled, .btn-one.disabled, .btn-one:disabled {
         color: #fff;
-        background-color: #DF0404;
-    }
-
-    .btn-fail.disabled, .btn-fail:disabled {
-        color: #fff;
-        background-color: #FDA2A2;
+        opacity: 0.5;
     }
 
 .btn-pass {
     color: #fff;
-    background-color: #AFE4D8;
-    border-color: #AFE4D8;
+    background-color: #2A8333;
     border: 0;
+    opacity: 0.5;
 }
 
-    .btn-pass:active {
-        color: #fff;
-        background-color: #2A8333;
-    }
-
-    .btn-pass:hover {
-        color: #fff;
-        background-color: #2A8333;
-    }
-
-    .btn-pass:focus, .btn-pass.focus {
-        color: #fff;
-        background-color: #2A8333;
+    .btn-pass:active, .btn-pass:hover, .btn-pass:focus, .btn-pass.focus {
+        color: #ffffff;
+        opacity: 1;
     }
 
     .btn-pass:disabled, .btn-pass.disabled {
         color: #fff;
-        background-color: #AFE4D8;
+        opacity: 0.5;
     }
+
+.btn-two {
+    color: #fff;
+    background-color: #E29A0E;
+    opacity:0.5;
+    border: 0;
+}
+
+    .btn-two:active, .btn-two:hover, .btn-two:focus, .btn-two.focus {
+        color:white;
+        opacity: 1;
+    }
+
+
+    .btn-two:disabled, .btn-two.disabled {
+        opacity: 0.5;
+    }
+
+
+.btn-three {
+    color: #fff;
+    background-color: #0EE2BC;
+    opacity: 0.5;
+    border: 0;
+}
+
+    .btn-three:active, .btn-three:hover, .btn-three:focus, .btn-three.focus {
+        color: white;
+        opacity: 1;
+    }
+
+
+    .btn-three:disabled, .btn-three.disabled {
+        opacity: 0.5;
+    }
+
+.btn-four {
+    color: #fff;
+    background-color: #2338AA;
+    opacity: 0.5;
+    border: 0;
+}
+
+    .btn-four:active, .btn-four:hover, .btn-four:focus, .btn-four.focus {
+        color: white;
+        opacity: 1;
+    }
+
+
+    .btn-four :disabled, .btn-four .disabled {
+        opacity: 0.5;
+    }
+
+
+.btn-five  {
+    color: white;
+    background-color: green;
+    opacity: 0.5;
+    border: 0;
+}
+
+    .btn-five:active, .btn-five:hover, .btn-five:focus, .btn-five.focus {
+        color: white;
+        opacity: 1;
+    }
+
+
+    .btn-five:disabled, .btn-five.disabled {
+        opacity: 0.5;
+    }
+
+
 
 
 .signedText {

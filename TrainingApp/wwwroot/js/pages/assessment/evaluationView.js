@@ -50,11 +50,11 @@ function signAssessment(assessmentID, userID, userRole, inputTarget, errorTarget
 }
 
 function SignValidation(password, inputTargetId, errorTargetId) {
-    if (!password) {
-        errorTargetId.text("Please enter the password");
-        return false;
+    if (password && password.length > 0) {
+        return true;
     }
-    return true;
+    errorTargetId.text("Please enter the password");
+    return false;
 }
 
 function SignAjaxCall(signData, inputTargetId, errorTargetId) {
