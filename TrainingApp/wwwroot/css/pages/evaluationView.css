@@ -1,0 +1,107 @@
+﻿/*
+/// <summary>
+/// Module purpose: Css script to define the layout and style of Assessment view
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Oct 26, 2022
+/// Source: Created for COMP7022 project
+/// Revision History:
+///     
+///     
+/// </summary>
+*/
+
+#taskGradeContainer .gradeButton {
+    margin: 0;
+    width: 30%;
+    height: 100%;
+    font-size: 1.5em;
+}
+
+#taskGradeContainer .gradeContainer {
+    text-align:right;
+}
+
+.assessmentContent {
+    font-size:1.3em;
+    font-weight:500;
+}
+
+.assessmentContentContainer h4 {
+    font-size: 1.3em;
+    margin-top: 3px;
+}
+
+.gradeSelect {
+    color: white;
+}
+
+.gradeSelect:focus {
+    color: white;
+}
+
+/*.gradeFail {
+    background-color:red;
+}
+
+.gradePass {
+    background-color: green;
+}*/
+
+.btn-fail {
+    color: #fff;
+    background-color: #FDA2A2;
+    border-color: #FDA2A2;
+    border: 0;
+}
+    .btn-fail:active {
+        color: #fff;
+        background-color: #DF0404;
+    }
+
+    .btn-fail:hover {
+        color: #fff;
+        background-color: #DF0404;
+    }
+
+    .btn-fail:focus, .btn-fail.focus {
+        color: #fff;
+        background-color: #DF0404;
+    }
+
+    .btn-fail.disabled, .btn-fail:disabled {
+        color: #fff;
+        background-color: #FDA2A2;
+    }
+
+.btn-pass {
+    color: #fff;
+    background-color: #AFE4D8;
+    border-color: #AFE4D8;
+    border: 0;
+}
+
+    .btn-pass:active {
+        color: #fff;
+        background-color: #2A8333;
+    }
+
+    .btn-pass:hover {
+        color: #fff;
+        background-color: #2A8333;
+    }
+
+    .btn-pass:focus, .btn-pass.focus {
+        color: #fff;
+        background-color: #2A8333;
+    }
+
+    .btn-pass:disabled, .btn-pass.disabled {
+        color: #fff;
+        background-color: #AFE4D8;
+    }
+
+
+.signedText {
+    margin-left: 30px;
+    font-size: 1.3em;
+}

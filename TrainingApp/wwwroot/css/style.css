@@ -130,7 +130,7 @@ body {
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #3e5569;
+    color: black;
     text-align: left;
     background-color: #F9F9F9;
 }
@@ -7106,8 +7106,21 @@ button.bg-purple:focus {
 .w-25 {
   width: 25% !important; }
 
+.w-30 {
+  width: 30% !important; }
+
+.w-35 {
+    width: 35% !important; }
+
+.w-40 {
+    width: 40% !important;}
+
 .w-50 {
   width: 50% !important; }
+
+.w-70 {
+    width: 70% !important;
+}
 
 .w-75 {
   width: 75% !important; }
@@ -9043,7 +9056,8 @@ html[dir="ltr"] body .p-l-0 {
  ============================================================== */
 #main-wrapper {
   width: 100%;
-  overflow: hidden; }
+  overflow: hidden;
+}
 
 .page-wrapper {
     background: #F9F9F9;
@@ -9150,7 +9164,7 @@ html[dir="ltr"] body .p-l-0 {
 body {
   margin: 0;
   overflow-x: hidden;
-  color: #3e5569;
+  color: black;
   background: #fff; }
 
 html {

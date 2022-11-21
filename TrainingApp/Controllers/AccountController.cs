@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TrainingApp.DTOs;
+using TrainingApp.Helper;
 using TrainingApp.Models;
 using TrainingApp.Models.Enums;
 using TrainingApp.Services;
@@ -56,7 +57,7 @@ namespace TrainingApp.Controllers
                     }
 
                     if (!string.IsNullOrWhiteSpace(user.Password) &&
-                        model.Password != Decrypt(user.Password))
+                        model.Password != PasswordEncoder.Decrypt(user.Password))
                     {
                         ModelState.AddModelError(nameof(LoginViewModel.Password), "Password wrong");
                         return View("Login", model);
@@ -64,7 +65,7 @@ namespace TrainingApp.Controllers
 
                     //First time login set the password
                     if (user.Password == null) {
-                        user.Password = Encrypt(model.Password);
+                        user.Password = PasswordEncoder.Encrypt(model.Password);
                         await db.SaveChangesAsync();
                     }
 
@@ -105,52 +106,6 @@ namespace TrainingApp.Controllers
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity));
-        }
-
-        private string Encrypt(string clearText)
-        {
-            string encryptionKey = "MAKV2SPBNI99212";
-            byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
-            using (Aes encryptor = Aes.Create())
-            {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(encryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
-                encryptor.Key = pdb.GetBytes(32);
-                encryptor.IV = pdb.GetBytes(16);
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(clearBytes, 0, clearBytes.Length);
-                        cs.Close();
-                    }
-                    clearText = Convert.ToBase64String(ms.ToArray());
-                }
-            }
-
-            return clearText;
-        }
-
-        private string Decrypt(string cipherText)
-        {
-            string encryptionKey = "MAKV2SPBNI99212";
-            byte[] cipherBytes = Convert.FromBase64String(cipherText);
-            using (Aes encryptor = Aes.Create())
-            {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(encryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
-                encryptor.Key = pdb.GetBytes(32);
-                encryptor.IV = pdb.GetBytes(16);
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(cipherBytes, 0, cipherBytes.Length);
-                        cs.Close();
-                    }
-                    cipherText = Encoding.Unicode.GetString(ms.ToArray());
-                }
-            }
-
-            return cipherText;
         }
     }
 }

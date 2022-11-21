@@ -11,7 +11,7 @@
 /// </summary>
 */
 $(document).ready(function () {
-    console.log('here');
+
 });
 
 $("#createAssessmentModalBtn").click(function () {
@@ -41,7 +41,9 @@ function validateAssessmentForm(formID) {
         isvalid = false;
     }
 
-    //TODO save purpose
+    var checkedRadio = $("#assessmentPurposeContainer input[type='radio']:checked").val();
+    console.log(checkedRadio);
+    $("#assessmentDescInput").val(checkedRadio);
 
     if (isvalid)
         $(formID).submit();
