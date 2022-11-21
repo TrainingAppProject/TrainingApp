@@ -13,9 +13,6 @@ html {
   font-size: 14px;
 }
 
-.page-wrapper {
-    height:100vh;
-}
 
 @media (min-width: 768px) {
     html {
@@ -211,4 +208,8 @@ div.custom-control-right {
 
 .error-title {
     color: #FF0000;
+}
+
+.gray-box {
+    background-color: #EEEEEE;
 }

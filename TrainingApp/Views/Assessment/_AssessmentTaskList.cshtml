@@ -1,0 +1,54 @@
+﻿<!--
+/// <summary>
+/// Module purpose: Assessment creation modal(popup) for Assessment view
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Nov 18, 2022
+/// Source: Created for the COMP7022 project
+/// Revision History:
+///
+/// </summary>
+-->
+@using TrainingApp.Models.Enums;
+@model EvaluationViewModel
+
+@{
+    int i = 1;
+    var grade = Model.Assessment.PassGrade;
+
+    foreach (var element in Model.Elements.OrderBy(e => e.OrderNo))
+    {
+
+        <div class="row gray-box mt20 mb20">
+            <div class="row w-100 m0">
+                @if (grade == GradingSchema.PassFail.ToString())
+                {
+                    <div class="col-md-8 p20">
+                        <h4>@(i++). @element.Task.Name</h4>
+                    </div>
+
+
+                    <div class="col-md-4 gradeContainer m0 p0">
+                        <button type="button" class="btn btn-fail gradeFailPassButton">Fail</button>
+                        <button type="button" class="btn btn-pass gradeFailPassButton">Pass</button>
+                    </div>
+
+                }
+                else if (grade == GradingSchema.Score.ToString())
+                {
+                    <div class="col-md-6 p20">
+                        <h4>@(i++). @element.Task.Name</h4>
+                    </div>
+                    <div class="col-md-6 gradeContainer m0 p0">
+                        <button type="button" class="btn btn-one gradeScoresButton">1</button>
+                        <button type="button" class="btn btn-two gradeScoresButton">2</button>
+                        <button type="button" class="btn btn-three gradeScoresButton">3</button>
+                        <button type="button" class="btn btn-four gradeScoresButton">4</button>
+                        <button type="button" class="btn btn-five gradeScoresButton">5</button>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+}
+
