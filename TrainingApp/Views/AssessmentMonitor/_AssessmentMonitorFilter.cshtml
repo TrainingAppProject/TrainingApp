@@ -8,7 +8,7 @@
 ///
 /// </summary>
 -->
-<div class="bg-white m20 p20 filterDiv">
+<div class="bg-white m20 p20 filterDiv" id="assessmentFilterSection">
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
             <div id="addFilterToggleDiv">
@@ -26,104 +26,108 @@
                                     <i class="fas fa-search fa-lg"></i>
                                 </span>
                             </div>
-                            <input type="text" class=" form-control" placeholder="Search"
-                                   aria-label="Username" aria-describedby="basic-addon1">
+                            <input id="assessmentSearchInput" type="text" class="form-control" placeholder="Search Assessment Name"
+                                   aria-label="SearchString" aria-describedby="basic-addon1">
                         </div>
                     </div>
                 </div>
               
-                <div class="filterDropDown hide">
+                <div class="filterDropDown hide" id="assessmentFilterDialog">
                     <h4 class="title">Add Filters</h4>
                     <div class="mt30 mb10">
                         <p class="subtitle">Date</p>
                         <div class="custom-control-right custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="createFilterSwitch">
+                            <input type="checkbox" class="custom-control-input" value="createDate" id="createFilterSwitch">
                             <label id="createFilterSwitchlabel" class="custom-control-label Upper"
                                    for="createFilterSwitch">create</label>
                         </div>
                         <div class="custom-control-right custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="publishFilterSwitch">
+                            <input type="checkbox" class="custom-control-input" value="modifyDate" id="publishFilterSwitch">
                             <label id="publishFilterSwitchlabel" class="custom-control-label Upper"
-                                   for="publishFilterSwitch">Modify</label>
+                                   for="publishFilterSwitch">modify</label>
                         </div>
                     </div>
                     <hr />
                     <div class="mt10">
                         <p class="subtitle">State</p>
                         <div class="custom-control-right custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="statusFilterSwitch">
-                            <label class="custom-control-label Upper" for="statusFilterSwitch">Status</label>
-                        </div>
-                        <div class="custom-control-right custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="resultFilterSwitch">
+                            <input type="checkbox" class="custom-control-input" value="result" id="resultFilterSwitch">
                             <label class="custom-control-label Upper"
                                    for="resultFilterSwitch">Result</label>
                         </div>
-                    </div>
-                    <hr />
-                    <div class="mt10">
-                        <p class="subtitle">State</p>
                         <div class="custom-control-right custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="examinerFilterSwitch">
-                            <label id="examinerFilterSwitchlabel" class="custom-control-label Upper" for="examinerFilterSwitch">Examiner</label>
-                        </div>
-                        <div class="custom-control-right custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="gradeFilterSwitch">
-                            <label id="traineeFilterSwitchlabel" class="custom-control-label Upper"
-                                   for="traineeFilterSwitch">Trainee</label>
+                            <input type="checkbox" class="custom-control-input" value="gradingSchema"  id="gradeFilterSwitch">
+                            <label id="gradeFilterSwitchlabel" class="custom-control-label Upper"
+                                   for="gradeFilterSwitch">Grading Schema</label>
                         </div>
                     </div>
                     <div class="mt40">
-                        <button class="btn btn-primary">Save</button>
-                        <button class="btn btn-default floatRight">Cancel</button>
+                        <button class="btn btn-primary" id="applyFilterButton">Save</button>
+                        <button class="btn btn-default floatRight" id="filterFormCancelBtn">Cancel</button>
                     </div>
                 </div>
             </div>
 
-            <div class="mt20 d-flex">
-                <div>
+            <!--Filter Elements-->
+            <div class="mt20 d-flex" id="appliedFilterDiv">
+                <div class="ml20 filterSelections" id="createDateSelectionDiv" style="display:none;">
                     <div class="filterTags">
-                        <input class="filterTagsInput" id="AssessmentMonitorDateRange" type="text"
-                               name="AssessmentMonitorDateRange" value="Created Date: 01.01.2018 - 01.15.2018" />
-                        <button><i class="far fa-times-circle buttonicon"></i></button>
+                        <input class="filterTagsInput" id="assessmentCreateDateRange" type="text"
+                                name="assessmentCreateDateRange" value="Created Date: Select" />
+                        <button onclick="filterSelectionHide('createDate')"><i class="far fa-times-circle buttonicon"></i></button>
                     </div>
                 </div>
-                <div class="ml20">
+
+                <div class="ml20 filterSelections" id="modifyDateSelectionDiv" style="display:none;">
+                    <div class="filterTags">
+                        <input class="filterTagsInput" id="assessmentModifyDateRange" type="text"
+                                name="assessmentModifyDateRange" value="Modify Date: Select" />
+                        <button onclick="filterSelectionHide('modifyDate')"><i class="far fa-times-circle buttonicon"></i></button>
+                    </div>
+                </div>
+
+                <div class="ml20 filterSelections" id="resultSelectionDiv" style="display:none;">
                     <div class="filterTags filterSelectTags">
                         <div class="dropdown inline">
                             <div class="btn dropdown-toggle"
-                                 type="button" id="dropdownMenuButton"
-                                 data-toggle="dropdown"
-                                 aria-haspopup="true"
-                                 aria-expanded="false">
-                                State: Active
+                                    type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                Result: <span id="resultValue">Select</span>
                             </div>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Active</a>
-                                <a class="dropdown-item" href="#">Deleted</a>
+                                <a class="dropdown-item" onclick="setResult('Pass')">Pass</a>
+                                <a class="dropdown-item" onclick="setResult('Fail')">Fail</a>
                             </div>
                         </div>
-                        <button><i class="far fa-times-circle buttonicon inline"></i></button>
+                        <button onclick="filterSelectionHide('result')">
+                            <i class="far fa-times-circle buttonicon inline"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="ml20">
+
+                <div class="ml20 filterSelections" id="gradingSchemaSelectionDiv" style="display:none;">
                     <div class="filterTags filterSelectTags">
                         <div class="dropdown inline">
                             <div class="btn dropdown-toggle"
-                                 type="button" id="dropdownMenuButton"
-                                 data-toggle="dropdown"
-                                 aria-haspopup="true"
-                                 aria-expanded="false">
-                                Grading Schema: GRADE(1-5)
+                                    type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                Grading Schema: <span id="gradingSchemaValue">Select</span>
                             </div>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">GRADE(1-5)</a>
-                                <a class="dropdown-item" href="#">PASS/NOT PASS</a>
+                                <a class="dropdown-item" onclick="setGradingSchema('PassFail')">BASIC - Pass / Fail</a>
+                                <a class="dropdown-item" onclick="setGradingSchema('Score')">ADVANCED - Score</a>
                             </div>
                         </div>
-                        <button><i class="far fa-times-circle buttonicon inline"></i></button>
+                        <button onclick="filterSelectionHide('gradingSchema')">
+                            <i class="far fa-times-circle buttonicon inline"></i>
+                        </button>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

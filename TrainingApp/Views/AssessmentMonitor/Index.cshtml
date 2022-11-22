@@ -1,4 +1,5 @@
-﻿<!--
+﻿
+<!--
 /// <summary>
 /// Module purpose: View for Assessment Monitor page that displays a list of assessment records that are already assigned to trainees
 /// Authors: Hansol Lee / Jei Yang
@@ -8,6 +9,7 @@
 ///
 /// </summary>
 -->
+@model AssessmentViewModel
 @{
     ViewData["Title"] = "Assessment Monitor Page";
 }
@@ -34,7 +36,7 @@
     </div>
 
     <partial name="_AssessmentMonitorFilter" />
-
+    
     <div class="bg-white m20 p20">
         <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12">
@@ -45,36 +47,15 @@
                                 <tr>
                                     <th class="border-top-0">NAME</th>
                                     <th class="border-top-0">DATE</th>
-                                    <th class="border-top-0">CREATOR</th>
-                                    <th class="border-top-0">PUBLISHED</th>
+                                    <th class="border-top-0">EXAMINER</th>
+                                    <th class="border-top-0">TRAINEE(S)</th>
                                     <th class="border-top-0">GRADING SCHEMA</th>
                                     <th class="border-top-0">RESULT</th>
-                                    <th class="border-top-0">OPTIOPNS</th>
+                                    <th class="border-top-0">OPTIONS</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @{
-                                    for (int i = 0; i < 15; i++)
-                                    {
-                                        <tr>
-                                            <td>Take off test</td>
-                                            <td class="txt-oflo">12.10.2022</td>
-                                            <td>Marvin McKinney</td>
-                                            <td>Trainee 1</td>
-                                            <td>CLOSED</td>
-                                            <td>
-                                                <button type="button" class="btn btn-success">
-                                                    Pass
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <button class="btn text-primary"><i class="fas fa-search"></i></button>
-                                                <button class="btn text-warning"><i class="fas fa-pencil-alt"></i></button>
-                                                <button class="btn text-danger"><i class="far fa-trash-alt"></i></button>
-                                            </td>
-                                        </tr>
-                                    }
-                                }
+                            <tbody id="assessmentListBody">
+                                <partial name="_AssessmentListBody" model="Model" />
                             </tbody>
                         </table>
                     </div>

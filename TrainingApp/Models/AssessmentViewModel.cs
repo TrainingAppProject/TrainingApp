@@ -21,6 +21,24 @@ namespace TrainingApp.Models
         public IEnumerable<UserDTO> Users { get; set; }
     }
 
+
+    public class AssessmentFilters
+    {
+        public string CreateStartDate { get; set; }
+
+        public string CreateEndDate { get; set; }
+
+        public string ModifyStartDate { get; set; }
+
+        public string ModifyEndDate { get; set; }
+
+        public string Result { get; set; }
+
+        public string GradingSchema { get; set; }
+
+        public string searchString { get; set; }
+    }
+    
     public class EvaluationViewModel
     {
         public AssessmentDTO Assessment { get; set; }

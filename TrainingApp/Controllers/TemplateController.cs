@@ -57,6 +57,7 @@ public class TemplateController : Controller
         }
         catch (Exception ex)
         {
+            return Json(new { success = false, responseText = ex.Message });
             _logger.LogInformation("ERROR", ex.Message);
         }
 
@@ -127,6 +128,7 @@ public class TemplateController : Controller
         }
         catch (Exception ex)
         {
+            return Json(new { success = false, responseText = ex.Message });
             _logger.LogInformation("ERROR", ex.Message);
         }
         return RedirectToAction("Error", "Home");
@@ -157,9 +159,8 @@ public class TemplateController : Controller
         catch (Exception ex)
         {
             //_logger.LogInformation("ERROR", ex.Message);
-            var result = new JsonResult(new {
-                Message = ex.Message,
-            });
+            
+            var result = new JsonResult(new { Message = ex.Message, StatusCode = 500 });
             result.StatusCode = 500;
             return result;
         }
@@ -185,6 +186,7 @@ public class TemplateController : Controller
         }
         catch (Exception ex)
         {
+            return Json(new { success = false, responseText = ex.Message });
             _logger.LogInformation("ERROR", ex.Message);
         }
         return View(model);
@@ -240,6 +242,7 @@ public class TemplateController : Controller
         }
         catch (Exception ex)
         {
+            return Json(new { success = false, responseText = ex.Message });
             _logger.LogInformation("ERROR", ex.Message);
         }
         return RedirectToAction("Error", "Home");
@@ -286,6 +289,7 @@ public class TemplateController : Controller
         }
         catch (Exception ex)
         {
+            return Json(new { success = false, responseText = ex.Message });
             _logger.LogInformation("ERROR", ex.Message);
         }
         return RedirectToAction("Error", "Home");

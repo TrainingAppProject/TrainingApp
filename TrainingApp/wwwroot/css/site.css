@@ -210,6 +210,69 @@ div.custom-control-right {
     color: #FF0000;
 }
 
+/*----Help icon / text ----*/
+.help-button {
+    border: none;
+    position: absolute;
+    right: 5px;
+    color: #777777;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    position: absolute;
+    z-index: 1;
+    width: 200px;
+    color: #4F5467;
+    font-size: 12px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 10px 7px 10px 7px;
+    box-shadow: 1px 0px 20px rgb(0 0 0 / 8%);
+  }
+  
+  .tooltip-text>h6 {
+    color: #5932EA;
+  }
+
+  .tooltip-text-body {
+    text-align: left;
+  }
+  
+  .hover-text:hover .tooltip-text {
+    visibility: visible;
+  }
+  
+  #top {
+    top: -40px;
+    left: -50%;
+  }
+  
+  #bottom {
+    top: 25px;
+    left: -50%;
+  }
+  
+  #left {
+    top: -8px;
+    right: 120%;
+  }
+  
+  #right {
+    top: -8px;
+    left: 120%;
+  }
+  
+  .hover-text {
+    /*position: relative;*/
+    display: inline-block;
+    /*margin: 40px;
+    font-family: Avenir;
+    text-align: center;*/
+  }
+
+  /*----Help icon / text ----*/
+
 .gray-box {
     background-color: #EEEEEE;
 }

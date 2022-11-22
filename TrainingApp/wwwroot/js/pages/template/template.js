@@ -32,6 +32,10 @@ $(document).ready(function () {
     $("#statusValue").text('Active');
 });
 
+$('.help-button').click(function () {
+    $('.popuptext').show();
+});
+
 //-----------------------------------------FILTER-------------------------------//
 
 function initDateFilters() {
@@ -169,12 +173,12 @@ function removeFilterValue(target) {
         case "createDate":
             createStarDate = '';
             createEndDate = '';
-            resetDatePicker($("#templateCreateDateRange"));
+            resetDatePicker($("#templateCreateDateRange"), 'Created Date: Select');
             break;
         case "modifyDate":
             modifyStarDate = '';
             modifyEndDate = '';
-            resetDatePicker($("#templateModifyDateRange"));
+            resetDatePicker($("#templateModifyDateRange"), 'Modified Date: Select');
             break;
         case "status":
             status = '';
@@ -186,12 +190,13 @@ function removeFilterValue(target) {
             break;
         case "isPublished":
             isPublished = '';
+            $("#isPublishedValue").text('Select');
             break;
     }
 }
 
-function resetDatePicker(target) {
-    target.val('Created Date: Select');
+function resetDatePicker(target, defaultValue) {
+    target.val(defaultValue);
     target.css("width", "");
 }
 
@@ -371,6 +376,7 @@ function getTemplateInfo(templateID) {
                     $("#allTaskMandatoryNo").prop( "disabled", true);
                     $("#isPublishedYes").prop( "disabled", true);
                     $("#isPublishedNo").prop( "disabled", true);
+                    $("#createTemplateButton").prop( "disabled", true);
                 } else if (state == 3) {
                     stateText = 'Pending';
                 }
@@ -405,7 +411,7 @@ function deleteTemplate(id) {
     }).fail(function(xhr){
         modalClose('deleteModal'); // now close modal
         showModal('errorAlertDialog');
-        $('#errorMessage').html(xhr.responseJSON.message)
+        $('#errorMessage').html(xhr.responseJSON.message);
     });
 
    
