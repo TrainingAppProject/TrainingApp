@@ -35,14 +35,39 @@ public class AssessmentController : Controller
     public IActionResult Index()
     {
         AssessmentViewModel model = new AssessmentViewModel();
+        var claims = ((System.Security.Claims.ClaimsIdentity)User.Identity).Claims;
+        var claim = claims.SingleOrDefault(m => m.Type == "UserRoles");
+        string userroles = claim.Value;
+
+
+        List<string> roles = userroles.Split(',').ToList();
+
         try
         {
             using (TrainingDbContext db = _context.CreateDbContext())
             {
+                //Is user has only trainee role, show only their assessments.
+                if (roles.Count() == 1 && roles.Contains("Trainee"))
+                {
+                    var userid = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    bool validUserID = Guid.TryParse(userid, out Guid userGuid);
+                    if (!validUserID)
+                        throw new ArgumentException("user cannot be found");
+
+                    model.Assessments = db.Assessments.Where(a => a.TraineeID == userGuid)
+                        .OrderByDescending(a => a.CreatedTime).ToList();
+
+                    model.IsTraineeView = true;
+                }
+                else
+                {
+                    model.Assessments = db.Assessments.Where(a => a.State != (int)BasicStatus.Delete)
+                        .OrderByDescending(a => a.CreatedTime).ToList();
+
+                    model.IsTraineeView = false;
+                }
                 model.Trainees = db.Users.Where(u => u.Role.Contains("Trainee")).ToList();
                 model.Templates = db.Templates.Where(t => t.State == (int)BasicStatus.Active).ToList();
-                model.Assessments = db.Assessments.Where(a => a.State == (int)BasicStatus.Active)
-                    .OrderByDescending(a=>a.CreatedTime).ToList();
                 model.Users = db.Users.Where(u => u.CompanyID == 1).ToList();
             }
         }
@@ -212,6 +237,11 @@ public class AssessmentController : Controller
                 UserDTO trainee = db.Users.Where(u => u.ID == assessment.TraineeID).FirstOrDefault();
                 model.Trainee = trainee;
 
+                if (assessment.State != (int)BasicStatus.Active ||
+                    assessment.ExaminerSigned.HasValue)
+                    model.IsEditable = false;
+                else
+                    model.IsEditable = true;
             }
         }
         catch (Exception ex)
@@ -223,7 +253,7 @@ public class AssessmentController : Controller
     }
 
     [HttpPost]
-    public IActionResult signAssessment([FromBody]SignAssessmentModel model)
+    public IActionResult SignAssessment([FromBody]UpdateAssessmentModel model)
     {
         try
         {
@@ -248,15 +278,106 @@ public class AssessmentController : Controller
                 AssessmentDTO assessment = db.Assessments.Where(a=>a.ID == assessmentGuid)
                     .FirstOrDefault() ?? throw new ArgumentNullException("Assessment does not exist");
 
+                string signedDate = "";
                 if (model.UserRole == "Examiner")
+                {
                     assessment.ExaminerSigned = DateTime.UtcNow;
+                    signedDate = assessment.ExaminerSigned?.ToString("yyyy.MM.dd");
+                }
                 else if (model.UserRole == "Trainee")
+                {
                     assessment.TraineeSigned = DateTime.UtcNow;
+                    signedDate = assessment.TraineeSigned?.ToString("yyyy.MM.dd");
+                }
+
+                //if both signed the assessment, closed the assesment
+                if (assessment.ExaminerSigned.HasValue && assessment.TraineeSigned.HasValue)
+                    assessment.State = (int)BasicStatus.Closed;
 
                 db.Assessments.Update(assessment);
                 db.SaveChanges();
 
-                return Json(new { success = true });
+                return Json(new { success = true, responseText = signedDate });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation("ERROR", ex.Message);
+            return Json(new { success = false, responseText = ex.Message });
+        }
+    }
+
+    [HttpPost]
+    public IActionResult UpdateAssessmentGrade([FromBody]UpdateAssessmentModel model)
+    {
+        try
+        {
+            using (TrainingDbContext db = _context.CreateDbContext())
+            {
+                bool isValidAssessmentID = Guid.TryParse(model.AssessmentID, out Guid assessmentGuid);
+                if (!isValidAssessmentID)
+                    throw new Exception("Invalid Assessment ID");
+
+                AssessmentDTO assessment = db.Assessments.Where(a => a.ID == assessmentGuid)
+                    .FirstOrDefault() ?? throw new ArgumentNullException("Assessment does not exist");
+
+                if (model.OverallGrade == "0")
+                    assessment.OverallGrade = "";
+                else
+                {
+                    bool isValidGrade = Enum.TryParse<OverallGrade>(model.OverallGrade, out OverallGrade grade);
+                    if (!isValidGrade)
+                        throw new Exception("Not a valid grade");
+
+                    assessment.OverallGrade = model.OverallGrade;
+                }
+
+                db.Assessments.Update(assessment);
+                db.SaveChanges();
+
+                return Json(new { success = true, responseText = "" });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation("ERROR", ex.Message);
+            return Json(new { success = false, responseText = ex.Message });
+        }
+    }
+
+    [HttpPost]
+    public IActionResult UpdateAssessmentElementGrade([FromBody] UpdateAssessmentModel model)
+    {
+        try
+        {
+            using (TrainingDbContext db = _context.CreateDbContext())
+            {
+                bool isValidAssessmentID = Guid.TryParse(model.AssessmentID, out Guid assessmentGuid);
+                if (!isValidAssessmentID)
+                    throw new Exception("Invalid Assessment ID");
+
+                AssessmentDTO assessment = db.Assessments.Where(a => a.ID == assessmentGuid)
+                    .FirstOrDefault() ?? throw new ArgumentNullException("Assessment does not exist");
+
+                bool isValidElementID = Guid.TryParse(model.ElementID, out Guid elementGuid);
+                if (!isValidElementID)
+                    throw new Exception("Invalid Element ID");
+
+                AssessmentElementDTO element= db.AssessmentElements.Where(a => a.AssessmentID == assessment.ID &&
+                    a.Id == elementGuid).FirstOrDefault() ?? throw new ArgumentException("Element deos not exist");
+
+                AssessmentGradeDTO grade = db.AssessmentGrades.Where(m=>m.AssessmentElementID == element.Id)
+                    .FirstOrDefault() ?? throw new ArgumentException("Grade deos not exist");
+
+
+                element.Grade.Grade = model.Grade;
+                element.Grade.ModifiedDate = DateTime.UtcNow;
+                
+              
+                db.AssessmentElements.Update(element);
+                db.SaveChanges();
+
+                return Json(new { success = true, responseText = "" });
             }
         }
         catch (Exception ex)

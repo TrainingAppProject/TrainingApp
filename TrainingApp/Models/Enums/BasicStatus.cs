@@ -14,7 +14,8 @@ namespace TrainingApp.Models.Enums
     {
         Active = 1,
         Delete = 2,
-        Pending = 3
+        Pending = 3,
+        Closed = 4
     }
 }
 

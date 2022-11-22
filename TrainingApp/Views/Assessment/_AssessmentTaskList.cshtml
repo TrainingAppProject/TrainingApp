@@ -13,37 +13,61 @@
 
 @{
     int i = 1;
-    var grade = Model.Assessment.PassGrade;
+    var gradeSchema = Model.Assessment.PassGrade;
+
+    string disabled = "";
+    if (!Model.IsEditable)
+        disabled = "disabled";
 
     foreach (var element in Model.Elements.OrderBy(e => e.OrderNo))
     {
+        var grade = element.Grade;
+        string elementDivID = "elementDivID" + element.OrderNo;
 
         <div class="row gray-box mt20 mb20">
             <div class="row w-100 m0">
-                @if (grade == GradingSchema.PassFail.ToString())
+                @if (gradeSchema == GradingSchema.PassFail.ToString())
                 {
+                    string passSelected = (grade.Grade == "Pass") ? "active" : "";
+                    string failSelected = (grade.Grade == "Fail") ? "active" : "";
+
                     <div class="col-md-8 p20">
                         <h4>@(i++). @element.Task.Name</h4>
                     </div>
 
-
-                    <div class="col-md-4 gradeContainer m0 p0">
-                        <button type="button" class="btn btn-fail gradeFailPassButton">Fail</button>
-                        <button type="button" class="btn btn-pass gradeFailPassButton">Pass</button>
+                    <div class="col-md-4 gradeContainer m0 p0"  id="@elementDivID">
+                        <button type="button" class="btn btn-fail gradeButtons gradeFailPassButton @failSelected"
+                                data-grade="Fail" data-element="@element.Id" @disabled>
+                            Fail
+                        </button>
+                        <button type="button" class="btn btn-pass gradeButtons gradeFailPassButton @passSelected"
+                                data-grade="Pass" data-element="@element.Id" @disabled>
+                            Pass
+                        </button>
                     </div>
 
                 }
-                else if (grade == GradingSchema.Score.ToString())
+                else if (gradeSchema == GradingSchema.Score.ToString())
                 {
+                    string oneSelected = (grade.Grade == "1") ? "active" : "";
+                    string twoSelected = (grade.Grade == "2") ? "active" : "";
+                    string threeSelected = (grade.Grade == "3") ? "active" : "";
+                    string fourSelected = (grade.Grade == "4") ? "active" : "";
+                    string fiveSelected = (grade.Grade == "5") ? "active" : "";
                     <div class="col-md-6 p20">
                         <h4>@(i++). @element.Task.Name</h4>
                     </div>
-                    <div class="col-md-6 gradeContainer m0 p0">
-                        <button type="button" class="btn btn-one gradeScoresButton">1</button>
-                        <button type="button" class="btn btn-two gradeScoresButton">2</button>
-                        <button type="button" class="btn btn-three gradeScoresButton">3</button>
-                        <button type="button" class="btn btn-four gradeScoresButton">4</button>
-                        <button type="button" class="btn btn-five gradeScoresButton">5</button>
+                    <div class="col-md-6 gradeContainer m0 p0"  id="@elementDivID">
+                        <button type="button" class="btn btn-one gradeButtons gradeScoresButton @oneSelected"
+                                data-grade="1" data-grade-schema="Score" data-element="@element.Id" @disabled>1</button>
+                        <button type="button" class="btn btn-two gradeButtons gradeScoresButton @twoSelected"
+                                data-grade="2" data-grade-schema="Score" data-element="@element.Id" @disabled>2</button>
+                        <button type="button" class="btn btn-three gradeButtons gradeScoresButton @threeSelected"
+                                data-grade="3" data-grade-schema="Score" data-element="@element.Id" @disabled>3</button>
+                        <button type="button" class="btn btn-four gradeButtons gradeScoresButton @fourSelected"
+                                data-grade="4" data-grade-schema="Score" data-element="@element.Id" @disabled>4</button>
+                        <button type="button" class="btn btn-five gradeButtons gradeScoresButton @fiveSelected"
+                                data-grade="5" data-grade-schema="Score" data-element="@element.Id" @disabled>5</button>
                     </div>
                 }
             </div>

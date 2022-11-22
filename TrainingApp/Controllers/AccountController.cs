@@ -96,6 +96,7 @@ namespace TrainingApp.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
                 new Claim("CompanyID", user.CompanyID.ToString()),
                 new Claim("UserRoles", user.Role)
             };

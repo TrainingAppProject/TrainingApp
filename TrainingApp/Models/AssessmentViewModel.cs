@@ -19,6 +19,8 @@ namespace TrainingApp.Models
         public IEnumerable<UserDTO> Trainees { get; set; }
         public IEnumerable<TemplateDTO> Templates { get; set; }
         public IEnumerable<UserDTO> Users { get; set; }
+
+        public bool IsTraineeView { get; set; }
     }
 
     public class EvaluationViewModel
@@ -28,9 +30,11 @@ namespace TrainingApp.Models
 
         public UserDTO Examiner { get; set; }
         public UserDTO Trainee { get; set; }
+
+        public bool IsEditable { get; set; }
     }
 
-    public class SignAssessmentModel
+    public class UpdateAssessmentModel
     {
         public string AssessmentID { get; set; }
 
@@ -39,6 +43,15 @@ namespace TrainingApp.Models
         public string UserRole { get; set; }
 
         public string Password { get; set; }
+
+        public string OverallGrade { get; set; }
+
+        public string Grade { get; set; }
+
+        public string GradeSchema { get; set; }
+
+        public string ElementID { get; set; }
     }
+
 }
 
