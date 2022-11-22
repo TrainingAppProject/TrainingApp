@@ -1,4 +1,5 @@
 ﻿@model EvaluationViewModel
+@using TrainingApp.Models.Enums
 <!--
 /// <summary>
 /// Module purpose: partial view to display the selected template's details
@@ -11,6 +12,9 @@
 -->
 @{
     ViewData["Title"] = "Assessment View Page";
+    string disabled = "";
+    if (!Model.IsEditable)
+        disabled = "disabled";
 }
 
 @section Scripts
@@ -24,6 +28,7 @@
 
 <hr class="solid" />
 <div class="tab-pain" id="v-pills-view-template" role="tabpanel" aria-labelledby="v-pills-view-template">
+    <input id="assessmentID" type="text" class="hide" value="@Model.Assessment.ID"/>
     <div class="page-wrapper">
         <div class="page-breadcrumb">
             <div class="row align-items-center">
@@ -39,14 +44,18 @@
                     <h2 class="page-title">@Model.Assessment.Name</h2>
                 </div>
             </div>
-            <div class="row align-items-center pb-3">
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <button id="saveAssessment" class="btn btn-primary mt20" type="button">
-                        <i class="fas fa-save"></i>
-                        SAVE
-                    </button>
+            @if (Model.IsEditable)
+            {
+                <div class="row align-items-center pb-3">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <button id="saveAssessment" class="btn btn-primary mt20" type="button">
+                            <i class="fas fa-save"></i>
+                            SAVE
+                        </button>
+                    </div>
                 </div>
-            </div>
+            }
+
 
             <div class="row gray-box p20 assessmentContentContainer">
                 <div class="col-md-6 col-lg-6 col-sm-12">
@@ -65,10 +74,12 @@
                     <div class="row">
                         <h4 class="w-35">Overall Grade:</h4>
                         <div class="w-50">
+                            <input type="text" class="hide" value="@Model.Assessment.OverallGrade" id="overallGradeInput"/>
                             <select class="form-select form-select-sm form-control gradeSelect"
-                                    aria-label=".form-select-sm example"
-                                    id="selectAssessmentGrade">
-                                <option value="Pass" selected>Pass</option>
+                                    aria-label=".form-select-sm example" id="selectAssessmentGrade" @disabled >
+                                <option value="0">Select Grade</option>
+                                <option value="Pass">Pass</option>
+                                <option value="PartialPass">Partial Pass</option>
                                 <option value="Fail">Fail</option>
                             </select>
                             <input type="text" class="hide" />
@@ -80,7 +91,7 @@
                         <h4 class="w-100">Examiner: @Model.Examiner.FirstName @Model.Examiner.LastName</h4>
                         <div class="w-100">
                             <div class="form-group">
-                                <div class="row">
+                                <div class="row" id="ExaminerSignedDiv">
                                     @if ((Model.Assessment.ExaminerSigned).HasValue)
                                     {
                                         <p class="signedText">Signed @((Model.Assessment.ExaminerSigned)?.ToString("yyyy.MM.dd"))</p>
@@ -94,9 +105,7 @@
                                         </button>
                                         <p id="examinerSignError" class="form-text red hide error"></p>
                                     }
-
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -104,7 +113,7 @@
                         <h4 class="w-100">Trainee: @Model.Trainee.FirstName @Model.Trainee.LastName </h4>
                         <div class="w-100">
                             <div class="form-group">
-                                <div class="row">
+                                <div class="row" id="TraineeSignedDiv">
                                     @if ((Model.Assessment.TraineeSigned).HasValue)
                                     {
                                         <p class="signedText">Signed @((Model.Assessment.TraineeSigned)?.ToString("yyyy.MM.dd"))</p>

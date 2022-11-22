@@ -61,5 +61,6 @@
     <Content Remove="Data\TemplateDbContext.json" />
     <Content Remove="wwwroot\image\icon\" />
     <Content Remove="wwwroot\js\pages\user\" />
+    <Content Remove="Models\AssessmentGradeButtonViewModel.json" />
   </ItemGroup>
 </Project>
