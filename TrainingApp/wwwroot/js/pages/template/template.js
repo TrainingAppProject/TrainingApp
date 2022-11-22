@@ -376,6 +376,7 @@ function getTemplateInfo(templateID) {
                     $("#allTaskMandatoryNo").prop( "disabled", true);
                     $("#isPublishedYes").prop( "disabled", true);
                     $("#isPublishedNo").prop( "disabled", true);
+                    $("#createTemplateButton").prop( "disabled", true);
                 } else if (state == 3) {
                     stateText = 'Pending';
                 }
