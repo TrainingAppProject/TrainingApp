@@ -159,14 +159,10 @@ public class TemplateController : Controller
         catch (Exception ex)
         {
             //_logger.LogInformation("ERROR", ex.Message);
-            /*
-            var result = new JsonResult(new {
-                Message = ex.Message,
-            });
+            
+            var result = new JsonResult(new { Message = ex.Message, StatusCode = 500 });
             result.StatusCode = 500;
             return result;
-            */
-            return Json(new { success = false, responseText = ex.Message });
         }
         return RedirectToAction("Error", "Home");
 
