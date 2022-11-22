@@ -26,10 +26,30 @@
 
 <div class="page-wrapper">
     <div class="page-breadcrumb">
-        <div class="row align-items-center">
-            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <div class="row">
+            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
                 <h3 class="page-title">Template</h3>
             </div>
+
+            <div class="input-group col-lg-3 col-md-4 col-sm-4">
+                <button type="button" class="btn btn-light help-button hover-text">
+                    <i class="fas fa-info-circle"></i>
+                    Help
+                    <span class="tooltip-text" id="left">
+                        <h6>Template</h6>
+                        <hr class="solid mb10" />
+                        <div class="tooltip-text-body">
+                            Use this page to create a template for assessment criteria.<br><br>
+                        
+                            <b>Grading Schema</b><br>
+                            Basic schema is graded as either Pass or Fail.<br>
+                            Advanced schema is graded with numeric score between 1-5.
+                        </div>
+                        
+                    </span>
+                </button>
+            </div> 
+
         </div>
         <button id="createTemplateModalBtn" class="btn btn-primary mt20" type="button" onclick="getTemplateInfo(0)">
             <i class="fas fa-plus-circle"></i>

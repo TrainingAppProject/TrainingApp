@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrainingApp.Services;
 
@@ -11,9 +12,10 @@ using TrainingApp.Services;
 namespace TrainingApp.Migrations
 {
     [DbContext(typeof(TrainingDbContext))]
-    partial class TrainingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221120100227_DefineTableAssociations")]
+    partial class DefineTableAssociations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,6 +72,9 @@ namespace TrainingApp.Migrations
                     b.Property<Guid>("TemplateID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("Trainee")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("TraineeID")
                         .HasColumnType("uniqueidentifier");
 
@@ -83,8 +88,6 @@ namespace TrainingApp.Migrations
                     b.HasIndex("ExaminerID");
 
                     b.HasIndex("TemplateID");
-
-                    b.HasIndex("TraineeID");
 
                     b.ToTable("Assessments");
                 });
@@ -351,19 +354,11 @@ namespace TrainingApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TrainingApp.DTOs.UserDTO", "Trainee")
-                        .WithMany()
-                        .HasForeignKey("TraineeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Created");
 
                     b.Navigation("Examiner");
 
                     b.Navigation("Template");
-
-                    b.Navigation("Trainee");
                 });
 
             modelBuilder.Entity("TrainingApp.DTOs.AssessmentElementDTO", b =>

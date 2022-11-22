@@ -78,6 +78,38 @@
             <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
+
+                        @if (roles.Contains("Admin") || roles.Contains("Examiner"))
+                        {
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                   href="@Url.Action("Index", "Template")"
+                                   aria-expanded="false">
+                                    <i class="fa fa-folder-open fa-lg" aria-hidden="true"></i>
+                                    <span class="hide-menu">Template</span>
+                                </a>
+                            </li>
+                        }
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                               href="@Url.Action("Index", "Assessment")"
+                               aria-expanded="false">
+                                <i class="fa fa-clipboard fa-xl" aria-hidden="true"></i>
+                                <span class="hide-menu">Assessment</span>
+                            </a>
+                        </li>
+                        @if (roles.Contains("Admin") || roles.Contains("Examiner"))
+                        {
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                   href="@Url.Action("Index", "AssessmentMonitor")"
+                                   aria-expanded="false"
+                                   style="line-height:1.2">
+                                    <i class="far fa-chart-bar fa-lg" aria-hidden="true"></i>
+                                    <span class="hide-menu">Assessment <br /> Monitor</span>
+                                </a>
+                            </li>
+                        }
                         @if (roles.Contains("Admin"))
                         {
                             <li class="sidebar-item">
@@ -90,36 +122,6 @@
                                 </a>
                             </li>
                         }
-                        @if (roles.Contains("Admin") || roles.Contains("Examiner"))
-                        {
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                   href="@Url.Action("Index", "Template")"
-                                   aria-expanded="false">
-                                    <i class="fa fa-folder-open fa-lg" aria-hidden="true"></i>
-                                    <span class="hide-menu">Template</span>
-                                </a>
-                            </li>
-
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                   href="@Url.Action("Index", "AssessmentMonitor")"
-                                   aria-expanded="false"
-                                   style="line-height:1.2">
-                                    <i class="far fa-chart-bar fa-lg" aria-hidden="true"></i>
-                                    <span class="hide-menu">Assessment <br /> Monitor</span>
-                                </a>
-                            </li>
-     
-                        }
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="@Url.Action("Index", "Assessment")"
-                               aria-expanded="false">
-                                <i class="fa fa-clipboard fa-xl" aria-hidden="true"></i>
-                                <span class="hide-menu">Assessment</span>
-                            </a>
-                        </li>
                     </ul>
                 </nav>
             </div>

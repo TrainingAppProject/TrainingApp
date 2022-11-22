@@ -1,0 +1,46 @@
+<!--
+/// <summary>
+/// Module purpose: View for Assessment Monitor page that displays a list of assessment records that are already assigned to trainees
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Oct 26, 2022
+/// Source: Created for the COMP7022 project
+/// Revision History:
+///
+/// </summary>
+-->
+@model AssessmentViewModel
+@using System.Reflection
+@using System.ComponentModel
+@using System.ComponentModel.DataAnnotations
+@using TrainingApp.Models.Enums
+
+@foreach (var assessment in Model.Assessments)
+{
+
+    /*
+    var trainee = Model.Users.Where(u => u.ID == assessment.TraineeID).FirstOrDefault();
+    string traineeName = (trainee != null) ? trainee.FirstName + " " + trainee.LastName : string.Empty;
+
+    var examiner = Model.Users.Where(u => u.ID == assessment.ExaminerID).FirstOrDefault();
+    string examinerName = (examiner != null) ? examiner.FirstName + " " + examiner.LastName : string.Empty;
+
+    var template = Model.Templates.Where(t => t.ID == assessment.TemplateID).FirstOrDefault();
+    var gradingSchemaName = "";
+
+    if (template != null)
+    {
+        gradingSchemaName =
+            template.GradingSchema.GetType().GetMember(template.GradingSchema.ToString()).First().GetCustomAttribute<DisplayAttribute>().Name;
+    }
+    */
+    <tr>
+        <td>@assessment.Name</td>
+        <td>@assessment.CreatedTime.ToString("MM.dd.yyyy")</td>
+        <td>@assessment.Trainee.FirstName @assessment.Trainee.LastName</td>
+        <td>@assessment.Examiner.FirstName @assessment.Examiner.LastName </td>
+        <td>@Html.DisplayFor(model => assessment.Template.GradingSchema)</td>
+        <td>@assessment.OverallGrade</td>
+        <td></td>
+    </tr>
+
+}
