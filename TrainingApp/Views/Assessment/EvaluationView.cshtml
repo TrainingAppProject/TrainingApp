@@ -1,0 +1,136 @@
+﻿@model EvaluationViewModel
+<!--
+/// <summary>
+/// Module purpose: partial view to display the selected template's details
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Oct 26, 2022
+/// Source: Created for the COMP7022 project
+/// Revision History:
+///
+/// </summary>
+-->
+@{
+    ViewData["Title"] = "Assessment View Page";
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/js/pages/assessment/evaluationView.js")"></script>
+}
+
+@section Styles {
+    <link href="@Url.Content("~/css/pages/evaluationView.css")" rel="stylesheet" type="text/css" />
+}
+
+<hr class="solid" />
+<div class="tab-pain" id="v-pills-view-template" role="tabpanel" aria-labelledby="v-pills-view-template">
+    <div class="page-wrapper">
+        <div class="page-breadcrumb">
+            <div class="row align-items-center">
+                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                    <h4 class="page-title">@Html.ActionLink("< Go to Assessments", "Index", "Assessment")</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white m20 p50 height100">
+            <div class="row align-items-center pb-1">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h2 class="page-title">@Model.Assessment.Name</h2>
+                </div>
+            </div>
+            <div class="row align-items-center pb-3">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <button id="saveAssessment" class="btn btn-primary mt20" type="button">
+                        <i class="fas fa-save"></i>
+                        SAVE
+                    </button>
+                </div>
+            </div>
+
+            <div class="row gray-box p20 assessmentContentContainer">
+                <div class="col-md-6 col-lg-6 col-sm-12">
+                    <div class="row w-100">
+                        <h4 class="w-35">Test Date:</h4>
+                        <p class="assessmentContent">@Model.Assessment.CreatedTime.ToString("yyyy.MM.dd")</p>
+                    </div>
+                    <div class="row w-100">
+                        <h4 class="w-35">Purpose:</h4>
+                        <p class="assessmentContent"> Renewing Certification</p>
+                    </div>
+                    <div class="row w-100">
+                        <h4 class="w-35">Description:</h4>
+                        <p class="assessmentDescription"> @Model.Assessment.Description</p>
+                    </div>
+                    <div class="row">
+                        <h4 class="w-35">Overall Grade:</h4>
+                        <div class="w-50">
+                            <select class="form-select form-select-sm form-control gradeSelect"
+                                    aria-label=".form-select-sm example"
+                                    id="selectAssessmentGrade">
+                                <option value="Pass" selected>Pass</option>
+                                <option value="Fail">Fail</option>
+                            </select>
+                            <input type="text" class="hide" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12">
+                    <div class="row">
+                        <h4 class="w-100">Examiner: @Model.Examiner.FirstName @Model.Examiner.LastName</h4>
+                        <div class="w-100">
+                            <div class="form-group">
+                                <div class="row">
+                                    @if ((Model.Assessment.ExaminerSigned).HasValue)
+                                    {
+                                        <p class="signedText">Signed @((Model.Assessment.ExaminerSigned)?.ToString("yyyy.MM.dd"))</p>
+                                    }
+                                    else
+                                    {
+                                        <input type="password" class="form-control w-70" id="examinerSignInput" placeholder="Enter the examiner password">
+                                        <button class="btn btn-primary"
+                                                onclick="signAssessment('@Model.Assessment.ID','@Model.Examiner.ID','Examiner','examinerSignInput', 'examinerSignError')">
+                                            <i class="fas fa-save"></i>
+                                        </button>
+                                        <p id="examinerSignError" class="form-text red hide error"></p>
+                                    }
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h4 class="w-100">Trainee: @Model.Trainee.FirstName @Model.Trainee.LastName </h4>
+                        <div class="w-100">
+                            <div class="form-group">
+                                <div class="row">
+                                    @if ((Model.Assessment.TraineeSigned).HasValue)
+                                    {
+                                        <p class="signedText">Signed @((Model.Assessment.TraineeSigned)?.ToString("yyyy.MM.dd"))</p>
+                                    }
+                                    else
+                                    {
+                                        <input type="password" class="form-control w-70" id="trineeSignInput" placeholder="Enter the trainee password">
+                                        <button class="btn btn-primary"
+                                                onclick="signAssessment('@Model.Assessment.ID', '@Model.Trainee.ID','Trainee','trineeSignInput', 'trineeSignError')">
+                                            <i class="fas fa-save"></i>
+                                        </button>
+                                        <p id="trineeSignError" class="form-text red hide error"></p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="taskGradeContainer" class="mt30 mb30">
+                <partial name="_AssessmentTaskList" model="Model" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<partial name="_CreateTask" model="Model" />-->
+<partial name="../Shared/_DeleteModal" />

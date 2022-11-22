@@ -43,7 +43,7 @@
             <div class="col-md-12 col-lg-12 col-sm-12">
                 <div class="white-box">
                     <div class="table-responsive">
-                        <table class="table no-wrap">
+                        <table class="table no-wrap table-hover">
                             <thead>
                                 <tr>
                                     <th class="border-top-0">NAME</th>
@@ -51,12 +51,14 @@
                                     <th class="border-top-0">EXAMINER</th>
                                     <th class="border-top-0">TRAINEE(S)</th>
                                     <th class="border-top-0">SIGNED</th>
+                                    <th class="border-top-0">OPTIOPNS</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var assessment in Model.Assessments) {
+                                @foreach (var assessment in Model.Assessments)
+                                {
                                     var trainee = Model.Users.Where(u => u.ID == assessment.TraineeID).FirstOrDefault();
-                                    string traineeName = (trainee != null)? trainee.FirstName + " " + trainee.LastName : string.Empty;
+                                    string traineeName = (trainee != null) ? trainee.FirstName + " " + trainee.LastName : string.Empty;
 
                                     var examiner = Model.Users.Where(u => u.ID == assessment.ExaminerID).FirstOrDefault();
                                     string examinerName = (examiner != null) ? examiner.FirstName + " " + examiner.LastName : string.Empty;
@@ -67,8 +69,12 @@
                                         <td>@traineeName</td>
                                         <td>@examinerName</td>
                                         <td></td>
+                                        <td>
+                                            <a href="@Url.Action("EvaluationView", "Assessment", new { id = assessment.ID }, null)"
+                                               class="btn text-primary"><i class="fas fa-search"></i></a>
+                                        </td>
                                     </tr>
-                                    
+
                                 }
                             </tbody>
                         </table>

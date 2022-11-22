@@ -38,5 +38,25 @@ namespace TrainingApp.Models
 
         public string searchString { get; set; }
     }
+    
+    public class EvaluationViewModel
+    {
+        public AssessmentDTO Assessment { get; set; }
+        public IEnumerable<AssessmentElementDTO> Elements { get; set; }
+
+        public UserDTO Examiner { get; set; }
+        public UserDTO Trainee { get; set; }
+    }
+
+    public class SignAssessmentModel
+    {
+        public string AssessmentID { get; set; }
+
+        public string UserID { get; set; }
+
+        public string UserRole { get; set; }
+
+        public string Password { get; set; }
+    }
 }
 
