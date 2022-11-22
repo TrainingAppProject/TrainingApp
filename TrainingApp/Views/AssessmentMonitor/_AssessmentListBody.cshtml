@@ -14,6 +14,13 @@
 @using System.ComponentModel.DataAnnotations
 @using TrainingApp.Models.Enums
 
+@{
+    var claims = ((System.Security.Claims.ClaimsIdentity)User.Identity).Claims;
+    var claim = claims.SingleOrDefault(m => m.Type == "UserRoles");
+    string userroles = claim.Value;
+
+    List<string> roles = userroles.Split(',').ToList();
+}
 @foreach (var assessment in Model.Assessments)
 {
 
@@ -39,8 +46,39 @@
         <td>@assessment.Trainee.FirstName @assessment.Trainee.LastName</td>
         <td>@assessment.Examiner.FirstName @assessment.Examiner.LastName </td>
         <td>@Html.DisplayFor(model => assessment.Template.GradingSchema)</td>
-        <td>@assessment.OverallGrade</td>
-        <td></td>
+        <td>  
+            @{
+                switch (@assessment.OverallGrade) {
+                    case "Pass":
+                        <button id="resultBtn" class="btn btn-sm btn-info result-btn" type="button">PASS</button>
+                        break;
+                    case "PartialPass":
+                        <button id="resultBtn" class="btn btn-sm btn-warning result-btn" type="button">PARTIAL PASS</button>
+                        break;
+                    case "Fail":
+                        <button id="resultBtn" class="btn btn-sm btn-danger result-btn" type="button">FAIL</button>
+                        break;
+                    default:
+                        <button id="resultBtn" class="btn btn-sm btn-light result-btn" type="button">NOT SET</button>
+                        break;
+                }
+            }
+        </td>
+        <td class="option-td">
+            <button id="viewAssessmentBtn" class="btn text-primary" type="button"
+                    onclick="location.href='@Url.Action("ViewAssessment","AssessmentMonitor", new { assessmentID = @assessment.ID.ToString() })'">
+                <i class="fas fa-search"></i>
+            </button>
+            @if (roles.Contains("Admin"))
+            {
+                <button id="editAssessmentBtn" class="btn text-warning" type="button" onclick="getAssessmentInfo('@assessment.ID')">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+                <button id="deleteAssessmentBtn" class="btn text-danger" type="button" onclick="confirmDeleteAssessment('@assessment.ID')" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <i class="far fa-trash-alt"></i>
+                </button>
+            }
+        </td>
     </tr>
 
 }

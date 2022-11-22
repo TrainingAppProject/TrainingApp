@@ -28,9 +28,30 @@
 
 <div class="page-wrapper">
     <div class="page-breadcrumb">
-        <div class="row align-items-center">
-            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <div class="row">
+            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
                 <h3 class="page-title">Assessment Monitor</h3>
+            </div>
+            <div class="input-group col-lg-3 col-md-4 col-sm-4">
+                <button type="button" class="btn btn-light help-button hover-text">
+                    <i class="fas fa-info-circle"></i>
+                    Help
+                    <span class="tooltip-text" id="left">
+                        <h6>Assessment Monitor</h6>
+                        <hr class="solid mb10" />
+                        <div class="tooltip-text-body">
+                            Use this page to monitor assessments that are assigned and graded.<br><br>
+                        
+                            <b>Result</b><br>
+                            Pass: Passed all tasks<br>
+                            Partial Pass: Passed the assessment but failed at least one task<br>
+                            Fail: Failed the assessment
+                            <br><br>
+                            <b>Edit/Delete</b><br>
+                            Only Admin users can edit/delete assessments that are 'closed' (signed by both Examiner and Trainee)
+                        </div>
+                    </span>
+                </button>
             </div>
         </div>
     </div>
@@ -65,3 +86,30 @@
     </div>
 </div>
 
+
+<div class="modal" id="editAssessmentModal" tabindex="-1" role="dialog" aria-labelledby="editAssessmentLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editAssessmentLabel">Edit Assessment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    onclick="modalClose('editAssessmentModal')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="assessmentModalBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light button-left" type="delete"
+                    onclick="modalClose('editAssessmentModal')">Close</button>
+                <button type="button" class="btn btn-primary" id="editAssessmentButton"
+                    onclick="validateAssessmentForm('editAssessmentForm')"><span class="action"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop hide" style="display:none"></div>
+
+<partial name="../Shared/_DeleteModal" /> 
+<partial name="../Shared/_ErrorAlertDialog" /> 

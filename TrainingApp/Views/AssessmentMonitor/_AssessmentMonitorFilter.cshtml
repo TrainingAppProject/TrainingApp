@@ -51,6 +51,10 @@
                     <div class="mt10">
                         <p class="subtitle">State</p>
                         <div class="custom-control-right custom-switch">
+                            <input type="checkbox" class="custom-control-input" value="status" id="statusFilterSwitch" checked>
+                            <label class="custom-control-label Upper" for="statusFilterSwitch">Status</label>
+                        </div>
+                        <div class="custom-control-right custom-switch">
                             <input type="checkbox" class="custom-control-input" value="result" id="resultFilterSwitch">
                             <label class="custom-control-label Upper"
                                    for="resultFilterSwitch">Result</label>
@@ -86,6 +90,28 @@
                     </div>
                 </div>
 
+                <div class="ml20 filterSelections" id="statusSelectionDiv">
+                    <div class="filterTags filterSelectTags">
+                        <div class="dropdown inline">
+                            <div class="btn dropdown-toggle"
+                                    type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                Status: <span id="statusValue">Select</span>
+                            </div>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" onclick="setStatus('Active')">Active</a>
+                                <a class="dropdown-item" onclick="setStatus('Delete')">Deleted</a>
+                                <a class="dropdown-item" onclick="setStatus('Close')">Closed</a>
+                            </div>
+                        </div>
+                        <button onclick="filterSelectionHide('status')">
+                            <i class="far fa-times-circle buttonicon inline"></i>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="ml20 filterSelections" id="resultSelectionDiv" style="display:none;">
                     <div class="filterTags filterSelectTags">
                         <div class="dropdown inline">
@@ -98,6 +124,7 @@
                             </div>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" onclick="setResult('Pass')">Pass</a>
+                                <a class="dropdown-item" onclick="setResult('PartialPass')">Partial Pass</a>
                                 <a class="dropdown-item" onclick="setResult('Fail')">Fail</a>
                             </div>
                         </div>

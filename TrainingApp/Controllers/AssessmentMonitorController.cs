@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TrainingApp.Models;
+using TrainingApp.DTOs;
 using TrainingApp.Models.Enums;
 using TrainingApp.Services;
+using System.Security.Claims;
+
 namespace TrainingApp.Controllers;
 
 /// <summary>
@@ -13,7 +16,8 @@ namespace TrainingApp.Controllers;
 /// Date: Oct 26, 2022
 /// Source: Created for the COMP7022 project
 /// Revision History:
-///     
+///     Nov 21, 2022 (Jei Yang): Added functions for Edit / Delete functionality of Assessment
+///s
 /// </summary>
 [Authorize]
 public class AssessmentMonitorController : Controller
@@ -58,7 +62,7 @@ public class AssessmentMonitorController : Controller
             using (TrainingDbContext db = _context.CreateDbContext())
             {
                 AssessmentViewModel model = new AssessmentViewModel();
-                var assessments = db.Assessments.Where(a => a.State == (int)BasicStatus.Active).ToList(); //TBD
+                var assessments = db.Assessments.ToList(); //TBD
 
                 foreach (var assessment in assessments)
                 {
@@ -93,10 +97,18 @@ public class AssessmentMonitorController : Controller
                         a.ModifiedDate >= start && a.ModifiedDate < end).ToList();
                 }
 
+                //status filter
+                if (!string.IsNullOrWhiteSpace(filter.Status))
+                {
+                    Enum.TryParse(filter.Status, out BasicStatus statusIndex);
+                    assessments = assessments.Where(a =>
+                        a.State == (int) statusIndex).ToList();
+                }
+
                 //result filter
                 if (!string.IsNullOrWhiteSpace(filter.Result))
                 {
-                    //TBD - currently Result is either 'Pass' or 'Fail'.
+                    //TBD - currently Result is 'Pass', 'PartialPass' or 'Fail'.
                     //The following code may be updated depending on the value of OveralLGrade and PassGrade, etc.
                     assessments = assessments.Where(a =>
                         a.OverallGrade == filter.Result).ToList();
@@ -129,6 +141,84 @@ public class AssessmentMonitorController : Controller
 
         // Set time to 0
         return new DateTime(tempDate.Year, tempDate.Month, tempDate.Day, 0, 0, 0);
+    }
+
+    [HttpGet]
+    public IActionResult GetAssessmentForm(string assessmentID)
+    {
+        AssessmentViewModel model = new AssessmentViewModel();
+        bool isValidID = Guid.TryParse(assessmentID, out Guid assessmentIDGuid);
+        if (!isValidID)
+            throw new ArgumentException("Invalid Assessment ID");
+
+        try
+        {
+            using (TrainingDbContext db = _context.CreateDbContext())
+            {
+                var assessmentToEdit = db.Assessments.FirstOrDefault(a => a.ID == assessmentIDGuid);
+                model.Assessment = new AssessmentDTO();
+
+                model.Assessment.ID = assessmentToEdit.ID;
+                model.Assessment.Name = assessmentToEdit.Name;
+                model.Assessment.Description = assessmentToEdit.Description;
+                model.Assessment.State = assessmentToEdit.State;
+                model.Assessment.CreatedTime = assessmentToEdit.CreatedTime;
+                model.Assessment.CreatedID = assessmentToEdit.CreatedID;
+                model.Assessment.ModifiedDate = assessmentToEdit.ModifiedDate;
+                model.Assessment.ModifiedID = assessmentToEdit.ModifiedID;
+                model.Assessment.ExaminerID = assessmentToEdit.ExaminerID;
+                model.Assessment.Examiner = db.Users.FirstOrDefault(u => u.ID == assessmentToEdit.ExaminerID);
+                model.Assessment.ExaminerSigned = assessmentToEdit.ExaminerSigned;
+                model.Assessment.TraineeID = assessmentToEdit.TraineeID;
+                model.Assessment.Trainee = db.Users.FirstOrDefault(u => u.ID == assessmentToEdit.TraineeID);
+                model.Assessment.TraineeSigned = assessmentToEdit.TraineeSigned;
+                model.Assessment.Template = db.Templates.FirstOrDefault(t => t.ID == assessmentToEdit.TemplateID);
+                model.Assessment.OverallGrade = assessmentToEdit.OverallGrade;
+                model.Assessment.PassGrade = assessmentToEdit.PassGrade;
+                model.Assessment.IsTaskMandatory = assessmentToEdit.IsTaskMandatory;
+                return PartialView("_EditAssessment", model);
+            }
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, responseText = ex.Message });
+        }
+    }
+
+    public async Task<IActionResult> EditAssessment(AssessmentViewModel model)
+    {
+
+        try
+        {
+            using (TrainingDbContext db = _context.CreateDbContext())
+            {
+                AssessmentDTO assessment = db.Assessments.FirstOrDefault(a => a.ID == model.Assessment.ID);
+                assessment.ID = model.Assessment.ID;
+                
+                var claim = (User.Identity as ClaimsIdentity).Claims.Where(c => c.Type == ClaimTypes.Name).FirstOrDefault();
+                string currentUserName = claim.Value;
+
+                assessment.Name = model.Assessment.Name;
+                assessment.Description = model.Assessment.Description;
+                assessment.ExaminerID = model.Assessment.ExaminerID;
+                assessment.TraineeID = model.Assessment.TraineeID;
+                var modified = db.Users.FirstOrDefault(u => u.UserName == currentUserName);
+                assessment.ModifiedID = modified.ID;
+                assessment.ModifiedDate = DateTime.UtcNow;
+                assessment.State = model.Assessment.State;
+                
+                //TBD - Add more fields to be updated if necessary
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, responseText = ex.Message });
+        }
+        return RedirectToAction("Error", "Home");
     }
 
     public IActionResult Privacy()

@@ -32,6 +32,8 @@ namespace TrainingApp.Models
 
         public string ModifyEndDate { get; set; }
 
+        public string Status { get; set; }
+        
         public string Result { get; set; }
 
         public string GradingSchema { get; set; }

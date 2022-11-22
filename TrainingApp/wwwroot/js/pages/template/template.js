@@ -32,9 +32,6 @@ $(document).ready(function () {
     $("#statusValue").text('Active');
 });
 
-$('.help-button').click(function () {
-    $('.popuptext').show();
-});
 
 //-----------------------------------------FILTER-------------------------------//
 
