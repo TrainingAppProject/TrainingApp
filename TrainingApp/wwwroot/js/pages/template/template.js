@@ -30,6 +30,7 @@ $(document).ready(function () {
     initDateFilters();
     $("#statusSelectionDiv").show(); // enabled to display records in active state by default
     $("#statusValue").text('Active');
+    pagination();
 });
 
 

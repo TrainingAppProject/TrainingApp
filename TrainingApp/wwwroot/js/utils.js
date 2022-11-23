@@ -56,3 +56,34 @@ function showloader() {
 function hideloader() {
     $('.preloader').hide();
 }
+
+
+//-----------------------------------PAGINATIN----------------------------------//
+
+function pagination(numOfRows) {
+    $('.table').after('<nav aria-label="Page navigation"><div class="pagination" id="pagination"></div></nav>');
+    var rowsShown = 5;
+    //If numOfRows is given, set the number of rows shown in one page to the given value.
+    if(numOfRows) {
+        rowsShown = numOfRows;
+    }
+    var rowsTotal = $('.table tbody tr').length;
+    var numPages = Math.ceil(rowsTotal / rowsShown);
+    for (i = 0; i < numPages; i++) {
+        var pageNum = i + 1;
+        $('#pagination').append('<li class="page-item"><a class="page-link" rel="' + i + '"href="#">' + pageNum + '</a></li>');
+    }
+    $('.table tbody tr').hide();
+    $('.table tbody tr').slice(0, rowsShown).show();
+    $('#pagination a:first').addClass('active');
+    $('#pagination a').bind('click', function () {
+        $('#pagination a').removeClass('active');
+        $(this).addClass('active');
+        var currPage = $(this).attr('rel');
+        var startItem = currPage * rowsShown;
+        var endItem = startItem + rowsShown;
+        $('.table tbody tr').css('opacity', '0.0').hide().slice(startItem, endItem).
+            css('display', 'table-row').animate({ opacity: 1 }, 300);
+    });
+}
+

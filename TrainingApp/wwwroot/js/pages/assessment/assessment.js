@@ -11,7 +11,7 @@
 /// </summary>
 */
 $(document).ready(function () {
-
+    pagination(5);
 });
 
 $("#createAssessmentModalBtn").click(function () {

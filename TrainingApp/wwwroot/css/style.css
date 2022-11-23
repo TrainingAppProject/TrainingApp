@@ -4476,6 +4476,10 @@ input[type="button"].btn-block {
     outline: 0;
     -webkit-box-shadow: transparent;
     box-shadow: transparent; }
+  .page-link.active {
+    background-color: #7460ee;
+    color: #fff;
+  }
 
 .page-item:first-child .page-link {
   margin-left: 0;
