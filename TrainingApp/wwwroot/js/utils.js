@@ -61,7 +61,8 @@ function hideloader() {
 //-----------------------------------PAGINATIN----------------------------------//
 
 function pagination(numOfRows) {
-    $('.table').after('<nav aria-label="Page navigation"><div class="pagination" id="pagination"></div></nav>');
+    $('.table').after('<nav id="paginationNav" style="display: flex; overflow: hidden; justify-content:space-between;" aria-label="Page navigation"><div id="paginationMsg" class="paginationMsg"></div>'
+         + '<div class="pagination" id="pagination"></div></nav>');
     var rowsShown = 5;
     //If numOfRows is given, set the number of rows shown in one page to the given value.
     if(numOfRows) {
@@ -69,12 +70,18 @@ function pagination(numOfRows) {
     }
     var rowsTotal = $('.table tbody tr').length;
     var numPages = Math.ceil(rowsTotal / rowsShown);
+    var numOfRowsOnFirstPage = (rowsShown > rowsTotal) ? rowsTotal : rowsShown;
+    $("#paginationMsg").html('<label style="color: #666; padding: 5px;">Showing data 1 to ' + numOfRowsOnFirstPage + ' of ' + rowsTotal + ' entries</label>');
+    
     for (i = 0; i < numPages; i++) {
         var pageNum = i + 1;
         $('#pagination').append('<li class="page-item"><a class="page-link" rel="' + i + '"href="#">' + pageNum + '</a></li>');
     }
     $('.table tbody tr').hide();
     $('.table tbody tr').slice(0, rowsShown).show();
+    //Testing
+    //$('#pagination').append('<li class="page-item"><a class="page-link" rel="' + 2 + '"href="#">' + 3 + '</a></li>');
+    //$('#pagination').append('<li class="page-item"><a class="page-link" rel="' + 3 + '"href="#">' + 4 + '</a></li>');
     $('#pagination a:first').addClass('active');
     $('#pagination a').bind('click', function () {
         $('#pagination a').removeClass('active');
@@ -82,8 +89,15 @@ function pagination(numOfRows) {
         var currPage = $(this).attr('rel');
         var startItem = currPage * rowsShown;
         var endItem = startItem + rowsShown;
+
+        if (endItem > rowsTotal)
+            endItem = rowsTotal;
+
         $('.table tbody tr').css('opacity', '0.0').hide().slice(startItem, endItem).
             css('display', 'table-row').animate({ opacity: 1 }, 300);
+        var navDisplayMessage = '<label style="color: #666; padding: 5px;">Showing data ' + (startItem+1) + ' to ' + endItem + ' of ' + rowsTotal + ' entries</label>';
+        $("#paginationMsg").html(navDisplayMessage);
     });
+    
 }
 
