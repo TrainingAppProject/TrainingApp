@@ -297,7 +297,7 @@ function getAssessmentInfo(assessmentID) {
         data: { "assessmentID": assessmentID },
         success: function (data) {
             $("#assessmentModalBody").html(data);
-            $("#editAssessmentModal .action").text("Edit");
+            
             showModal("editAssessmentModal");
 
             //State
@@ -308,7 +308,11 @@ function getAssessmentInfo(assessmentID) {
                 $("#assessmentName").prop("disabled", true);
                 $("#assessmentPurpose").prop("disabled", true);
                 $("#editAssessmentButton").prop("disabled", true);
-            } else { $("#editAssessmentButton").prop("disabled", false); }
+                $("#editAssessmentModal .action").text("");
+            } else {
+                $("#editAssessmentButton").prop("disabled", false);
+                $("#editAssessmentModal .action").text("Edit");
+            }
 
             //OverallGrade (Result)
             var overallGrade = $('#overallGrade').val();
