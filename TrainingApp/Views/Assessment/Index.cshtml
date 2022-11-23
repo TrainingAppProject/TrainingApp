@@ -52,11 +52,15 @@
                 </button>
             </div>
         </div>
-        <button id="createAssessmentModalBtn"
-                class="btn btn-primary mt20" type="button">
-            <i class="fas fa-plus-circle"></i>
-            NEW
-        </button>
+        @if (!Model.IsTraineeView)
+        {
+            <button id="createAssessmentModalBtn"
+                    class="btn btn-primary mt20" type="button">
+                <i class="fas fa-plus-circle"></i>
+                NEW
+            </button>
+        }
+
     </div>
 
     <div class="bg-white m20 p20">
@@ -72,7 +76,7 @@
                                     <th class="border-top-0">EXAMINER</th>
                                     <th class="border-top-0">TRAINEE(S)</th>
                                     <th class="border-top-0">SIGNED</th>
-                                    <th class="border-top-0">OPTIOPNS</th>
+                                    <th class="border-top-0">OPTIONS</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -84,12 +88,27 @@
                                     var examiner = Model.Users.Where(u => u.ID == assessment.ExaminerID).FirstOrDefault();
                                     string examinerName = (examiner != null) ? examiner.FirstName + " " + examiner.LastName : string.Empty;
 
+                                    string signedResult = "";
+
+                                    if (assessment.TraineeSigned.HasValue && assessment.ExaminerSigned.HasValue)
+                                    {
+                                        signedResult = "Both";
+                                    }
+                                    else if (assessment.TraineeSigned.HasValue)
+                                    {
+                                        signedResult = "Trainee";
+                                    }
+                                    else if (assessment.ExaminerSigned.HasValue)
+                                    {
+                                        signedResult = "Examiner";
+                                    }
+
                                     <tr>
                                         <td>@assessment.Name</td>
                                         <td>@assessment.CreatedTime.ToString("MM.dd.yyyy")</td>
                                         <td>@traineeName</td>
                                         <td>@examinerName</td>
-                                        <td></td>
+                                        <td>@signedResult</td>
                                         <td class="option-td">
                                             <a href="@Url.Action("EvaluationView", "Assessment", new { id = assessment.ID }, null)"
                                                class="btn text-primary"><i class="fas fa-search"></i></a>
