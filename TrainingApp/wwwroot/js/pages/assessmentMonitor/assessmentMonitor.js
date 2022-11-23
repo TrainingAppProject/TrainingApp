@@ -307,7 +307,9 @@ function getAssessmentInfo(assessmentID) {
                 //Deleted records should have all fields disabled
                 $("#assessmentDescription").prop( "disabled", true);
                 $("#assessmentName").prop( "disabled", true);
-            }
+                $("#assessmentPurpose").prop( "disabled", true);
+                $("#editAssessmentButton").prop( "disabled", true);
+            } else { $("#editAssessmentButton").prop( "disabled", false); }
             
             //OverallGrade (Result)
             var overallGrade = $('#overallGrade').val();

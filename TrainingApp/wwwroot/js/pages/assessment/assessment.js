@@ -43,7 +43,7 @@ function validateAssessmentForm(formID) {
 
     var checkedRadio = $("#assessmentPurposeContainer input[type='radio']:checked").val();
     console.log(checkedRadio);
-    $("#assessmentDescInput").val(checkedRadio);
+    $("#assessmentPurposeInput").val(checkedRadio);
 
     if (isvalid)
         $(formID).submit();

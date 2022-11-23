@@ -169,6 +169,7 @@ public class AssessmentMonitorController : Controller
                 model.Assessment.Name = assessmentToEdit.Name;
                 model.Assessment.Description = assessmentToEdit.Description;
                 model.Assessment.State = assessmentToEdit.State;
+                model.Assessment.Purpose = assessmentToEdit.Purpose;
                 model.Assessment.CreatedTime = assessmentToEdit.CreatedTime;
                 model.Assessment.CreatedID = assessmentToEdit.CreatedID;
                 model.Assessment.ModifiedDate = assessmentToEdit.ModifiedDate;
@@ -183,6 +184,7 @@ public class AssessmentMonitorController : Controller
                 model.Assessment.OverallGrade = assessmentToEdit.OverallGrade;
                 model.Assessment.PassGrade = assessmentToEdit.PassGrade;
                 model.Assessment.IsTaskMandatory = assessmentToEdit.IsTaskMandatory;
+                
                 return PartialView("_EditAssessment", model);
             }
         }
@@ -213,6 +215,7 @@ public class AssessmentMonitorController : Controller
                 assessment.ModifiedID = modified.ID;
                 assessment.ModifiedDate = DateTime.UtcNow;
                 assessment.State = model.Assessment.State;
+                assessment.Purpose = model.Assessment.Purpose;
                 
                 db.Assessments.Update(assessment);
                 //TBD - Add more fields to be updated if necessary
@@ -227,6 +230,39 @@ public class AssessmentMonitorController : Controller
             return Json(new { success = false, responseText = ex.Message });
         }
         return RedirectToAction("Error", "Home");
+    }
+
+    public IActionResult EvaluationView(Guid id)
+    {
+        EvaluationViewModel model = new EvaluationViewModel();
+        try
+        {
+            using (TrainingDbContext db = _context.CreateDbContext())
+            {
+                AssessmentDTO assessment = db.Assessments.Where(a=>a.ID == id)
+                    .FirstOrDefault() ?? throw new ArgumentException("Cannot find assessment");
+                model.Assessment = assessment;
+
+                List<AssessmentElementDTO> elements = db.AssessmentElements
+                    .Where(a => a.AssessmentID == assessment.ID)
+                    .Include(e=>e.Task)
+                    .Include(e=>e.Grade).ToList();
+                model.Elements = elements;
+
+                UserDTO examiner = db.Users.Where(u => u.ID == assessment.ExaminerID).FirstOrDefault();
+                model.Examiner = examiner;
+
+                UserDTO trainee = db.Users.Where(u => u.ID == assessment.TraineeID).FirstOrDefault();
+                model.Trainee = trainee;
+
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation("ERROR", ex.Message);
+            return Json(new { success = false, responseText = ex.Message });
+        }
+        return View(model);
     }
 
     public IActionResult Privacy()

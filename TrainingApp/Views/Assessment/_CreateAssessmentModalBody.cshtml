@@ -84,31 +84,31 @@
             Purpose
         </label>
         <div id="assessmentPurposeContainer">
-            <input type="text" class="hide" id="assessmentDescInput" asp-for="Assessment.Description" />
+            <input type="text" class="hide" id="assessmentPurposeInput" asp-for="Assessment.Purpose" />
             <div class="form-check">
-                <input class="form-check-input" type="radio" value="Evauating"
-                       name="Assessment.Description" id="evaluating" >
+                <input class="form-check-input" type="radio" value="Evaluating"
+                       name="Assessment.Purpose" id="evaluating" asp-for="Assessment.Purpose">
                 <label class="form-check-label" for="evaluating">
-                    Evauating
+                    Evaluating
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" value="Renewing certification"
-                       name="Assessment.Description" id="renewingCertification" >
+                       name="Assessment.Purpose" id="renewingCertification" asp-for="Assessment.Purpose">
                 <label class="form-check-label" for="renewingCertification">
                     Renewing certification
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" value="Practicing"
-                       name="Assessment.Description" id="practicing">
+                       name="Assessment.Purpose" id="practicing" asp-for="Assessment.Purpose">
                 <label class="form-check-label" for="practicing">
                     Practicing
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" value="Training"
-                       name="Assessment.Description" id="training" >
+                       name="Assessment.Purpose" id="training" asp-for="Assessment.Purpose">
                 <label class="form-check-label" for="training">
                     Training
                 </label>
