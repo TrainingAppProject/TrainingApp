@@ -41,6 +41,10 @@ public class AssessmentController : Controller
 
 
         List<string> roles = userroles.Split(',').ToList();
+        var userid = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+        bool validUserID = Guid.TryParse(userid, out Guid userGuid);
+        if (!validUserID)
+            throw new ArgumentException("user cannot be found");
 
         try
         {
@@ -49,11 +53,6 @@ public class AssessmentController : Controller
                 //Is user has only trainee role, show only their assessments.
                 if (roles.Count() == 1 && roles.Contains("Trainee"))
                 {
-                    var userid = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-                    bool validUserID = Guid.TryParse(userid, out Guid userGuid);
-                    if (!validUserID)
-                        throw new ArgumentException("user cannot be found");
-
                     model.Assessments = db.Assessments.Where(a => a.TraineeID == userGuid)
                         .OrderByDescending(a => a.CreatedTime).ToList();
 
@@ -61,7 +60,9 @@ public class AssessmentController : Controller
                 }
                 else
                 {
-                    model.Assessments = db.Assessments.Where(a => a.State != (int)BasicStatus.Delete)
+                    model.Assessments = db.Assessments.Where(a =>
+                        a.State != (int)BasicStatus.Delete &&
+                        a.TraineeID == userGuid || a.ExaminerID == userGuid)
                         .OrderByDescending(a => a.CreatedTime).ToList();
 
                     model.IsTraineeView = false;
