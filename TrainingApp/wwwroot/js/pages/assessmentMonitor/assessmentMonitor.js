@@ -11,7 +11,7 @@
 */
 
 const dateFormat = "DD/MM/YYYY";
-const searchInterval = 1000; 
+const searchInterval = 1000;
 
 var createStartDate;
 var createEndDate;
@@ -23,7 +23,7 @@ var gradingSchema;
 var searchString;
 
 var typingTimer;
-var checkedFilters= [];
+var checkedFilters = [];
 
 
 $(document).ready(function () {
@@ -31,9 +31,8 @@ $(document).ready(function () {
     initDateFilters();
     $("#statusSelectionDiv").show(); // enabled to display records in active state by default
     $("#statusValue").text('Active');
-    
+    pagination();
 });
-
 
 //-----------------------------------------FILTER-------------------------------//
 
@@ -47,10 +46,10 @@ function initDateFilters() {
             format: dateFormat
         }
     }, function (start, end, label) {
-            createStartDate = start.format(dateFormat);
-            createEndDate = end.format(dateFormat);
-        
-            filterAssessments();
+        createStartDate = start.format(dateFormat);
+        createEndDate = end.format(dateFormat);
+
+        filterAssessments();
     });
 
     var modifyDatePicker = $('input[name="assessmentModifyDateRange"]');
@@ -62,16 +61,16 @@ function initDateFilters() {
             format: dateFormat
         }
     }, function (start, end, label) {
-            modifyStartDate = start.format(dateFormat);
-            modifyEndDate = end.format(dateFormat);
+        modifyStartDate = start.format(dateFormat);
+        modifyEndDate = end.format(dateFormat);
 
-            filterAssessments();
+        filterAssessments();
     });
 }
 
 $("#addFilterToggleBtn").click(function () {
     showFilter('assessmentFilterDialog');
-    
+
 });
 
 $("#filterFormCancelBtn").click(function () {
@@ -119,7 +118,7 @@ $('input[name="assessmentModifyDateRange"]').on('cancel.daterangepicker', functi
 $("#applyFilterButton").click(function () {
     let tempCheckedFilters = [];
     hideAllfilters();
-    
+
     $('#assessmentFilterDialog input.custom-control-input:checkbox').each(function () {
         let val = $(this).val();
 
@@ -217,7 +216,7 @@ function setStatus(value) {
 function setResult(value) {
     var displayValue = value;
     switch (value) {
-        case "NotSet" :
+        case "NotSet":
             displayValue = "Not Set";
             break;
         case "PartialPass":
@@ -244,12 +243,12 @@ function setGradingSchema(value) {
 }
 
 //When user clicks outside the filter dialog(popup), close the dialog.
-window.addEventListener('click', function(e){   
+window.addEventListener('click', function (e) {
     //If clicked outside the filter box
-    if (!document.getElementById('assessmentFilterDialog').contains(e.target)){
+    if (!document.getElementById('assessmentFilterDialog').contains(e.target)) {
         //If clicked outside the 'Add Filter' button
         if (!document.getElementById('addFilterToggleBtn').contains(e.target)) {
-            
+
             if ($('#assessmentFilterDialog').hasClass('active')) { //If the filter dialog is currently open
                 filterClose('assessmentFilterDialog');
             }
@@ -278,14 +277,14 @@ function filterAssessments() {
         type: "POST",
         url: "AssessmentMonitor/FilterAssessments",
         contentType: "application/json",
-        data: JSON.stringify(filterdata),  
+        data: JSON.stringify(filterdata),
         success: function (data) {
             $("#assessmentListBody").html(data);
         },
         error: function (error) {
             alert(error);
         }
-    });  
+    });
 }
 
 
@@ -295,7 +294,7 @@ function getAssessmentInfo(assessmentID) {
     $.ajax({
         type: "Get",
         url: "AssessmentMonitor/GetAssessmentForm/" + assessmentID,
-        data: { "assessmentID" : assessmentID },
+        data: { "assessmentID": assessmentID },
         success: function (data) {
             $("#assessmentModalBody").html(data);
             $("#editAssessmentModal .action").text("Edit");
@@ -305,21 +304,21 @@ function getAssessmentInfo(assessmentID) {
             var state = $('#state').val();
             if (state != "Closed") { //When record is in 'Active' or 'Deleted' state, it is not editable.
                 //Deleted records should have all fields disabled
-                $("#assessmentDescription").prop( "disabled", true);
-                $("#assessmentName").prop( "disabled", true);
-                $("#assessmentPurpose").prop( "disabled", true);
-                $("#editAssessmentButton").prop( "disabled", true);
-            } else { $("#editAssessmentButton").prop( "disabled", false); }
-            
+                $("#assessmentDescription").prop("disabled", true);
+                $("#assessmentName").prop("disabled", true);
+                $("#assessmentPurpose").prop("disabled", true);
+                $("#editAssessmentButton").prop("disabled", true);
+            } else { $("#editAssessmentButton").prop("disabled", false); }
+
             //OverallGrade (Result)
             var overallGrade = $('#overallGrade').val();
             if (!overallGrade) {
                 overallGrade = "Not Set";
-            } else if(overallGrade == "PartialPass")
+            } else if (overallGrade == "PartialPass")
                 overallGrade = "Partial Pass";
 
             $("#overallGradeText").val(overallGrade);
-            
+
         },
         error: function (error) {
             alert(error);
@@ -348,17 +347,17 @@ function validateAssessmentForm(formID) {
 function confirmDeleteAssessment(assessmentID) {
     showModal('deleteModal');
     //add onclick event to the button with the assessmentID
-    $('#deleteButton').attr('onClick', 'deleteAssessment("' + assessmentID+ '")');
+    $('#deleteButton').attr('onClick', 'deleteAssessment("' + assessmentID + '")');
 }
 
 function deleteAssessment(id) {
-    var posting = $.post("/AssessmentMonitor/DeleteAssessment/" + id).done(function(){
+    var posting = $.post("/AssessmentMonitor/DeleteAssessment/" + id).done(function () {
         //TBD Current bug: the page won't refresh.
         window.location.reload();
-    }).fail(function(xhr){
+    }).fail(function (xhr) {
         modalClose('deleteModal'); // now close modal
         showModal('errorAlertDialog');
         $('#errorMessage').html(xhr.responseJSON.message);
     });
-    
+
 }  
