@@ -67,7 +67,7 @@ public class AssessmentController : Controller
                     model.IsTraineeView = false;
                 }
                 model.Trainees = db.Users.Where(u => u.Role.Contains("Trainee")).ToList();
-                model.Templates = db.Templates.Where(t => t.State == (int)BasicStatus.Active).ToList();
+                model.Templates = db.Templates.Where(t => t.State == (int)BasicStatus.Active && t.IsPublished == true).ToList();
                 model.Users = db.Users.Where(u => u.CompanyID == 1).ToList();
             }
         }
@@ -118,6 +118,7 @@ public class AssessmentController : Controller
                 assessment.PassGrade = template.GradingSchema.ToString();
                 assessment.IsTaskMandatory = template.IsTaskMandatory;
                 assessment.State = (int)BasicStatus.Active;
+                assessment.Purpose = model.Assessment.Purpose;
 
                 db.Assessments.Add(assessment);
                 db.Entry(assessment).State = EntityState.Added;

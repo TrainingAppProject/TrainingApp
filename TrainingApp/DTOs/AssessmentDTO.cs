@@ -41,6 +41,8 @@ namespace TrainingApp.DTOs
 
         public IList<AssessmentElementDTO> AssessmentElements { get; set; }
 
+        public string? Purpose { get; set; }
+        
         public string? PassGrade {get;set; } //Numeric value between 1-5 if Grading Schema is 2(Score), Pass/Fail if Gradng Schema is 1(Pass/Fail)
     }
 }

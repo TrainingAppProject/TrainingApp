@@ -29,7 +29,7 @@
     text-align:right;
 }
 
-.assessmentContent {
+.assessmentContent, .assessmentDescription {
     font-size:1.3em;
     font-weight:500;
 }

@@ -66,7 +66,7 @@
         </td>
         <td class="option-td">
             <button id="viewAssessmentBtn" class="btn text-primary" type="button"
-                    onclick="location.href='@Url.Action("ViewAssessment","AssessmentMonitor", new { assessmentID = @assessment.ID.ToString() })'">
+                    onclick="location.href='@Url.Action("EvaluationView","AssessmentMonitor", new { id = assessment.ID }, null)'">
                 <i class="fas fa-search"></i>
             </button>
             @if (roles.Contains("Admin"))
@@ -74,9 +74,13 @@
                 <button id="editAssessmentBtn" class="btn text-warning" type="button" onclick="getAssessmentInfo('@assessment.ID')">
                     <i class="fas fa-pencil-alt"></i>
                 </button>
-                <button id="deleteAssessmentBtn" class="btn text-danger" type="button" onclick="confirmDeleteAssessment('@assessment.ID')" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                    <i class="far fa-trash-alt"></i>
-                </button>
+
+                @if (@assessment.State == 4) //Closed state
+                {
+                    <button id="deleteAssessmentBtn" class="btn text-danger" type="button" onclick="confirmDeleteAssessment('@assessment.ID')" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
+                }
             }
         </td>
     </tr>
