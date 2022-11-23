@@ -31,6 +31,16 @@
     <div class="form-group row">
         <label for="gradingSchema" class="col-sm-4 col-form-label">
             Template <span class="red">*</span>
+            <button type="button" class="btn btn-light help-button hover-text" style="padding: 0 10px 0 0;">
+                <i class="fas fa-info-circle"></i>
+                <span class="tooltip-text" id="left">
+                    <h6>Can't find your template?</h6>
+                    <hr class="solid mb10" />
+                    <div class="tooltip-text-body">
+                        Make sure to <b>publish</b> your template before creating an assessment.
+                    </div>
+                </span>
+            </button>
         </label>
         <div class="col-sm-8">
             <select class="form-control" id="template" asp-for="Assessment.TemplateID">
@@ -46,6 +56,16 @@
     <div class="form-group row">
         <label for="gradingSchema" class="col-sm-4 col-form-label">
             Trainee <span class="red">*</span>
+            <button type="button" class="btn btn-light help-button hover-text" style="padding: 0 10px 0 0;">
+                <i class="fas fa-info-circle"></i>
+                <span class="tooltip-text" id="left">
+                    <h6>Can't find your trainee?</h6>
+                    <hr class="solid mb10" />
+                    <div class="tooltip-text-body">
+                        Contact admin to confirm the user has a <b>Trainee</b> role.
+                    </div>
+                </span>
+            </button>
         </label>
         <div class="col-sm-8">
             <select class="form-control" id="gradingSchema" asp-for="Assessment.TraineeID">

@@ -94,7 +94,7 @@ public class AssessmentController : Controller
                 UserDTO trainee = db.Users.Where(t => t.ID == model.Assessment.TraineeID)
                     .FirstOrDefault() ?? throw new ArgumentException("Cannot find trainee");
 
-                TemplateDTO template = db.Templates.Where(t => t.ID == model.Assessment.TemplateID)
+                TemplateDTO template = db.Templates.Where(t => t.ID == model.Assessment.TemplateID && t.IsPublished == true)
                     .FirstOrDefault() ?? throw new ArgumentException("Cannot find template");
 
                 IEnumerable<TemplateElementDTO> templateElements

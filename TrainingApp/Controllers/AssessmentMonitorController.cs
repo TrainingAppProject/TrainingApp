@@ -64,13 +64,6 @@ public class AssessmentMonitorController : Controller
                 AssessmentViewModel model = new AssessmentViewModel();
                 var assessments = db.Assessments.ToList(); //TBD
 
-                foreach (var assessment in assessments)
-                {
-                    assessment.Examiner = db.Users.Where(u => u.ID == assessment.ExaminerID).FirstOrDefault();
-                    assessment.Trainee = db.Users.Where(u => u.ID == assessment.TraineeID).FirstOrDefault();
-                    assessment.Template = db.Templates.Where(t => t.ID == assessment.TemplateID).FirstOrDefault();
-
-                }
                 //create date
                 if (!string.IsNullOrWhiteSpace(filter.CreateStartDate) &&
                     !string.IsNullOrWhiteSpace(filter.CreateEndDate))
@@ -110,8 +103,15 @@ public class AssessmentMonitorController : Controller
                 {
                     //TBD - currently Result is 'Pass', 'PartialPass' or 'Fail'.
                     //The following code may be updated depending on the value of OveralLGrade and PassGrade, etc.
-                    assessments = assessments.Where(a =>
-                        a.OverallGrade == filter.Result).ToList();
+                    if (filter.Result == "NotSet")
+                    {
+                        assessments = assessments.Where(a => a.OverallGrade == null).ToList();
+                    }
+                    else
+                    {
+                        assessments = assessments.Where(a => a.OverallGrade == filter.Result).ToList();
+                    }
+                    
                 }
 
                 //grading schema filter
@@ -121,6 +121,13 @@ public class AssessmentMonitorController : Controller
                     assessments = assessments.Where(a => a.Template.GradingSchema == grading).ToList();
                 }
 
+                foreach (var assessment in assessments)
+                {
+                    assessment.Examiner = db.Users.Where(u => u.ID == assessment.ExaminerID).FirstOrDefault();
+                    assessment.Trainee = db.Users.Where(u => u.ID == assessment.TraineeID).FirstOrDefault();
+                    assessment.Template = db.Templates.Where(t => t.ID == assessment.TemplateID).FirstOrDefault();
+
+                }
                 model.Assessments = assessments;
 
                 return PartialView("_AssessmentListBody", model);
@@ -207,6 +214,7 @@ public class AssessmentMonitorController : Controller
                 assessment.ModifiedDate = DateTime.UtcNow;
                 assessment.State = model.Assessment.State;
                 
+                db.Assessments.Update(assessment);
                 //TBD - Add more fields to be updated if necessary
                 await db.SaveChangesAsync();
 
@@ -230,6 +238,43 @@ public class AssessmentMonitorController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteAssessment(Guid id)
+    {
+        try
+        {
+            using (TrainingDbContext db = _context.CreateDbContext())
+            {
+
+                var assessmentToDelete = db.Assessments.FirstOrDefault(a => a.ID == id);
+                if (assessmentToDelete.State == (int) BasicStatus.Active)
+                {
+                    throw new ArgumentException("The assessment has to be in 'Closed' state in order to be deleted.");
+                }
+                else if (assessmentToDelete.State == (int) BasicStatus.Delete)
+                {
+                    throw new ArgumentException("The assessment is already in 'Delete' state.");
+                }
+                assessmentToDelete.State = (int) BasicStatus.Delete;
+                db.Assessments.Update(assessmentToDelete);
+
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("Index", "Assessment");
+            }
+        }
+        catch (Exception ex)
+        {
+            //_logger.LogInformation("ERROR", ex.Message);
+            
+            var result = new JsonResult(new { Message = ex.Message, StatusCode = 500 });
+            result.StatusCode = 500;
+            return result;
+        }
+        return RedirectToAction("Error", "Home");
+
     }
 }
 

@@ -13,7 +13,9 @@
 <form asp-controller="AssessmentMonitor" asp-action="EditAssessment" method="post" id="editAssessmentForm" role="form">
     <div class="modal-body">
         <input type="text" class="form-control hide" asp-for="Assessment.ID">
-
+        <input type="text" class="form-control hide" asp-for="Assessment.ExaminerID">
+        <input type="text" class="form-control hide" asp-for="Assessment.TraineeID">
+        <input type="text" class="form-control hide" asp-for="Assessment.State">
         <div class="form-group row">
             <label for="assessmentName" class="col-sm-4 col-form-label">
                 Name <span class="red">*</span>
@@ -33,21 +35,19 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="state" class="col-sm-4 col-form-label">
+            <label for="templateName" class="col-sm-4 col-form-label">
                 Template
             </label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="stateText" disabled>
-                <input type="text" class="form-control hide" id="state" value="@Html.DisplayFor(Model => Model.Assessment.Template.Name)" disabled>
+                <input type="text" class="form-control" id="templateName" value="@Model.Assessment.Template.Name" disabled>
             </div>
         </div>
         <div class="form-group row">
-            <label for="state" class="col-sm-4 col-form-label">
+            <label for="gradingSchema" class="col-sm-4 col-form-label">
                 Grading Schema
             </label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="stateText" disabled>
-                <input type="text" class="form-control hide" id="state" value="@Html.DisplayFor(Model => Model.Assessment.Template.GradingSchema)" disabled>
+                <input type="text" class="form-control" id="gradingSchema" value="@Html.DisplayFor(Model => @Model.Assessment.Template.GradingSchema)" disabled>
             </div>
         </div>
         <div class="form-group row">
@@ -55,8 +55,7 @@
                 Examiner
             </label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="createdBy"
-                value="@Model.Assessment.Examiner.FirstName @Model.Assessment.Examiner.LastName" disabled>
+                <input type="text" class="form-control" id="createdBy" value="@Model.Assessment.Examiner.FirstName @Model.Assessment.Examiner.LastName" disabled>
             </div>
         </div>
         <div class="form-group row">
@@ -64,8 +63,7 @@
                 Trainee
             </label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="createdBy"
-                value="@Model.Assessment.Trainee.FirstName @Model.Assessment.Trainee.LastName" disabled>
+                <input type="text" class="form-control" id="createdBy" value="@Model.Assessment.Trainee.FirstName @Model.Assessment.Trainee.LastName" disabled>
             </div>
         </div>
         <div class="form-group row">
@@ -89,17 +87,16 @@
                 State
             </label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="stateText" disabled>
-                <input type="text" class="form-control hide" id="state" value="@Model.Assessment.State" disabled>
+                <input type="text" class="form-control" id="state" value="@((BasicStatus) @Model.Assessment.State)" disabled>
             </div>
         </div>
         <div class="form-group row">
-            <label for="state" class="col-sm-4 col-form-label">
+            <label for="overallGrade" class="col-sm-4 col-form-label">
                 Result
             </label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="stateText" disabled>
-                <input type="text" class="form-control hide" id="state" value="@Model.Assessment.OverallGrade" disabled>
+                <input type="text" class="form-control" id="overallGradeText" disabled>
+                <input type="text" class="form-control hide" id="overallGrade" value="@Model.Assessment.OverallGrade" disabled>
             </div>
         </div>
     </div>

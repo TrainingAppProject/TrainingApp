@@ -74,9 +74,13 @@
                 <button id="editAssessmentBtn" class="btn text-warning" type="button" onclick="getAssessmentInfo('@assessment.ID')">
                     <i class="fas fa-pencil-alt"></i>
                 </button>
-                <button id="deleteAssessmentBtn" class="btn text-danger" type="button" onclick="confirmDeleteAssessment('@assessment.ID')" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                    <i class="far fa-trash-alt"></i>
-                </button>
+
+                @if (@assessment.State == 4) //Closed state
+                {
+                    <button id="deleteAssessmentBtn" class="btn text-danger" type="button" onclick="confirmDeleteAssessment('@assessment.ID')" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
+                }
             }
         </td>
     </tr>

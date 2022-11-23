@@ -201,13 +201,10 @@ function resetDatePicker(target, defaultValue) {
 }
 
 function setStatus(value) {
-    var displayValue = "Active";
+    var displayValue = value;
     switch (value) {
         case "Delete":
             displayValue = "Deleted";
-            break;
-        case "Close":
-            displayValue = "Closed";
             break;
     }
     $("#statusValue").text(displayValue);
@@ -218,8 +215,16 @@ function setStatus(value) {
 
 
 function setResult(value) {
-    $("#resultValue").text(value);
-    
+    var displayValue = value;
+    switch (value) {
+        case "NotSet" :
+            displayValue = "Not Set";
+            break;
+        case "PartialPass":
+            displayValue = "Partial Pass";
+            break;
+    }
+    $("#resultValue").text(displayValue);
     result = value;
 
     filterAssessments();
@@ -295,6 +300,23 @@ function getAssessmentInfo(assessmentID) {
             $("#assessmentModalBody").html(data);
             $("#editAssessmentModal .action").text("Edit");
             showModal("editAssessmentModal");
+
+            //State
+            var state = $('#state').val();
+            if (state != "Closed") { //When record is in 'Active' or 'Deleted' state, it is not editable.
+                //Deleted records should have all fields disabled
+                $("#assessmentDescription").prop( "disabled", true);
+                $("#assessmentName").prop( "disabled", true);
+            }
+            
+            //OverallGrade (Result)
+            var overallGrade = $('#overallGrade').val();
+            if (!overallGrade) {
+                overallGrade = "Not Set";
+            } else if(overallGrade == "PartialPass")
+                overallGrade = "Partial Pass";
+
+            $("#overallGradeText").val(overallGrade);
             
         },
         error: function (error) {
@@ -303,19 +325,32 @@ function getAssessmentInfo(assessmentID) {
     });
 }
 
+function validateAssessmentForm(formID) {
+    var isvalid = true;
+    //Adding # prefix by default, for consistency
+    formID = "#" + formID;
+    $(formID + " .error").empty();
+    //TBD
+    var name = $(formID).find('input[name="Assessment.Name"]').val();
+    if (name == '') {
+        showErrorMsg("#nameError", requiredErrorMessage);
+        isvalid = false;
+    }
 
-
+    if (isvalid)
+        $(formID).submit();
+}
 //-------------------------------DELETE ASSESSMENT----------------------------//
 
 //Open the confirmation modal when user clicks on 'Delete' button from index page (main table)
 function confirmDeleteAssessment(assessmentID) {
     showModal('deleteModal');
     //add onclick event to the button with the assessmentID
-    $('#deleteButton').attr('onClick', 'deleteAssessment("' + id+ '")');
+    $('#deleteButton').attr('onClick', 'deleteAssessment("' + assessmentID+ '")');
 }
 
 function deleteAssessment(id) {
-    var posting = $.post("/TemplateMonitor/DeleteAssessment/" + id).done(function(){
+    var posting = $.post("/AssessmentMonitor/DeleteAssessment/" + id).done(function(){
         //TBD Current bug: the page won't refresh.
         window.location.reload();
     }).fail(function(xhr){
