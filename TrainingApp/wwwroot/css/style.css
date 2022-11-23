@@ -9086,6 +9086,7 @@ html[dir="ltr"] body .p-l-0 {
   /*sidebar type*/ }
   #main-wrapper[data-layout="vertical"][data-sidebartype="full"] .page-wrapper {
       padding:10px;
+      min-height:100vh;
       margin-left: 250px; }
 
 /*******************

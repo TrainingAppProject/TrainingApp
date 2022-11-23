@@ -20,9 +20,13 @@ $(document).ready(function () {
     if (overallGrade) {
         var option = $('#selectAssessmentGrade option[value="' + overallGrade + '"]');
         option.prop('selected', true);
+
         overallGradeColorSet(overallGrade, $("#selectAssessmentGrade"));
     } else {
-        $('#selectAssessmentGrade option:eq(1)').prop('selected', true);
+        var defaultVal = $('#selectAssessmentGrade option:eq(0)');
+
+        defaultVal.css({ 'color': 'black' });
+        defaultVal.prop('selected', true);
     }
 
 });
@@ -30,17 +34,7 @@ $(document).ready(function () {
 $("#selectAssessmentGrade").change(function () {
     var selected = $(this).val();
     var assessmentID = $("#assessmentID").val();
-    switch (selected) {
-        case "Pass":
-            $(this).css({ 'background-color': 'green', 'color': 'white'  });
-            break;
-        case "PartialPass":
-            $(this).css({ 'background-color': '#CCCC00', 'color': 'black'  });
-            break;
-        case "Fail":
-            $(this).css({ 'background-color': 'red', 'color': 'white'  });
-            break;
-    }
+    overallGradeColorSet(selected, $(this));
 
     var overallGradeData = {
         AssessmentID: assessmentID,
@@ -57,7 +51,7 @@ $(".gradeButtons").click(function () {
     var elementId = $(this).attr("data-element");
 
     var parentDiv = $(this).parent().closest('div').attr('id');
-    console.log(parentDiv);
+
     $("#" + parentDiv + " .gradeButtons").each(function (btn) {
         $(this).removeClass("active");
     });
@@ -74,6 +68,7 @@ $(".gradeButtons").click(function () {
 })
 
 function overallGradeColorSet(grade, target) {
+
     switch (grade) {
         case "Pass":
             target.css({ 'background-color': 'green', 'color': 'white' });
@@ -84,7 +79,7 @@ function overallGradeColorSet(grade, target) {
         case "Fail":
             target.css({ 'background-color': 'red', 'color': 'white' });
             break;
-        default:
+        case "0"://select
             target.css({ 'background-color': 'white', 'color': 'black' });
     }
 }
