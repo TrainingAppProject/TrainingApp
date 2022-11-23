@@ -5,11 +5,11 @@
     {
         <tr>
             <td>@template.Name</td>
-            <td class="txt-oflo">@template.CreatedTime</td>
+            <td class="txt-oflo">@template.CreatedTime.ToString("MM.dd.yyyy")</td>
             <td>@template.Created.FirstName @template.Created.LastName</td> <!--Creator Name-->
             <td class="txt-oflo"> @(template.IsPublished ? "Yes" : "No")</td>
             <td>@Html.DisplayFor(model => template.GradingSchema)</td>
-            <td>
+            <td class="option-td">
                 <button id="viewTemplateBtn" class="btn text-primary" type="button"
                         onclick="location.href='@Url.Action("ViewTemplate","Template", new { templateID = @template.ID.ToString() })'">
                     <i class="fas fa-search"></i>

@@ -1,0 +1,106 @@
+@model AssessmentViewModel
+@using TrainingApp.Models.Enums
+<!--
+/// <summary>
+/// Module purpose: Modal for assessment update
+/// Authors: Hansol Lee / Jei Yang
+/// Date: Oct 26, 2022
+/// Source: Created for the COMP7022 project
+/// Revision History:
+///
+/// </summary>
+-->
+<form asp-controller="AssessmentMonitor" asp-action="EditAssessment" method="post" id="editAssessmentForm" role="form">
+    <div class="modal-body">
+        <input type="text" class="form-control hide" asp-for="Assessment.ID">
+
+        <div class="form-group row">
+            <label for="assessmentName" class="col-sm-4 col-form-label">
+                Name <span class="red">*</span>
+            </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="assessmentName" asp-for="Assessment.Name" required>
+                <span id="nameError" class="error text-danger" asp-validation-for="Assessment.Name"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="assessmentDescription" class="col-sm-4 col-form-label">
+                Description
+            </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="assessmentDescription" asp-for="Assessment.Description">
+                <span id="descriptionError" class="error text-danger" asp-validation-for="Assessment.Description"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="state" class="col-sm-4 col-form-label">
+                Template
+            </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="stateText" disabled>
+                <input type="text" class="form-control hide" id="state" value="@Html.DisplayFor(Model => Model.Assessment.Template.Name)" disabled>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="state" class="col-sm-4 col-form-label">
+                Grading Schema
+            </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="stateText" disabled>
+                <input type="text" class="form-control hide" id="state" value="@Html.DisplayFor(Model => Model.Assessment.Template.GradingSchema)" disabled>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="createdBy" class="col-sm-4 col-form-label">
+                Examiner
+            </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="createdBy"
+                value="@Model.Assessment.Examiner.FirstName @Model.Assessment.Examiner.LastName" disabled>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="createdBy" class="col-sm-4 col-form-label">
+                Trainee
+            </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="createdBy"
+                value="@Model.Assessment.Trainee.FirstName @Model.Assessment.Trainee.LastName" disabled>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="createdDate" class="col-sm-4 col-form-label">
+                Creation Date
+            </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="createdDate" value="@Model.Assessment.CreatedTime" disabled>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="modifiedDate" class="col-sm-4 col-form-label">
+                Modified Date
+            </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="modifiedDate" value="@Model.Assessment.ModifiedDate" disabled>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="state" class="col-sm-4 col-form-label">
+                State
+            </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="stateText" disabled>
+                <input type="text" class="form-control hide" id="state" value="@Model.Assessment.State" disabled>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="state" class="col-sm-4 col-form-label">
+                Result
+            </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="stateText" disabled>
+                <input type="text" class="form-control hide" id="state" value="@Model.Assessment.OverallGrade" disabled>
+            </div>
+        </div>
+    </div>
+</form>

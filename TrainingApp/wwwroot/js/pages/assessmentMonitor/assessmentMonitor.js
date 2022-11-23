@@ -17,6 +17,7 @@ var createStartDate;
 var createEndDate;
 var modifyStartDate;
 var modifyEndDate;
+var status = 'Active';
 var result;
 var gradingSchema;
 var searchString;
@@ -28,6 +29,9 @@ var checkedFilters= [];
 $(document).ready(function () {
 
     initDateFilters();
+    $("#statusSelectionDiv").show(); // enabled to display records in active state by default
+    $("#statusValue").text('Active');
+    
 });
 
 
@@ -176,6 +180,10 @@ function removeFilterValue(target) {
             modifyEndDate = '';
             resetDatePicker($("#assessmentModifyDateRange"), 'Modified Date: Select');
             break;
+        case "status":
+            status = '';
+            $("#statusValue").text('Select');
+            break;
         case "result":
             result = '';
             $("#resultValue").text('Select');
@@ -192,9 +200,27 @@ function resetDatePicker(target, defaultValue) {
     target.css("width", "");
 }
 
+function setStatus(value) {
+    var displayValue = "Active";
+    switch (value) {
+        case "Delete":
+            displayValue = "Deleted";
+            break;
+        case "Close":
+            displayValue = "Closed";
+            break;
+    }
+    $("#statusValue").text(displayValue);
+    status = value;
+
+    filterAssessments();
+}
+
+
 function setResult(value) {
     $("#resultValue").text(value);
-    result = value; // == "Pass" ? true : false
+    
+    result = value;
 
     filterAssessments();
 }
@@ -237,6 +263,7 @@ function filterAssessments() {
         CreateEndDate: createEndDate,
         ModifyStartDate: modifyStartDate,
         ModifyEndDate: modifyEndDate,
+        Status: status,
         Result: result,
         GradingSchema: gradingSchema,
         SearchString: searchString,
@@ -257,4 +284,44 @@ function filterAssessments() {
 }
 
 
-//----------------------------------------------------------------//
+//--------------------------------UPDATE ASSESSMENT---------------------------//
+
+function getAssessmentInfo(assessmentID) {
+    $.ajax({
+        type: "Get",
+        url: "AssessmentMonitor/GetAssessmentForm/" + assessmentID,
+        data: { "assessmentID" : assessmentID },
+        success: function (data) {
+            $("#assessmentModalBody").html(data);
+            $("#editAssessmentModal .action").text("Edit");
+            showModal("editAssessmentModal");
+            
+        },
+        error: function (error) {
+            alert(error);
+        }
+    });
+}
+
+
+
+//-------------------------------DELETE ASSESSMENT----------------------------//
+
+//Open the confirmation modal when user clicks on 'Delete' button from index page (main table)
+function confirmDeleteAssessment(assessmentID) {
+    showModal('deleteModal');
+    //add onclick event to the button with the assessmentID
+    $('#deleteButton').attr('onClick', 'deleteAssessment("' + id+ '")');
+}
+
+function deleteAssessment(id) {
+    var posting = $.post("/TemplateMonitor/DeleteAssessment/" + id).done(function(){
+        //TBD Current bug: the page won't refresh.
+        window.location.reload();
+    }).fail(function(xhr){
+        modalClose('deleteModal'); // now close modal
+        showModal('errorAlertDialog');
+        $('#errorMessage').html(xhr.responseJSON.message);
+    });
+    
+}  

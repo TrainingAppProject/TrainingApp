@@ -83,11 +83,11 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="taskMandatory" class="col-sm-4 col-form-label">
+            <label for="taskMandatory" id="taskMandatoryLabel" class="col-sm-4 col-form-label">
                 All Task <br />Mandatory?
             </label>
             <div class="col-sm-8">
-                <div class="mt20">
+                <div class="mt10">
                     <div class="form-check-inline">
                         <input class="form-check-input isMandatoryRadio" type="radio" name="allTaskMandatory"
                             id="allTaskMandatoryYes" value="true" asp-for="Template.IsTaskMandatory">
@@ -120,14 +120,6 @@
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="createdBy"
                     value="@Model.Template.Created.FirstName @Model.Template.Created.LastName" disabled>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="createdDate" class="col-sm-4 col-form-label">
-                    Creation Date
-                </label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" id="createdDate" value="@Model.Template.CreatedTime" disabled>
                 </div>
             </div>
             <div class="form-group row">
