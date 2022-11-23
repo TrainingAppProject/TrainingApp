@@ -66,7 +66,7 @@ public class AssessmentController : Controller
 
                     model.IsTraineeView = false;
                 }
-                model.Trainees = db.Users.Where(u => u.Role.Contains("Trainee")).ToList();
+                model.Trainees = db.Users.Where(u => u.Role.Contains("Trainee") && u.State == (int) BasicStatus.Active).ToList();
                 model.Templates = db.Templates.Where(t => t.State == (int)BasicStatus.Active && t.IsPublished == true).ToList();
                 model.Users = db.Users.Where(u => u.CompanyID == 1).ToList();
             }

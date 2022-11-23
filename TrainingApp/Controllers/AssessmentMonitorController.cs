@@ -41,7 +41,7 @@ public class AssessmentMonitorController : Controller
             //TBD
             model.Trainees = db.Users.Where(u => u.Role.Contains("Trainee")).ToList(); //TBD
             model.Templates = db.Templates.Where(t => t.State == (int)BasicStatus.Active).ToList(); //TBD
-            model.Assessments = db.Assessments.Where(a => a.State == (int)BasicStatus.Active).ToList(); //TBD
+            model.Assessments = db.Assessments.Where(a => a.State == (int)BasicStatus.Active).OrderByDescending(a => a.CreatedTime).ToList(); //TBD
             foreach (var assessment in model.Assessments)
             {
                 assessment.Examiner = db.Users.Where(u => u.ID == assessment.ExaminerID).FirstOrDefault();
@@ -117,8 +117,8 @@ public class AssessmentMonitorController : Controller
                 //grading schema filter
                 if (!string.IsNullOrWhiteSpace(filter.GradingSchema))
                 {
-                    Enum.TryParse(filter.GradingSchema, out GradingSchema grading);
-                    assessments = assessments.Where(a => a.Template.GradingSchema == grading).ToList();
+                    //Enum.TryParse(filter.GradingSchema, out GradingSchema grading);
+                    assessments = assessments.Where(a => a.PassGrade == filter.GradingSchema).ToList();
                 }
 
                 foreach (var assessment in assessments)
