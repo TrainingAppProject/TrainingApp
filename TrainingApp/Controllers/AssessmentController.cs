@@ -88,7 +88,7 @@ public class AssessmentController : Controller
         {
             using (TrainingDbContext db = _context.CreateDbContext())
             {
-                string userName = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                string userName = User.FindFirstValue(ClaimTypes.Name);
                 UserDTO currentUser = db.Users.Where(u => u.UserName == userName)
                     .FirstOrDefault() ?? throw new ArgumentException("Cannot find current user");
 
@@ -247,14 +247,16 @@ public class AssessmentController : Controller
                 model.Trainee = trainee;
 
                 if (assessment.State != (int)BasicStatus.Active ||
-                    assessment.ExaminerSigned.HasValue ||
-                    !userroles.Contains("Examiner"))
+                    assessment.ExaminerSigned.HasValue)
                     model.IsEditable = false;
                 else
                     model.IsEditable = true;
 
                 if (userroles.Count() == 1 && userroles.Contains("Trainee"))
+                {
+                    model.IsEditable = false;
                     model.IsTrainee = true;
+                }
             }
         }
         catch (Exception ex)
