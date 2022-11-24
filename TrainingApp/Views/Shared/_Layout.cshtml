@@ -79,7 +79,7 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
 
-                        @if (roles.Contains("Admin") || roles.Contains("Examiner"))
+                        @if (roles.Contains("Examiner"))
                         {
                             <li class="sidebar-item">
                                 <a class="sidebar-link waves-effect waves-dark sidebar-link"
@@ -90,14 +90,18 @@
                                 </a>
                             </li>
                         }
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="@Url.Action("Index", "Assessment")"
-                               aria-expanded="false">
-                                <i class="fa fa-clipboard fa-xl" aria-hidden="true"></i>
-                                <span class="hide-menu">Assessment</span>
-                            </a>
-                        </li>
+                        @if (roles.Contains("Examiner") || roles.Contains("Trainee"))
+                        {
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                href="@Url.Action("Index", "Assessment")"
+                                aria-expanded="false">
+                                    <i class="fa fa-clipboard fa-xl" aria-hidden="true"></i>
+                                    <span class="hide-menu">Assessment</span>
+                                </a>
+                            </li>
+                        }
+                        
                         @if (roles.Contains("Admin") || roles.Contains("Examiner"))
                         {
                             <li class="sidebar-item">
