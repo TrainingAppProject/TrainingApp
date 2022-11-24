@@ -60,9 +60,11 @@ function hideloader() {
 
 //-----------------------------------PAGINATIN----------------------------------//
 
-function pagination(numOfRows) {
-    $('.table').after('<nav id="paginationNav" style="display: flex; overflow: hidden; justify-content:space-between;" aria-label="Page navigation"><div id="paginationMsg" class="paginationMsg"></div>'
+function pagination(numOfRows, filterUpdated) {
+    if(!filterUpdated) {
+        $('.table').after('<nav id="paginationNav" style="display: flex; overflow: hidden; justify-content:space-between;" aria-label="Page navigation"><div id="paginationMsg" class="paginationMsg"></div>'
          + '<div class="pagination" id="pagination"></div></nav>');
+    }
     var rowsShown = 5;
     //If numOfRows is given, set the number of rows shown in one page to the given value.
     if(numOfRows) {
@@ -73,6 +75,7 @@ function pagination(numOfRows) {
     var numOfRowsOnFirstPage = (rowsShown > rowsTotal) ? rowsTotal : rowsShown;
     $("#paginationMsg").html('<label style="color: #666; padding: 5px;">Showing data 1 to ' + numOfRowsOnFirstPage + ' of ' + rowsTotal + ' entries</label>');
     
+    $('#pagination').html('');
     for (i = 0; i < numPages; i++) {
         var pageNum = i + 1;
         $('#pagination').append('<li class="page-item"><a class="page-link" rel="' + i + '"href="#">' + pageNum + '</a></li>');

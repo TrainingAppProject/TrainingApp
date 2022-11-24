@@ -62,7 +62,7 @@ public class AssessmentMonitorController : Controller
             using (TrainingDbContext db = _context.CreateDbContext())
             {
                 AssessmentViewModel model = new AssessmentViewModel();
-                var assessments = db.Assessments.ToList(); //TBD
+                var assessments = db.Assessments.OrderByDescending(a => a.CreatedTime).ToList(); //TBD
 
                 //create date
                 if (!string.IsNullOrWhiteSpace(filter.CreateStartDate) &&

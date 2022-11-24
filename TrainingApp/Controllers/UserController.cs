@@ -38,7 +38,7 @@ namespace TrainingApp.Controllers
             {
                 using (TrainingDbContext db = _context.CreateDbContext())
                 {
-                    model.Users = db.Users.Where(u => u.State == (int)BasicStatus.Active).ToList();
+                    model.Users = db.Users.Where(u => u.State == (int)BasicStatus.Active).OrderByDescending(u => u.CreateTime).ToList();
                 }
             }
             catch (Exception ex)

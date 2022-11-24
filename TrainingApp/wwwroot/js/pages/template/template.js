@@ -264,6 +264,7 @@ function filterTemplates() {
         data: JSON.stringify(filterdata),  
         success: function (data) {
             $("#templateListBody").html(data);
+            pagination(5, true);
         },
         error: function (error) {
             alert(error);
