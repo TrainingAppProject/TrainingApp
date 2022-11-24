@@ -274,7 +274,6 @@ function filterTemplates() {
 
 //--------------------------------CREATE TEMPLATE--------------------------//
 
-
 function validateTemplateForm(formID) {
     var isvalid = true;
     //Adding # prefix by default, for consistency
