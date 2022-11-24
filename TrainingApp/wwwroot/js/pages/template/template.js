@@ -274,9 +274,6 @@ function filterTemplates() {
 
 //--------------------------------CREATE TEMPLATE--------------------------//
 
-$("#createTemplateModalBtn").click(function () {
-    showModal('createTemplateModal');
-});
 
 function validateTemplateForm(formID) {
     var isvalid = true;
