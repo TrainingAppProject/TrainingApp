@@ -98,7 +98,7 @@
                                     }
                                     else
                                     {
-                                        <input type="password" class="form-control w-70" id="examinerSignInput" placeholder="Enter the examiner password">
+                                        <input type="password" class="form-control w-70 @disabled" id="examinerSignInput" placeholder="Enter the examiner password">
                                         <button class="btn btn-primary"
                                                 onclick="signAssessment('@Model.Assessment.ID','@Model.Examiner.ID','Examiner','examinerSignInput', 'examinerSignError')">
                                             <i class="fas fa-save"></i>
@@ -117,10 +117,20 @@
                                     @if ((Model.Assessment.TraineeSigned).HasValue)
                                     {
                                         <p class="signedText">Signed @((Model.Assessment.TraineeSigned)?.ToString("yyyy.MM.dd"))</p>
-                                    }
-                                    else
-                                    {
-                                        <input type="password" class="form-control w-70" id="trineeSignInput" placeholder="Enter the trainee password">
+                                        }
+                                        else
+                                        {
+                                            string traineeSignDisabled = "";
+                                            if (!Model.IsEditable)
+                                            {
+                                                traineeSignDisabled = "disabled";
+                                                if (Model.IsTrainee)
+                                                {
+                                                    traineeSignDisabled = "";
+                                                }
+                                            }
+
+                                        <input type="password" class="form-control w-70 @traineeSignDisabled" id="trineeSignInput" placeholder="Enter the trainee password">
                                         <button class="btn btn-primary"
                                                 onclick="signAssessment('@Model.Assessment.ID', '@Model.Trainee.ID','Trainee','trineeSignInput', 'trineeSignError')">
                                             <i class="fas fa-save"></i>

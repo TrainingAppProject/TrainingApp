@@ -52,6 +52,7 @@ namespace TrainingApp.Models
         public UserDTO Trainee { get; set; }
 
         public bool IsEditable { get; set; }
+        public bool IsTrainee { get; set; }
     }
 
     public class UpdateAssessmentModel
