@@ -69,7 +69,7 @@ public class AssessmentController : Controller
                 }
                 model.Trainees = db.Users.Where(u => u.Role.Contains("Trainee") && u.State == (int) BasicStatus.Active).ToList();
                 model.Templates = db.Templates.Where(t => t.State == (int)BasicStatus.Active && t.IsPublished == true).ToList();
-                model.Users = db.Users.Where(u => u.CompanyID == 1).ToList();
+                model.Users = db.Users.Where(u => u.CompanyID == 1).OrderBy(u=>u.FirstName).ToList();
             }
         }
         catch (Exception ex)
@@ -92,10 +92,10 @@ public class AssessmentController : Controller
                 UserDTO currentUser = db.Users.Where(u => u.UserName == userName)
                     .FirstOrDefault() ?? throw new ArgumentException("Cannot find current user");
 
-                UserDTO trainee = db.Users.Where(t => t.ID == model.Assessment.TraineeID)
+                UserDTO trainee = db.Users.Where(t => t.ID == model.Assessment.TraineeID).OrderBy(t=>t.FirstName)
                     .FirstOrDefault() ?? throw new ArgumentException("Cannot find trainee");
 
-                TemplateDTO template = db.Templates.Where(t => t.ID == model.Assessment.TemplateID)
+                TemplateDTO template = db.Templates.Where(t => t.ID == model.Assessment.TemplateID).OrderBy(t=>t.Name)
                     .FirstOrDefault() ?? throw new ArgumentException("Cannot find template");
 
                 IEnumerable<TemplateElementDTO> templateElements
