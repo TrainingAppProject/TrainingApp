@@ -39,7 +39,7 @@ public class AssessmentMonitorController : Controller
         using (TrainingDbContext db = _context.CreateDbContext())
         {
             //TBD
-            model.Trainees = db.Users.Where(u => u.Role.Contains("Trainee")).ToList(); //TBD
+
             model.Templates = db.Templates.Where(t => t.State == (int)BasicStatus.Active).ToList(); //TBD
             model.Assessments = db.Assessments.Where(a => a.State == (int)BasicStatus.Active).OrderByDescending(a => a.CreatedTime).ToList(); //TBD
             foreach (var assessment in model.Assessments)
